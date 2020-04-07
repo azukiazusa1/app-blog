@@ -1,34 +1,28 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols=12 v-if="getArticles">
-        <v-card v-for="article in getArticles" :key="article.id">
-          {{ article.title }}
-        </v-card>
+    <v-row v-if="getArticles">
+      <v-col cols=12 v-for="article in getArticles" :key="article.id">
+          <list-card :article="article"></list-card>
       </v-col>
-      <v-col cols="12" v-if="loading">
-          <v-progress-circular
-            indeterminate
-            color="red"
-          ></v-progress-circular>
-      </v-col>
-      <v-col sm="12" md="6">
-        <v-card>
-          aaa
-        </v-card>
-      </v-col>
+    </v-row>
+    <v-row v-else-if="loading">
+      <v-progress-circular
+        indeterminate
+        color="red"
+      ></v-progress-circular>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import ListCard from '@/components/ListCard'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'blog-home',
   data() {
     return {
-      loading:true
+      loading: true
     }
   },
   created() {
@@ -42,6 +36,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getArticles'])
+  },
+  components: {
+    ListCard
   }
 }
 </script>
