@@ -2,16 +2,17 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="red accent-2"
       dark
     >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <div class="d-flex align-center">
         私のブログ
       </div>
 
       <v-spacer></v-spacer>
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-search</v-icon>
+      <v-icon>fas fa-search</v-icon>
+      <toggle-dark-theme></toggle-dark-theme>
     </v-app-bar>
 
     <v-content>
@@ -21,11 +22,11 @@
 </template>
 
 <script>
+import toggleDarkTheme from '@/components/ToggleDarkTheme'
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+  components: {
+    toggleDarkTheme
+  }
 };
 </script>
