@@ -11,7 +11,9 @@
       </div>
 
       <v-spacer></v-spacer>
-      <v-icon>fas fa-search</v-icon>
+      <v-btn icon>
+        <v-icon>fas fa-search</v-icon>
+      </v-btn>
       <toggle-dark-theme></toggle-dark-theme>
     </v-app-bar>
 

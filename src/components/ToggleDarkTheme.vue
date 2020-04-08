@@ -1,8 +1,9 @@
 <template>
-  <v-icon 
+  <v-btn icon
     @click="toggleDark"
-    :color="getColor"
-  >fas fa-moon</v-icon>
+    :color="getColor">
+    <v-icon>fas fa-moon</v-icon>
+  </v-btn>
 </template>
 
 <script>
@@ -15,7 +16,6 @@ export default {
   },
   computed: {
     getColor() {
-      console.log(this.$vuetify.theme.dark)
       return this.$vuetify.theme.dark ? 'deep-purple accent-4' : ''
     }
   }
