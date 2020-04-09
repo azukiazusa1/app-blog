@@ -43,9 +43,6 @@ export default {
      required: true
    }
  },
- created() {
-   console.log(this.article.tags)
- },
  computed: {
    createdTime: function () {
      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')

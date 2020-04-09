@@ -1,22 +1,17 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="red accent-2"
-      dark
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <div class="d-flex align-center">
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>
         私のブログ
-      </div>
-
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>fas fa-search</v-icon>
       </v-btn>
       <toggle-dark-theme></toggle-dark-theme>
     </v-app-bar>
-
+    <nav-drawer :drawer.sync="drawer"></nav-drawer>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -24,11 +19,20 @@
 </template>
 
 <script>
-import toggleDarkTheme from '@/components/ToggleDarkTheme'
+import ToggleDarkTheme from '@/components/ToggleDarkTheme'
+import NavDrawer from '@/components/NavDrawer'
 export default {
   name: 'App',
+  data: () => ({
+    drawer: false,
+  }),
+  methods: {
+    openDrawer() {
+      this.drawer = true
+    }
+  },
   components: {
-    toggleDarkTheme
+    ToggleDarkTheme, NavDrawer
   }
 };
 </script>
