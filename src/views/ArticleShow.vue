@@ -2,7 +2,14 @@
   <v-container>
     <v-row>
       <v-col cols=12>
-        <div class="display-2 text-center">{{ article.title }}</div>
+        <div class="display-2 text-center py-5">{{ article.title }}</div>
+        <v-divider></v-divider>
+        <mavon-editor 
+          v-model="article.body"
+          :toolbarsFlag="false"
+          :subfield="false"
+          defaultOpen="preview"
+        />
       </v-col>
     </v-row>
   </v-container>
