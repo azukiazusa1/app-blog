@@ -3,7 +3,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        私のブログ
+        <router-link class="title-link text--primary" to="/">私のブログ</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
@@ -36,3 +36,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.title-link {
+  text-decoration: none;
+}
+</style>

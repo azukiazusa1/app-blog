@@ -2,7 +2,7 @@
   <v-container>
     <v-row v-if="getArticles">
       <v-col cols=12 v-for="article in getArticles" :key="article.id">
-          <list-card :article="article"></list-card>
+        <list-card :article="article"></list-card>
       </v-col>
     </v-row>
     <v-row v-else-if="loading">

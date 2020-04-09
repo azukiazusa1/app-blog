@@ -5,7 +5,7 @@
       :class="{ 'on-hover': hover }"
     >
       <v-card-title>
-        <router-link to="/" class="text--primary">
+        <router-link :to="showPath" class="text--primary">
         {{ article.title }}
         </router-link>
       </v-card-title>
@@ -15,7 +15,7 @@
         <v-chip v-for="(tag, index) in article.tags" :key="index"
           class="ma-2"
           small
-          to="/"
+          :to="{ name: 'article-show', params: { id: article.id }}"
         >
           {{ tag }}
         </v-chip>
@@ -24,10 +24,8 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          text
-        >
-          <router-link to="/">Learn More</router-link>
+        <v-btn text>
+          <router-link :to="showPath">Read More</router-link>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -46,6 +44,9 @@ export default {
  computed: {
    createdTime: function () {
      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+   },
+   showPath() {
+     return `/article/${this.article.id}`
    }
  }
 }
