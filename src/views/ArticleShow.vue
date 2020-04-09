@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols=12>
-        <h1 class="headline">{{ article.title }}</h1>
+        <div class="display-2 text-center">{{ article.title }}</div>
       </v-col>
     </v-row>
   </v-container>
