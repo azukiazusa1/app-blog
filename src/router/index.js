@@ -1,16 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import BlogHome from '@/views/BlogHome.vue'
+import User from './user'
+import Admin from './admin'
 
 Vue.use(VueRouter)
 
-  const routes = [
-  {
-    path: '/',
-    name: 'blog-home',
-    component: BlogHome
-  },
-]
+const routes = [User, Admin]
 
 const router = new VueRouter({
   mode: 'history',
