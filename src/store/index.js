@@ -8,14 +8,43 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     article: '',
+    lastDate: '',
+    finish: false,
     articles: []
   },
   mutations: {
-    ...vuexfireMutations
+    ...vuexfireMutations,
+    add(state, payload) {
+      state.articles.push(payload)
+    },
+    last(state, payload) {
+      state.lastDate = payload
+    },
+    finish(state) {
+      state.finish = true
+    },
+    clearArticles(state) {
+      state.articles = []
+      state.lastDate = ''
+      state.finish = false
+    }
   },
   actions: {
-    bindArticles: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('articles', db.collection('articles'))
+    fetchArticles: (({ commit }, lastDate = new Date('2999-12-31')) => { 
+      db.collection('articles')
+        .orderBy('created', 'desc')
+        .startAfter(lastDate)
+        .limit(5).get()
+        .then(querySnapshot => {
+          if (querySnapshot.empty) {
+            commit('finish')
+          } else {
+            commit('last', new Date(querySnapshot.docs[querySnapshot.docs.length-1].data().created.seconds * 1000))
+            querySnapshot.forEach(doc => {
+              commit('add', {id: doc.id, ...doc.data()})
+            })
+          }
+        })
     }),
     bindArticleById: firestoreAction(({ bindFirestoreRef }, id) => {
       return bindFirestoreRef('article', db.collection('articles').doc(id))
@@ -24,6 +53,12 @@ export default new Vuex.Store({
   getters: {
     getArticles(state) {
       return state.articles
+    },
+    getLastDate(state) {
+      return state.lastDate
+    },
+    isFinish(state) {
+      return state.finish
     },
     getArticle(state) {
       return state.article
