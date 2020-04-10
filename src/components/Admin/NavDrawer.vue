@@ -1,17 +1,11 @@
 <template>
   <v-navigation-drawer
-      app
-      permanent
-      fixed
-      dark
+    color="grey darken-3"
+    app
+    permanent
+    fixed
+    dark
     >
-        <v-btn
-          icon
-          @click.stop="mini = !mini"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-
       <v-divider></v-divider>
 
       <v-list dense>
