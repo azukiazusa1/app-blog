@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols=12>
-        <div class="display-2 text-center py-5">{{ article.title }}</div>
+        <div class="display-2 text-center py-10">{{ article.title }}</div>
         <v-divider></v-divider>
         <mavon-editor 
           v-model="article.body"

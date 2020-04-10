@@ -65,17 +65,25 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
+import { auth, login } from '@/plugins/auth'
 export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      redirect: this.$route.query.redirect || '/admin'
     }
   },
   mixins: [validationMixin],
   validations: {
     email: { required, email },
     password: { required },
+  },
+  created() { 
+    auth().then(user => {
+      // すでにログイン済
+      if (user) this.$router.push(this.redirect)
+    })
   },
   computed: {
     emailErrors () {
@@ -95,6 +103,11 @@ export default {
   methods: {
     submit () {
       this.$v.$touch()
+      if (!this.$v.$invalid) {
+        login(this.email, this.password)
+          .then(() => this.$router.push(this.redirect))
+          .catch(e => console.error(e))
+      }
     },
   }
 }
