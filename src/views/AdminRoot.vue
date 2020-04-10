@@ -1,6 +1,29 @@
 <template>
   <v-app>
-    <h1>ダッシュボード</h1>
-    <router-view></router-view>
+    <admin-bar :user="user"></admin-bar>
+    <nav-drawer></nav-drawer>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
   </v-app>
 </template>
+<script>
+import { auth } from '@/plugins/auth'
+import AdminBar from '@/components/Admin/AdminBar'
+import NavDrawer from '@/components/Admin/NavDrawer'
+  export default {
+    data () {
+      return {
+        user: {},
+      }
+    },
+    created() {
+      auth().then(user => {
+        this.user = user
+      })
+    },
+    components: {
+      NavDrawer, AdminBar
+    }
+  }
+</script>
