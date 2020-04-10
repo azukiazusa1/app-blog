@@ -9,34 +9,35 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <nav-list-item
+          title="記事を書く"
+          icon="fas fa-edit"
+          @onClick="createArticle"
+        ></nav-list-item>
+        <nav-list-item
+          title="記事の管理"
+          icon="fas fa-newspaper"
+          link="/admin/articles"
+        ></nav-list-item>
+        <nav-list-item
+          title="ユーザー情報変更"
+          icon="fas fa-user"
+          link="/admin/user"
+        ></nav-list-item>
       </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
+import NavListItem from '@/components/NavListItem'
 export default {
-  data() {
-    return {
-      items: [
-          { title: 'Home', icon: 'mdi-home-city' },
-          { title: 'My Account', icon: 'mdi-account' },
-          { title: 'Users', icon: 'mdi-account-group-outline' },
-        ],
-        mini: true,
+  methods: {
+    createArticle() {
+      console.log(1)
     }
+  },
+  components: {
+    NavListItem
   }
 }
 </script>
