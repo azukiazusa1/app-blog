@@ -37,7 +37,7 @@
 import UserCard from '@/components/UserCard'
 import TagList from '@/components/TagList.vue'
 import moment from 'moment'
-import store from '@/store';
+import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 
 export default {
   data() {
@@ -45,28 +45,7 @@ export default {
       article: '',
     }
   },
-  beforeRouteEnter (route, redirect, next) {
-    if (store.getters.getArticleById(route.params.id)) {
-      const article = store.getters.getArticleById(route.params.id)
-      next(vm => vm.setData(article))
-    } else {
-      store.dispatch('bindArticleById', route.params.id)
-        .then(() => {
-          const article = store.getters.getArticle
-          if (!article) {
-            next(redirect)
-            // TODO redirect 404 page
-            // redirect('/')
-          }
-          next(vm => vm.setData(article))
-        })
-    }
-  },
-  methods: {
-    setData (article) {
-      this.article = article
-    }
-  },
+  mixins: [fetchBeforeRouting],
   computed: {
     createdTime: function () {
       if (!this.article) return

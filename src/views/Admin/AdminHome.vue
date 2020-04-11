@@ -72,7 +72,6 @@ export default {
     createArticle() {
       this.addArticle(this.user.uid)
         .then(docRef => {
-          console.log(docRef)
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })
         .catch(() => {

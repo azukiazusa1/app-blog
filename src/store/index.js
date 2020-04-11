@@ -56,9 +56,8 @@ export default new Vuex.Store({
       return bindFirestoreRef('allArticles', db.collection('articles'))
     }),
     addArticle(context, uid) {
-      console.log(uid)
       return db.collection('articles').add({
-        title: '',
+        title: 'aaa',
         body: '',
         published: false,
         author: uid,
