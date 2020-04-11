@@ -3,7 +3,7 @@
     color="grey darken-3"
     app
     permanent
-    fixed
+    expand-on-hover
     dark
     >
       <v-divider></v-divider>

@@ -57,7 +57,7 @@ export default new Vuex.Store({
     }),
     addArticle(context, uid) {
       return db.collection('articles').add({
-        title: 'aaa',
+        title: '',
         body: '',
         published: false,
         author: uid,
