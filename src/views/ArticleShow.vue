@@ -3,6 +3,9 @@
     <v-row>
       <v-col cols=12>
         <div class="display-2 text-center py-10">{{ article.title }}</div>
+        <p class="text-right">
+          <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
+        </p>
         <v-divider></v-divider>
         <mavon-editor 
           v-model="article.body"
@@ -12,16 +15,39 @@
         />
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols=12>
+        <user-card :uid="article.author" v-if="article"></user-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>Tags</v-card-title>
+          <v-card-text>
+            <v-chip v-for="(tag, index) in article.tags" :key="index"
+              class="ma-2"
+              small
+              :to="{ name: 'article-show', params: { id: article.id }}"
+            >
+          {{ tag }}
+        </v-chip>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import UserCard from '@/components/UserCard'
+import moment from 'moment'
 import store from '@/store';
 
 export default {
   data() {
     return {
-      article: ''
+      article: '',
     }
   },
   beforeRouteEnter (route, redirect, next) {
@@ -46,6 +72,14 @@ export default {
       this.article = article
     }
   },
-  created() { console.log(this.article)}
+  computed: {
+    createdTime: function () {
+      if (!this.article) return
+     return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+   },
+  },
+  components: {
+    UserCard
+  }
 }
 </script>

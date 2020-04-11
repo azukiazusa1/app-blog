@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { flash } from './flash'
+import { user } from './user'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
 
@@ -69,6 +70,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    flash
+    flash,
+    user
   }
 })
