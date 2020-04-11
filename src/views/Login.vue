@@ -65,7 +65,7 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
-import { auth, login } from '@/plugins/auth'
+import { login } from '@/plugins/auth'
 export default {
   data() {
     return {
@@ -78,12 +78,6 @@ export default {
   validations: {
     email: { required, email },
     password: { required },
-  },
-  created() { 
-    auth().then(user => {
-      // すでにログイン済
-      if (user) this.$router.push(this.redirect)
-    })
   },
   computed: {
     emailErrors () {

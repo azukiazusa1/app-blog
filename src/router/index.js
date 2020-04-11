@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import User from './user'
 import Admin from './admin'
 import Login from '@/views/Login'
+import { auth } from '@/plugins/auth'
 
 Vue.use(VueRouter)
 
@@ -10,7 +11,17 @@ const routes = [User, Admin,
   {
     name: 'login',
     path: '/admin/login',
-    component: Login
+    component: Login,
+    beforeEnter: ((to, from, next) => {
+      auth().then(user => {
+        // すでにログイン済
+        if (user) {
+          next({ path: '/admin'})
+        } else {
+          next()
+        }
+      })
+    }),
   },
 ]
 

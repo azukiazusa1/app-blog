@@ -9,7 +9,7 @@ export default {
   beforeEnter: ((to, from, next) => {
     auth().then(user => {
       if (!user) {
-        next({ path: '/admin/login', query: { redirect: to.fullPath }});
+        next({ path: '/admin/login', query: { redirect: to.fullPath }})
       } else {
         next()
       }
