@@ -5,7 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-// use
+
 Vue.use(mavonEditor)
 
 Vue.config.productionTip = false

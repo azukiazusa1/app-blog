@@ -15,7 +15,7 @@
         </template>
         <v-list>
           <v-list-item @click="() => {}">
-            <v-list-item-title>ログアウト</v-list-item-title>
+            <v-list-item-title @click="logout">ログアウト</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -24,9 +24,17 @@
 </template>
 
 <script>
+import { logout } from '@/plugins/auth'
 export default {
   props: {
     user: Object
+  },
+  methods: {
+    logout() {
+      logout()
+        .then(() => {this.$router.push({name: 'login'})})
+        .catch(e => console.error(e))
+    }
   }
 }
 </script>

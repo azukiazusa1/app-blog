@@ -80,6 +80,10 @@ export default {
     password: { required },
   },
   created() { 
+    this.$toast.open({
+            message: 'ログアウトしました。',
+            type: 'error'
+          })
     auth().then(user => {
       // すでにログイン済
       if (user) this.$router.push(this.redirect)
