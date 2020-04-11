@@ -12,13 +12,7 @@
       <v-card-text>
         <v-btn icon><v-icon size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
         <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
-        <v-chip v-for="(tag, index) in article.tags" :key="index"
-          class="ma-2"
-          small
-          :to="{ name: 'article-show', params: { id: article.id }}"
-        >
-          {{ tag }}
-        </v-chip>
+        <tag-list :tags="article.tags"></tag-list>
         <div class="text-truncate text--primary">
           {{ article.body }}
         </div>
@@ -33,6 +27,7 @@
 </template>
 
 <script>
+import TagList from '@/components/TagList.vue'
 import moment from 'moment'
 export default {
  props: {
@@ -48,6 +43,9 @@ export default {
    showPath() {
      return `/article/${this.article.id}`
    }
+ },
+ components: {
+   TagList
  }
 }
 </script>

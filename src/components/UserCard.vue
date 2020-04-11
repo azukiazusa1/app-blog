@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Author</v-card-title>
+    <v-card-title><v-btn icon><v-icon>fas fa-user</v-icon></v-btn>Author</v-card-title>
     <v-skeleton-loader
       type="list-item-avatar-two-line"
       class="mx-auto"

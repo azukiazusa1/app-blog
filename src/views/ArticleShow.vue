@@ -23,15 +23,9 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>Tags</v-card-title>
+          <v-card-title><v-btn icon><v-icon>fas fa-tags</v-icon></v-btn>Tags</v-card-title>
           <v-card-text>
-            <v-chip v-for="(tag, index) in article.tags" :key="index"
-              class="ma-2"
-              small
-              :to="{ name: 'article-show', params: { id: article.id }}"
-            >
-          {{ tag }}
-        </v-chip>
+            <tag-list :tags="article.tags" v-if="article"></tag-list>
           </v-card-text>
         </v-card>
       </v-col>
@@ -41,6 +35,7 @@
 
 <script>
 import UserCard from '@/components/UserCard'
+import TagList from '@/components/TagList.vue'
 import moment from 'moment'
 import store from '@/store';
 
@@ -79,7 +74,7 @@ export default {
    },
   },
   components: {
-    UserCard
+    UserCard, TagList
   }
 }
 </script>
