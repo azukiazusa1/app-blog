@@ -1,5 +1,10 @@
 <template>
-  <v-alert :type="this.getType" v-if="isAppear">
+  <v-alert 
+    :type="getType" 
+    v-if="isAppear"
+    text 
+    transition="scale-transition"
+  >
     {{ this.getMessage }}
   </v-alert>
 </template>

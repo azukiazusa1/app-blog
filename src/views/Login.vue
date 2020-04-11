@@ -52,6 +52,9 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
+                  <v-btn icon v-if="loading">
+                    <v-icon>fa fa-spinner fa-spin</v-icon>
+                  </v-btn>
                   <v-btn color="primary" type="submit">Login</v-btn>
                 </v-card-actions>
               </v-form>
@@ -75,7 +78,8 @@ export default {
     return {
       email: '',
       password: '',
-      redirect: this.$route.query.redirect || '/admin'
+      redirect: this.$route.query.redirect || '/admin',
+      loading: false
     }
   },
   mixins: [validationMixin],
@@ -102,13 +106,17 @@ export default {
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
+        this.loading = true
         login(this.email, this.password)
           .then(() => this.$router.push(this.redirect))
           .catch(() => {
             this.setFlash({
-              message: 'メールアドレスまたはパスワードが間違っています。', 
-              'type': 'error'
+              message: 'メールアドレスかパスワードが間違っています。',
+              type: 'error'
             })
+          })
+          .finally(() => {
+            this.loading = false
           })
       }
     },
