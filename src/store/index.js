@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { flash } from './flash'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
 
@@ -66,5 +67,8 @@ export default new Vuex.Store({
     getArticleById:(state) => (id) => {
       return state.articles.find(article => article.id === id)
     }
+  },
+  modules: {
+    flash
   }
 })

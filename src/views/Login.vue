@@ -1,5 +1,6 @@
   <template>
   <v-app id="inspire">
+    <flash-message></flash-message>
     <v-content>
       <v-container
         class="fill-height"
@@ -63,9 +64,12 @@
 </template>
 
 <script>
+import FlashMessage from '@/components/FlashMessage'
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
 import { login } from '@/plugins/auth'
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -100,9 +104,20 @@ export default {
       if (!this.$v.$invalid) {
         login(this.email, this.password)
           .then(() => this.$router.push(this.redirect))
-          .catch(e => console.error(e))
+          .catch(() => {
+            this.setFlash({
+              message: 'メールアドレスまたはパスワードが間違っています。', 
+              'type': 'error'
+            })
+          })
       }
     },
+    ...mapActions('flash', [
+      'setFlash'
+    ])
+  },
+  components: {
+    FlashMessage
   }
 }
 </script>
