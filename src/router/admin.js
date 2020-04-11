@@ -1,5 +1,6 @@
 import AdminRoot from '@/views/AdminRoot'
 import { auth } from '@/plugins/auth'
+import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
 
 export default {
@@ -18,6 +19,11 @@ export default {
   children: [
     {
       path: '/',
+      name: 'admin-home',
+      component: AdminHome
+    },
+    {
+      path: '/article/edit/:id',
       name: 'article-edit',
       component: ArticleEdit
     }

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <admin-bar :user="user"></admin-bar>
-    <nav-drawer></nav-drawer>
+    <nav-drawer :user="user"></nav-drawer>
     <v-content>
       <flash-message></flash-message>
       <router-view></router-view>

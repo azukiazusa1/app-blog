@@ -12,7 +12,8 @@ export default new Vuex.Store({
     article: '',
     lastDate: '',
     finish: false,
-    articles: []
+    articles: [],
+    allArticles: ''
   },
   mutations: {
     ...vuexfireMutations,
@@ -51,6 +52,19 @@ export default new Vuex.Store({
     bindArticleById: firestoreAction(({ bindFirestoreRef }, id) => {
       return bindFirestoreRef('article', db.collection('articles').doc(id))
     }),
+    bindAllArticles: firestoreAction(({ bindFirestoreRef }) => {
+      return bindFirestoreRef('allArticles', db.collection('articles'))
+    }),
+    addArticle(context, uid) {
+      console.log(uid)
+      return db.collection('articles').add({
+        title: '',
+        body: '',
+        published: false,
+        author: uid,
+        tags: []
+      })
+    }
   },
   getters: {
     getArticles(state) {
@@ -67,6 +81,12 @@ export default new Vuex.Store({
     },
     getArticleById:(state) => (id) => {
       return state.articles.find(article => article.id === id)
+    },
+    getAllArticles(state) {
+      return state.allArticles
+    },
+    getArticlesCount(state) {
+      return state.allArticles.length
     }
   },
   modules: {

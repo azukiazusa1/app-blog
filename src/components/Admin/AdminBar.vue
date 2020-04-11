@@ -5,7 +5,9 @@
       dark
       app
     >
-      <v-toolbar-title>ダッシュボード</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link class="title-link white--text headline font-weight-bold" to="/admin">ダッシュボード</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu :offset-y=true>
         <template v-slot:activator="{ on }">
@@ -27,7 +29,10 @@
 import { logout } from '@/plugins/auth'
 export default {
   props: {
-    user: Object
+    user: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     logout() {
