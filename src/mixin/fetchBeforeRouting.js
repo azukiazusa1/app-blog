@@ -1,7 +1,7 @@
 import store from '@/store'
 
 export default {
-  beforeRouteEnter (route, redirect, next) {
+  beforeRouteEnter (route, from, next) {
     if (store.getters.getArticleById(route.params.id)) {
       const article = store.getters.getArticleById(route.params.id)
       next(vm => vm.setData(article))
@@ -10,9 +10,7 @@ export default {
         .then(() => {
           const article = store.getters.getArticle
           if (!article) {
-            next(redirect)
-            // TODO redirect 404 page
-            // redirect('/')
+            route.push({name: 'not-found'})
           }
           next(vm => vm.setData(article))
         })
