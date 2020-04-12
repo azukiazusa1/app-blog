@@ -37,7 +37,7 @@ export default {
     onIntersect(entries, observer, isIntersecting) {
       if (this.loading || !isIntersecting || this.isFinish) return
       this.loading = true
-      this.fetchArticles(this.getLastDate)
+      this.fetchArticles({lastDate: this.getLastDate})
         .then(() => this.loading = false)
     }
   },

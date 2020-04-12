@@ -24,12 +24,12 @@ export default {
       component: AdminHome
     },
     {
-      path: '/article/edit/:id',
+      path: '/admin/article/edit/:id',
       name: 'article-edit',
       component: ArticleEdit
     },
     {
-      path: '/articles',
+      path: '/admin/articles',
       name: 'article-list',
       component: ArticleList
     }

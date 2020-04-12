@@ -35,12 +35,13 @@
               v-model="article.body"
               language="ja"
               ref=md
+              codeStyle="atom-one-dark"
               :toolbars="toolbars"
               :imageFilter="imageFilter"
               @imgAdd="imgAdd"
               @change="debounceUpdate"
             ></mavon-editor>
-            <v-messages class="py-5 error--text" :value="bodyErrors"></v-messages>
+            <v-messages class="error--text" :value="bodyErrors"></v-messages>
             </v-form>
           </v-card-text>
             <v-card-actions>
@@ -207,8 +208,8 @@ export default {
     }
   },
   watch: {
-    'article.tags': async function(val) {
-        if (val.length === 0) return
+    'article.tags': async function(val, oldval) {
+        if (val.length === 0 || oldval.length === 0) return
         this.search = ''
         try {
           await this.createOrUpdateTag(val[val.length - 1])
@@ -220,3 +221,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.markdown-body {
+    max-height: 500px;
+    height: 500px;
+}
+</style>

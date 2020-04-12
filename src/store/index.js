@@ -23,6 +23,9 @@ export default new Vuex.Store({
     add(state, payload) {
       state.articles.push(payload)
     },
+    set(state, payload) {
+      state.article = payload
+    },
     last(state, payload) {
       state.lastDate = payload
     },
@@ -36,12 +39,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchArticles: (({ commit }, lastDate = new Date('2999-12-31')) => { 
+    fetchArticles: (({ commit }, {lastDate = new Date('2999-12-31'), limit = 10, published = true}) => { 
       articleRef
-        .where('published', '==', true)
+        .where('published', '==', published)
         .orderBy('created', 'desc')
         .startAfter(lastDate)
-        .limit(5)
+        .limit(limit)
         .get()
         .then(querySnapshot => {
           if (querySnapshot.empty) {

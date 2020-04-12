@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <v-chip v-for="(tag, index) in tags" :key="index"
       class="ma-2"
       small
@@ -7,7 +7,7 @@
     >
       {{ tag }}
     </v-chip>
-  </div>
+  </span>
 </template>
 
 <script>
