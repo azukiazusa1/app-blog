@@ -12,7 +12,8 @@
               label="Title"
               required
             ></v-text-field>
-            <v-combobox 
+            <v-combobox
+              :loading="tagLoading"
               multiple
               v-model="article.tags" 
               label="Tags" 
@@ -55,6 +56,7 @@ import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'article-edit',
@@ -67,7 +69,8 @@ export default {
         tags: []
       },
       search: '',
-      items: ['JavaScript'],
+      items: [],
+      tagLoading: true,
       save: false,
       toolbars: {
         imagelink: true, 
@@ -83,7 +86,15 @@ export default {
       body: { required }
     },
   },
+  created() {
+    this.fetchTags()
+     .then(() => {
+      this.tagLoading = false
+      this.items = this.getTags
+    })
+  },
   computed: {
+    ...mapGetters('tags', ['getTags']),
     titleErrors () {
       const errors = []
       if (!this.$v.article.title.$dirty) return errors
@@ -98,6 +109,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('tags', ['fetchTags', 'crateOrUpdateTags']),
     publish() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
@@ -117,6 +129,8 @@ export default {
   watch: {
     'article.tags': function(val) {
         this.search = ''
+        // TODO タグが追加されたときタグ一覧を更新
+        // TODO タグが追加、削除されたら記事を更新
         console.log(val)
       },
   }

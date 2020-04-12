@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { flash } from './flash'
 import { user } from './user'
+import { tags } from './tags'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
+const articleRef = db.collection('articles')
 
 Vue.use(Vuex)
 
@@ -34,10 +36,11 @@ export default new Vuex.Store({
   },
   actions: {
     fetchArticles: (({ commit }, lastDate = new Date('2999-12-31')) => { 
-      db.collection('articles')
+      articleRef
         .orderBy('created', 'desc')
         .startAfter(lastDate)
-        .limit(5).get()
+        .limit(5)
+        .get()
         .then(querySnapshot => {
           if (querySnapshot.empty) {
             commit('finish')
@@ -50,13 +53,13 @@ export default new Vuex.Store({
         })
     }),
     bindArticleById: firestoreAction(({ bindFirestoreRef }, id) => {
-      return bindFirestoreRef('article', db.collection('articles').doc(id))
+      return bindFirestoreRef('article', articleRef.doc(id))
     }),
     bindAllArticles: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('allArticles', db.collection('articles'))
+      return bindFirestoreRef('allArticles', articleRef)
     }),
-    addArticle(context, uid) {
-      return db.collection('articles').add({
+    createArticle(context, uid) {
+      return articleRef.add({
         title: '',
         body: '',
         published: false,
@@ -90,6 +93,7 @@ export default new Vuex.Store({
   },
   modules: {
     flash,
-    user
+    user,
+    tags
   }
 })

@@ -68,9 +68,9 @@ export default {
       .then((user) => this.user = user)
   },
   methods: {
-    ...mapActions(['bindAllArticles', 'addArticle', 'flash/setFlash']),
+    ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
     createArticle() {
-      this.addArticle(this.user.uid)
+      this.newArticle(this.user.uid)
         .then(docRef => {
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })
