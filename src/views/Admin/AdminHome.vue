@@ -39,7 +39,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn color="red accent-2" block x-large dark @click="createArticle">
+        <v-btn color="red accent-2" block x-large dark @click="newArticle">
           <v-icon>fas fa-edit</v-icon>
           今すぐ記事を投稿する
         </v-btn>
@@ -69,8 +69,8 @@ export default {
   },
   methods: {
     ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
-    createArticle() {
-      this.newArticle(this.user.uid)
+    newArticle() {
+      this.createArticle(this.user.uid)
         .then(docRef => {
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })

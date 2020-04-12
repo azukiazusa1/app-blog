@@ -17,7 +17,7 @@
         <nav-list-item
           title="記事を書く"
           icon="fas fa-edit"
-          @onClick="createArticle"
+          @onClick="newArticle"
         ></nav-list-item>
         <nav-list-item
           title="記事の管理"
@@ -46,8 +46,8 @@ export default {
   },
   methods: {
     ...mapActions(['createArticle', 'flash/setFlash']),
-    createArticle() {
-      this.newArticle(this.user.uid)
+    newArticle() {
+      this.createArticle(this.user.uid)
         .then(docRef => {
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })

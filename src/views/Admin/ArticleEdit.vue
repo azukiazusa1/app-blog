@@ -40,10 +40,10 @@
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
               <v-switch
-                v-model="article.published"
+                @click.stop="publish"
+                :value="article.published"
                 label="記事を公開する"
               ></v-switch>
-              <v-btn color="primary" @click="publish">投稿</v-btn>
             </v-card-actions>
         </v-card>
       </v-col>
@@ -113,15 +113,35 @@ export default {
     ...mapActions(['updateArticle', 'flash/setFlash']),
     publish() {
       this.$v.$touch()
-      if (!this.$v.$invalid) {
-        alert('published!')
+      if (this.$v.$invalid) {
+        this.article.published = false
+        return
       }
+      this.article.published = !this.article.published
+      this.updateArticle(this.article)
+        .then(() => {
+          if (this.article.published) {
+            this['flash/setFlash']({
+              message: '記事を公開しました。',
+            })
+          } else {
+            this['flash/setFlash']({
+              message: '記事を非公開にしました。',
+              type: 'info'
+            })
+          }
+        })
+        .catch(() => this.dbError())
     },
     debounceUpdate :debounce(function() {
-      this.save = true
-      setTimeout(() => {
-        this.save = false
-      }, 3000)
+      this.updateArticle(this.article)
+        .then(() => {
+          this.save = true
+          setTimeout(() => {
+            this.save = false
+          }, 3000)
+        })
+        .catch(() => this.dbError())
     }, 1500),
     imgAdd() {
       console.log('imgAdded!')
@@ -143,7 +163,7 @@ export default {
         } catch(e) {
           this.dbError()
         }
-      },
-  }
+      }
+    }
 }
 </script>
