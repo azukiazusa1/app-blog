@@ -34,6 +34,7 @@
               @imgAdd="imgAdd"
               @change="debounceUpdate"
             ></mavon-editor>
+            <v-messages class="py-5 error--text" :value="bodyErrors"></v-messages>
             </v-form>
           </v-card-text>
             <v-card-actions>
@@ -103,7 +104,7 @@ export default {
     },
     bodyErrors () {
       const errors = []
-      if (!this.$v.article.bosy.$dirty) return errors
+      if (!this.$v.article.body.$dirty) return errors
       !this.$v.article.body.required && errors.push('記事を公開する場合、本文は必須です。')
       return errors
     },
