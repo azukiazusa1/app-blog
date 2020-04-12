@@ -2,6 +2,7 @@ import AdminRoot from '@/views/AdminRoot'
 import { auth } from '@/plugins/auth'
 import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
+import ArticleList from '@/views/Admin/ArticleList'
 
 export default {
   path: '/admin',
@@ -26,6 +27,11 @@ export default {
       path: '/article/edit/:id',
       name: 'article-edit',
       component: ArticleEdit
+    },
+    {
+      path: '/articles',
+      name: 'article-list',
+      component: ArticleList
     }
   ]
 }

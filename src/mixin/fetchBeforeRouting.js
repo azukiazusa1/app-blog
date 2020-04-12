@@ -10,7 +10,7 @@ export default {
         .then(() => {
           const article = store.getters.getArticle
           if (!article) {
-            route.push({name: 'not-found'})
+            next('*')
           }
           next(vm => vm.setData(article))
         })

@@ -38,6 +38,7 @@ export default new Vuex.Store({
   actions: {
     fetchArticles: (({ commit }, lastDate = new Date('2999-12-31')) => { 
       articleRef
+        .where('published', '==', true)
         .orderBy('created', 'desc')
         .startAfter(lastDate)
         .limit(5)
@@ -57,7 +58,7 @@ export default new Vuex.Store({
       return bindFirestoreRef('article', articleRef.doc(id))
     }),
     bindAllArticles: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('allArticles', articleRef)
+      return bindFirestoreRef('allArticles', articleRef.where('published', '==', true))
     }),
     createArticle(context, uid) {
       return articleRef.add({
