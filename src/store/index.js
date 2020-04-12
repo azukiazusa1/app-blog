@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import { flash } from './flash'
 import { user } from './user'
 import { tags } from './tags'
+import firebase from '@/plugins/firebase'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
 const articleRef = db.collection('articles')
@@ -64,9 +65,16 @@ export default new Vuex.Store({
         body: '',
         published: false,
         author: uid,
-        tags: []
+        tags: [],
+        created: firebase.firestore.FieldValue.serverTimestamp()
       })
-    }
+    },
+    updateArticle: firestoreAction(({ getters }, payload) => {
+      const newData = {created: firebase.firestore.FieldValue.serverTimestamp(), ...payload}
+      articleRef
+        .doc(getters.getArticle.id)
+        .update(newData)
+    })
   },
   getters: {
     getArticles(state) {

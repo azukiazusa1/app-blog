@@ -109,7 +109,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions('tags', ['fetchTags', 'crateOrUpdateTags']),
+    ...mapActions('tags', ['fetchTags', 'createOrUpdateTag']),
+    ...mapActions(['updateArticle', 'flash/setFlash']),
     publish() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
@@ -124,14 +125,24 @@ export default {
     }, 1500),
     imgAdd() {
       console.log('imgAdded!')
+    },
+    dbError() {
+      this['flash/setFlash']({
+        message: 'データの保存に失敗しました。',
+        type: 'error'
+      })
     }
   },
   watch: {
-    'article.tags': function(val) {
+    'article.tags': async function(val) {
+        if (val.length === 0) return
         this.search = ''
-        // TODO タグが追加されたときタグ一覧を更新
-        // TODO タグが追加、削除されたら記事を更新
-        console.log(val)
+        try {
+          await this.createOrUpdateTag(val[val.length - 1])
+          await this.updateArticle(this.article)
+        } catch(e) {
+          this.dbError()
+        }
       },
   }
 }
