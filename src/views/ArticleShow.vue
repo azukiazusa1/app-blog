@@ -7,12 +7,7 @@
           <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
         </p>
         <v-divider></v-divider>
-        <mavon-editor 
-          v-model="article.body"
-          :toolbarsFlag="false"
-          :subfield="false"
-          defaultOpen="preview"
-        />
+        <preview-markdown :value="article.body"></preview-markdown>
       </v-col>
     </v-row>
     <v-row>
@@ -36,6 +31,7 @@
 <script>
 import UserCard from '@/components/UserCard'
 import TagList from '@/components/TagList.vue'
+import PreviewMarkdown from '@/components/PreviewMarkdown'
 import moment from 'moment'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 
@@ -53,7 +49,7 @@ export default {
    },
   },
   components: {
-    UserCard, TagList
+    UserCard, TagList, PreviewMarkdown
   }
 }
 </script>

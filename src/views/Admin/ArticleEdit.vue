@@ -27,10 +27,16 @@
               :search-input.sync="search" 
             >
             </v-combobox>
+            <v-progress-linear
+              v-model="fileLoading"
+              stream
+            ></v-progress-linear>
             <mavon-editor
               v-model="article.body"
               language="ja"
+              ref=md
               :toolbars="toolbars"
+              :imageFilter="imageFilter"
               @imgAdd="imgAdd"
               @change="debounceUpdate"
             ></mavon-editor>
@@ -57,6 +63,8 @@ import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
+import { storage } from '@/plugins/storage'
+import md5 from 'js-md5'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -73,6 +81,7 @@ export default {
       items: [],
       tagLoading: true,
       save: false,
+      fileLoading: 0,
       toolbars: {
         imagelink: true, 
         table: true, 
@@ -144,8 +153,51 @@ export default {
         })
         .catch(() => this.dbError())
     }, 1500),
-    imgAdd() {
-      console.log('imgAdded!')
+    imgAdd(pos, $file) {
+      const fileType = this.getFileType($file)
+      if (!fileType) {
+        this['flash/setFlash']({
+          message: 'ファイルタイプが不正です。',
+          type: 'error'
+        })
+      }
+      const storageRef = storage.ref(`articles/${this.$route.params.id}/${md5($file.name)}.${fileType}`)
+      const uploadTask = storageRef.put($file)
+      uploadTask.on('state_changed', 
+          snapshot => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            this.fileLoading = percentage
+          },
+          err => {
+            console.log(err)
+            this['flash/setFlash']({
+              message: 'ファイルのアップロードに失敗しました。',
+              type: 'error'
+            })
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              this.fileLoading = 0
+              this.$refs.md.$img2Url(pos, downloadURL)
+            })
+          }
+        )
+    },
+    imageFilter($file) {
+      console.log($file)
+      return !!this.getFileType($file)
+    },
+    getFileType($file) {
+      switch ($file.type) {
+        case 'image/gif':
+          return 'gif'
+        case 'image/jpeg':
+          return 'jpg'
+        case 'image/png':
+          return 'png'
+        default:
+          return false
+      }
     },
     dbError() {
       this['flash/setFlash']({
