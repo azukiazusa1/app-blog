@@ -41,6 +41,7 @@
               @imgAdd="imgAdd"
               @change="debounceUpdate"
             ></mavon-editor>
+            <span>{{ bodyCount}} 文字</span>
             <v-messages class="error--text" :value="bodyErrors"></v-messages>
             </v-form>
           </v-card-text>
@@ -118,6 +119,9 @@ export default {
       !this.$v.article.body.required && errors.push('記事を公開する場合、本文は必須です。')
       return errors
     },
+    bodyCount() {
+      return this.article.body.length
+    }
   },
   methods: {
     ...mapActions('tags', ['fetchTags', 'createOrUpdateTag']),
@@ -185,7 +189,6 @@ export default {
         )
     },
     imageFilter($file) {
-      console.log($file)
       return !!this.getFileType($file)
     },
     getFileType($file) {
