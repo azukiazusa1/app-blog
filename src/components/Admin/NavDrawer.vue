@@ -25,6 +25,11 @@
           link="/admin/articles"
         ></nav-list-item>
         <nav-list-item
+          title="下書き一覧"
+          icon="far fa-sticky-note"
+          link="/admin/drafts"
+        ></nav-list-item>
+        <nav-list-item
           title="ユーザー情報変更"
           icon="fas fa-user"
           link="/admin/user"

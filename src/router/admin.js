@@ -3,6 +3,7 @@ import { auth } from '@/plugins/auth'
 import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
+import DraftList from '@/views/Admin/DraftList'
 
 export default {
   path: '/admin',
@@ -32,6 +33,11 @@ export default {
       path: '/admin/articles',
       name: 'article-list',
       component: ArticleList
+    },
+    {
+      path: '/admin/drafts',
+      name: 'draft-list',
+      component: DraftList
     }
   ]
 }
