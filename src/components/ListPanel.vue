@@ -53,12 +53,14 @@ export default {
    },
   },
   methods: {
-    ...mapActions(['deleteArticle']),
+    ...mapActions(['deleteArticle', 'flash/setFlash']),
     onDelete() {
       if (confirm(`記事ID: ${this.article.id}を削除します。よろしいですか？(この操作は取り消しません)`)) {
         this.deleteArticle(this.article.id)
-          .then(() => console.log(1))
-          .catch((err) => console.error(err))
+          .catch(() => this['flash/setFlash']({
+            message: '記事の削除に失敗しました。',
+            type: 'error'
+          }))
       } else {
         return
       }
