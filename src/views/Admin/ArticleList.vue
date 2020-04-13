@@ -5,22 +5,16 @@
           <v-card>
             <v-card-title>記事一覧</v-card-title>
               <v-container fluid>
-                <v-row v-if="getArticles">
+                <template v-if="loading">
+                  <v-skeleton-loader type="list-item-two-line" v-for="n in 5" :key="n"></v-skeleton-loader>
+                </template>
+                <v-row v-else>
                   <v-expansion-panels
-                    v-for="article in getArticles"
+                    v-for="article in getAllArticles"
                     :key="article.id"
                   >
                     <list-panel :article="article"></list-panel>
                   </v-expansion-panels>
-                </v-row>
-                <v-row v-if="!isFinish" justify="center">
-                  <v-col cols=1>
-                    <v-progress-circular
-                      indeterminate
-                      color="red"
-                      v-intersect="onIntersect"
-                    ></v-progress-circular>
-                  </v-col>
                 </v-row>
               </v-container>
           </v-card>
@@ -31,33 +25,24 @@
 
 <script>
 import ListPanel from '@/components/ListPanel'
-import { mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'article-list',
   data() {
     return {
-      loading: false
+      loading: true
     }
   },
   created() {
-    this.clearArticles()
+    this.bindAllArticles()
+      .then(() => this.loading = false)
   },
   methods: {
-    ...mapActions(['fetchArticles']),
-    ...mapMutations(['clearArticles']),
-    onIntersect(entries, observer, isIntersecting) {
-      if (this.loading || !isIntersecting || this.isFinish) return
-      this.loading = true
-      this.fetchArticles({
-        lastDate: this.getLastDate,
-        published: true
-      })
-        .then(() => this.loading = false)
-    }
+    ...mapActions(['bindAllArticles']),
   },
   computed: {
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish'])
+    ...mapGetters(['getAllArticles'])
   },
   components: {
     ListPanel

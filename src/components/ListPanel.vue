@@ -1,13 +1,12 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header v-if="article.title">
-      {{ article.title }}
+    <v-expansion-panel-header>
+      <span v-if="article.title">{{ article.title }}</span>
+      <span v-else class="grey--text lighten-2--text">タイトル未設定</span>
+      <span class="grey--text lighten-2--text">(ID：{{ article.id }})</span>
       <span class="text-right">
           <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
       </span>
-    </v-expansion-panel-header>
-    <v-expansion-panel-header v-else>
-      <span class="font-weight-thin">タイトル未設定</span>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <v-container fluid>
@@ -22,7 +21,7 @@
             </v-btn>
           </v-col>
           <v-col cols=1>
-            <v-btn class="ma-2" depressed color="error"><v-icon delete>fas fa-trash-alt</v-icon>削除</v-btn>
+            <v-btn class="ma-2" depressed color="error" @click="onDelete"><v-icon delete>fas fa-trash-alt</v-icon>削除</v-btn>
           </v-col>
         </v-row>
         <v-row>
@@ -39,6 +38,7 @@
 import PreviewMarkdown from '@/components/PreviewMarkdown'
 import TagList from '@/components/TagList'
 import moment from 'moment'
+import { mapActions } from 'vuex'
 
 export default {
   props: {
@@ -51,6 +51,18 @@ export default {
     createdTime: function () {
     return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
    },
+  },
+  methods: {
+    ...mapActions(['deleteArticle']),
+    onDelete() {
+      if (confirm(`記事ID: ${this.article.id}を削除します。よろしいですか？(この操作は取り消しません)`)) {
+        this.deleteArticle(this.article.id)
+          .then(() => console.log(1))
+          .catch((err) => console.error(err))
+      } else {
+        return
+      }
+    }
   },
   components: {
     PreviewMarkdown, TagList
