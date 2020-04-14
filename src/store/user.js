@@ -4,7 +4,7 @@ import { db } from '@/db'
 export const user = {
   namespaced: true,
   state: {
-    user: '',
+    user: {},
   },
   mutations: {
     ...vuexfireMutations,

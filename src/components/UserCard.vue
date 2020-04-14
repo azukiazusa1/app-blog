@@ -12,47 +12,33 @@
     <template v-else>
       <v-list-item>
         <v-list-item-avatar>
-          <v-img :src="getUser.photoURL" :alt="getUser.displayName"></v-img>
+          <v-img :src="user.photoURL" :alt="user.displayName"></v-img>
         </v-list-item-avatar>
-        <v-list-item-title>{{ getUser.displayName }}</v-list-item-title>
+        <v-list-item-title>{{ user.displayName }}</v-list-item-title>
       </v-list-item>
       <v-card-text>
-        {{ getUser.profile }}
+        {{ user.profile }}
       </v-card-text>
     </template>
   </v-card>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('user')
-
 export default {
   name: 'user-card',
-  data() {
-    return {
-      loading: true,
-      error: false
-    }
-  },
   props: {
-    uid: {
-      type: String,
+    user: {
+      type: Object,
+      required: true
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    },
+    error: {
+      type: Boolean,
       required: true
     }
-  },
-  created() {
-    this.bindUserById(this.uid)
-      .then(() => {
-        this.loading = false
-      })
-      .catch(() => this.error = true)
-  },
-  methods: {
-    ...mapActions(['bindUserById'])
-  },
-  computed: {
-    ...mapGetters(['getUser'])
   }
 }
 </script>

@@ -1,19 +1,23 @@
 <template>
   <v-container>
-    <template v-if="article.published">
+    <template v-if="getArticle.published">
       <v-row>
         <v-col cols=12>
-          <div class="display-2 text-center py-10">{{ article.title }}</div>
+          <div class="display-2 text-center py-10">{{ getArticle.title }}</div>
           <p class="text-right">
             <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
           </p>
           <v-divider></v-divider>
-          <preview-markdown :value="article.body"></preview-markdown>
+          <preview-markdown :value="getArticle.body"></preview-markdown>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols=12>
-          <user-card :uid="article.author" v-if="article"></user-card>
+          <user-card 
+            :user="getUser" 
+            :loading="loading" 
+            :error="error"
+          ></user-card>
         </v-col>
       </v-row>
       <v-row>
@@ -21,7 +25,7 @@
           <v-card>
             <v-card-title><v-btn icon><v-icon>fas fa-tags</v-icon></v-btn>Tags</v-card-title>
             <v-card-text>
-              <tag-list :tags="article.tags" v-if="article"></tag-list>
+              <tag-list :tags="getArticle.tags"></tag-list>
             </v-card-text>
           </v-card>
         </v-col>
@@ -45,18 +49,29 @@ import TagList from '@/components/TagList.vue'
 import PreviewMarkdown from '@/components/PreviewMarkdown'
 import moment from 'moment'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
     return {
-      article: '',
+      loading: true,
+      error: false
     }
   },
   mixins: [fetchBeforeRouting],
+  created() {
+    this.bindUserById(this.getArticle.author)
+      .then(() => this.loading = false)
+      .catch(() => this.error = true)
+  },
+  methods: {
+    ...mapActions('user', ['bindUserById']),
+  },
   computed: {
+    ...mapGetters(['getArticle']),
+    ...mapGetters('user', ['getUser']),
     createdTime: function () {
-      if (!this.article) return
-     return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+     return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
    },
   },
   components: {

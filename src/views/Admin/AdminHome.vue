@@ -7,34 +7,32 @@
             <v-btn icon><v-icon>fa fa-blog</v-icon></v-btn>マイブログ
           </v-card-title>
           <v-card-text>
-                <v-container>
-                  <v-row>
-                      <v-col>
-                        <router-link class="title-link text--primary headline" to="/">私のブログ</router-link>
-                      </v-col>
-                      <v-spacer></v-spacer>
-                      <v-col>
-                        投稿数
-                        <v-btn icon v-if="loading">
-                          <v-icon>fa fa-spinner fa-spin</v-icon>
-                        </v-btn>
-                        <v-avatar
-                          size="24"
-                          color="primary"
-                          v-else
-                        >
-                          <span class="white--text font-weight-bold">{{ getArticlesCount }}</span>
-                        </v-avatar>
-                      </v-col>
-                  </v-row>
-                </v-container>
+            <v-row>
+              <v-col>
+                <router-link class="title-link text--primary headline" to="/">私のブログ</router-link>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col>
+                投稿数
+                <v-btn icon v-if="loading">
+                  <v-icon>fa fa-spinner fa-spin</v-icon>
+                </v-btn>
+                <v-avatar
+                  size="24"
+                  color="primary"
+                  v-else
+                >
+                  <span class="white--text font-weight-bold">{{ getArticlesCount }}</span>
+                </v-avatar>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <user-card :uid="user.uid" v-if="user"></user-card>
+        <user-card :user="getUser" :loading="userLoading" :error="userError"></user-card>
       </v-col>
     </v-row>
     <v-row>
@@ -57,18 +55,24 @@ export default {
   name: 'admin-home',
   data() {
     return {
-      user: '',
-      loading: true
+      loading: true,
+      userLoading: true,
+      userError: false
     }
   },
   created() {
     this.bindAllArticles()
       .then(() => this.loading = false)
-    auth()
-      .then((user) => this.user = user)
+
+    auth().then(user => {
+      this.bindUserById(user.uid)
+        .then(() => this.userLoading = false)
+        .catch(() => this.userError = true)
+      })
   },
   methods: {
     ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
+    ...mapActions('user', ['bindUserById']),
     newArticle() {
       this.createArticle(this.user.uid)
         .then(docRef => {
@@ -83,7 +87,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getArticlesCount'])
+    ...mapGetters(['getArticlesCount']),
+    ...mapGetters('user', ['getUser'])
   },
   components: {
     UserCard
