@@ -1,6 +1,6 @@
 <template>
-  <v-list-item>
-    <v-list-item-icon v-if="value">
+  <v-list-item :href="value" target="_blank">
+    <v-list-item-icon>
       <v-icon :color="brand" v-if="brand === 'qiita'">fas fa-circle</v-icon>
       <v-icon :color="brand" v-else>{{ `fab fa-${brand}` }}</v-icon>
     </v-list-item-icon>
