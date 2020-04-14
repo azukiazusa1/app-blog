@@ -32,7 +32,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <user-card :user="getUser" :loading="userLoading" :error="userError"></user-card>
+        <user-card :user="getUser" :loading=getLoading :error=getError></user-card>
       </v-col>
     </v-row>
     <v-row>
@@ -49,30 +49,20 @@
 <script>
 import UserCard from '@/components/UserCard'
 import { mapActions, mapGetters } from 'vuex'
-import { auth } from '@/plugins/auth'
 
 export default {
   name: 'admin-home',
   data() {
     return {
       loading: true,
-      userLoading: true,
-      userError: false
     }
   },
   created() {
     this.bindAllArticles()
       .then(() => this.loading = false)
-
-    auth().then(user => {
-      this.bindUserById(user.uid)
-        .then(() => this.userLoading = false)
-        .catch(() => this.userError = true)
-      })
   },
   methods: {
     ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
-    ...mapActions('user', ['bindUserById']),
     newArticle() {
       this.createArticle(this.user.uid)
         .then(docRef => {
@@ -88,7 +78,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getArticlesCount']),
-    ...mapGetters('user', ['getUser'])
+    ...mapGetters('user', ['getUser', 'getLoading', 'getError'])
   },
   components: {
     UserCard

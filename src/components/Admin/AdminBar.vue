@@ -11,8 +11,13 @@
       <v-spacer></v-spacer>
       <v-menu :offset-y=true>
         <template v-slot:activator="{ on }">
+          <v-skeleton-loader
+            type="avatar"
+            class="mx-auto"
+            v-if="getLoading"
+          ></v-skeleton-loader>
           <v-list-item-avatar v-on="on">
-            <v-img :src="user.photoURL" :alt="user.displayName"></v-img>
+            <v-img :src="getUser.photoURL" :alt="getUser.displayName"></v-img>
           </v-list-item-avatar>
         </template>
         <v-list>
@@ -27,19 +32,17 @@
 
 <script>
 import { logout } from '@/plugins/auth'
+import { mapGetters } from 'vuex'
 export default {
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
   methods: {
     logout() {
       logout()
         .then(() => {this.$router.push({name: 'login'})})
         .catch(e => console.error(e))
     }
+  },
+  computed: {
+    ...mapGetters('user', ['getUser', 'getLoading'])
   }
 }
 </script>

@@ -40,19 +40,14 @@
 
 <script>
 import NavListItem from '@/components/NavListItem'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
+
   methods: {
     ...mapActions(['createArticle', 'flash/setFlash']),
     newArticle() {
-      this.createArticle(this.user.uid)
+      this.createArticle(this.getUser.uid)
         .then(docRef => {
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })
@@ -63,6 +58,9 @@ export default {
           })
         })
     }
+  },
+  computed: {
+    ...mapGetters('user', ['getUser'])
   },
   components: {
     NavListItem

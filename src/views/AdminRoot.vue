@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <admin-bar :user="user"></admin-bar>
-    <nav-drawer :user="user"></nav-drawer>
+    <admin-bar></admin-bar>
+    <nav-drawer></nav-drawer>
     <v-content>
       <flash-message></flash-message>
       <router-view></router-view>
@@ -13,19 +13,20 @@ import FlashMessage from '@/components/FlashMessage'
 import { auth } from '@/plugins/auth'
 import AdminBar from '@/components/Admin/AdminBar'
 import NavDrawer from '@/components/Admin/NavDrawer'
-  export default {
-    data () {
-      return {
-        user: {},
-      }
-    },
-    created() {
-      auth().then(user => {
-        this.user = user
-      })
-    },
-    components: {
-      NavDrawer, AdminBar, FlashMessage
-    }
+import { mapActions } from 'vuex'
+
+export default {
+  created() {
+    auth().then(user => {
+      this.bindUserById(user.uid)
+    })
+  },
+  methods: {
+    ...mapActions('user', ['bindUserById']),
+    ...mapActions(['flash/setFlash']),
+  },
+  components: {
+    NavDrawer, AdminBar, FlashMessage
   }
+}
 </script>
