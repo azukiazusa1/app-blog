@@ -6,24 +6,33 @@
       class="mx-auto"
       v-if="loading"
     ></v-skeleton-loader>
-      <v-card-text color="error" v-else-if="error">
-        ユーザー情報の取得に失敗しました。
-      </v-card-text>
+    <v-card-text color="error" v-else-if="error">
+      ユーザー情報の取得に失敗しました。
+    </v-card-text>
     <template v-else>
-      <v-list-item>
-        <v-list-item-avatar>
-          <v-img :src="user.photoURL" :alt="user.displayName"></v-img>
-        </v-list-item-avatar>
-        <v-list-item-title>{{ user.displayName }}</v-list-item-title>
-      </v-list-item>
-      <v-card-text>
-        {{ user.profile }}
-      </v-card-text>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img :src="user.photoURL" :alt="user.displayName"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-title>{{ user.displayName }}</v-list-item-title>
+        </v-list-item>
+        <v-card-text>
+          {{ user.profile }}
+        </v-card-text>
+      </v-list>
+      <v-list dense>
+        <brand-icon-list v-for="(link, index) in filteredLink" :key="index"
+        :value="link" :brand="index"></brand-icon-list>
+      </v-list>
     </template>
   </v-card>
 </template>
 
 <script>
+import BrandIconList from '@/components/BrandIconList'
+import { pickBy } from 'lodash'
+
 export default {
   name: 'user-card',
   props: {
@@ -39,6 +48,16 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+  computed: {
+    filteredLink() {
+      return pickBy(this.user.link, value => {
+        return !!value
+      })
+    }
+  },
+  components: {
+    BrandIconList
   }
 }
 </script>
