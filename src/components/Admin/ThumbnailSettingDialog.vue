@@ -1,11 +1,11 @@
 <template>
     <v-dialog v-model="isOpen" scrollable max-width="600px" internal-activator>
       <template v-slot:activator="{ on }">
-                <v-btn color="primary" class="ma-5" v-on="on">
-                  <v-icon>fas fa-image</v-icon>
-                  サムネイルの設定
-                </v-btn>
-              </template>
+        <v-btn color="primary" class="ma-5" v-on="on">
+          <v-icon>fas fa-image</v-icon>
+          サムネイルの設定
+        </v-btn>
+      </template>
       <v-card>
         <v-card-title>サムネイルの設定</v-card-title>
         <v-divider></v-divider>
