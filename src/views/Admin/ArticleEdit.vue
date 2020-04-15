@@ -48,6 +48,7 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
+              <thumbnail-setting-dialog></thumbnail-setting-dialog>
               <v-switch
                 @click.stop="publish"
                 :value="article.published"
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+import ThumbnailSettingDialog from '@/components/Admin/ThumbnailSettingDialog'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
@@ -88,7 +90,7 @@ export default {
         imagelink: true, 
         table: true, 
         preview: true,
-      }
+      },
     }
   },
   mixins: [fetchBeforeRouting,validationMixin],
@@ -208,20 +210,26 @@ export default {
         message: 'データの保存に失敗しました。',
         type: 'error'
       })
+    },
+    openDialog() {
+      this.dialog = true
     }
   },
   watch: {
     'article.tags': async function(val, oldval) {
-        if (val.length === 0 || oldval.length === 0) return
-        this.search = ''
-        try {
-          await this.createOrUpdateTag(val[val.length - 1])
-          await this.updateArticle(this.article)
-        } catch(e) {
-          this.dbError()
-        }
+      if (val.length === 0 || oldval.length === 0) return
+      this.search = ''
+      try {
+        await this.createOrUpdateTag(val[val.length - 1])
+        await this.updateArticle(this.article)
+      } catch(e) {
+        this.dbError()
       }
     }
+  },
+  components: {
+    ThumbnailSettingDialog
+  }
 }
 </script>
 

@@ -5,7 +5,7 @@
       <v-icon :color="brand" v-else>{{ `fab fa-${brand}` }}</v-icon>
     </v-list-item-icon>
     <v-list-item-content>
-      <v-list-item-title>{{ value }}</v-list-item-title>
+      <v-list-item-title class="text-capitalize">{{ brand }}</v-list-item-title>
     </v-list-item-content>
   </v-list-item>
 </template>
