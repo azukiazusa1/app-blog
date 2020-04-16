@@ -48,7 +48,7 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
-              <thumbnail-setting-dialog v-if="!loading" :article="article"></thumbnail-setting-dialog>
+              <thumbnail-setting-dialog v-if="!loading" :article="article" :addedImages="addedImages"></thumbnail-setting-dialog>
               <v-switch
                 @click.stop="publish"
                 :value="article.published"
@@ -87,6 +87,7 @@ export default {
       tagLoading: true,
       save: false,
       fileLoading: 0,
+      addedImages: [],
       toolbars: {
         imagelink: true, 
         table: true, 
@@ -186,6 +187,7 @@ export default {
           () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
               this.fileLoading = 0
+              this.addedImages.push(downloadURL)
               this.$refs.md.$img2Url(pos, downloadURL)
             })
           }

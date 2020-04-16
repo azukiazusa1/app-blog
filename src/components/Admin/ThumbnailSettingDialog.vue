@@ -28,8 +28,15 @@
           <v-card-subtitle>記事内の画像から設定する。</v-card-subtitle>
           <v-row>
             <v-col cols=12>
-              <v-card v-if="!loading">
-                <v-container fluid>
+              <v-card>
+                <div v-if="loading">
+                  画像データの取得中...
+                  <v-progress-circular indeterminate color="red"></v-progress-circular>
+                </div>
+                <div v-else-if="images.length === 0">
+                  この記事に画像は使われていません。
+                </div>
+                <v-container fluid v-else>
                   <v-row>
                     <v-col
                       v-for="(image, index) in images"
@@ -82,11 +89,16 @@ export default {
     article: {
       type: Object,
       required: true
+    },
+    addedImages: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
       loading: true,
+      error: false,
       dialog: false,
       images: [],
       selectedImage: ''
@@ -100,9 +112,9 @@ export default {
         itemRef.getDownloadURL().then(url => {
           this.images.push(url)
         })
-        .catch(e => console.error(e))
       })
     } catch(e) {
+      this.error = true
       console.log(e)
     } finally {
       this.loading = false
@@ -117,6 +129,11 @@ export default {
   computed: {
      isSelected() {
       return index => this.selectedImage === index
+    }
+  },
+  watch: {
+    addedImages(newval) {
+      this.images.push(newval[newval.length - 1])
     }
   }
 }
