@@ -27,39 +27,39 @@
           <v-text-field v-model="article.thumbnail" readonly></v-text-field>
           <v-card-subtitle>記事内の画像から設定する。</v-card-subtitle>
           <v-row>
-    <v-col cols=12>
-      <v-card>
-        <v-container fluid>
-          <v-row>
-            <v-col
-              v-for="n in 9"
-              :key="n"
-              class="d-flex child-flex"
-              cols="4"
-            >
-              <v-card flat tile class="d-flex">
-                <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                  aspect-ratio="1"
-                  class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
+            <v-col cols=12>
+              <v-card>
+                <v-container fluid>
+                  <v-row>
+                    <v-col
+                      v-for="n in 9"
+                      :key="n"
+                      class="d-flex child-flex"
+                      cols="4"
                     >
-                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
+                      <v-card flat tile class="d-flex">
+                        <v-img
+                          :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+                          :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                          aspect-ratio="1"
+                          class="selected"
+                        >
+                          <template v-slot:placeholder>
+                            <v-row
+                              class="fill-height ma-0"
+                              align="center"
+                              justify="center"
+                            >
+                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                            </v-row>
+                          </template>
+                        </v-img>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-card>
             </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -92,3 +92,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.selected {
+  border: medium solid #FFEB3B
+}
+</style>
