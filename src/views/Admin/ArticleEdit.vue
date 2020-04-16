@@ -48,7 +48,12 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
-              <thumbnail-setting-dialog v-if="!loading" :article="article" :addedImages="addedImages"></thumbnail-setting-dialog>
+              <thumbnail-setting-dialog 
+                v-if="!loading" 
+                :article="article" 
+                :addedImages="addedImages"
+                @onThubnailChanged="onThubnailChanged"
+              ></thumbnail-setting-dialog>
               <v-switch
                 @click.stop="publish"
                 :value="article.published"
@@ -64,6 +69,7 @@
 <script>
 import ThumbnailSettingDialog from '@/components/Admin/ThumbnailSettingDialog'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
+import getFileType from '@/mixin/getFileType'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
@@ -95,7 +101,7 @@ export default {
       },
     }
   },
-  mixins: [fetchBeforeRouting,validationMixin],
+  mixins: [fetchBeforeRouting, validationMixin, getFileType],
   validations: {
     article: {
       title: { required },
@@ -196,18 +202,6 @@ export default {
     imageFilter($file) {
       return !!this.getFileType($file)
     },
-    getFileType($file) {
-      switch ($file.type) {
-        case 'image/gif':
-          return 'gif'
-        case 'image/jpeg':
-          return 'jpg'
-        case 'image/png':
-          return 'png'
-        default:
-          return false
-      }
-    },
     dbError() {
       this['flash/setFlash']({
         message: 'データの保存に失敗しました。',
@@ -216,6 +210,10 @@ export default {
     },
     openDialog() {
       this.dialog = true
+    },
+    onThubnailChanged(thumbnail) {
+      this.article.thumbnail = thumbnail
+      this.updateArticle(this.article)
     }
   },
   watch: {

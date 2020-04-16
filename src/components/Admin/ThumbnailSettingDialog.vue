@@ -9,22 +9,26 @@
       <v-card>
         <v-card-title>サムネイルの設定</v-card-title>
         <v-divider></v-divider>
+        <v-progress-linear
+              v-model="fileLoading"
+              stream
+        ></v-progress-linear>
         <v-card-text style="height: 600px;">
           <v-card-subtitle>現在のサムネイル</v-card-subtitle>
           <v-row>
             <v-col cols=4>
               <v-img
-                :src="article.thumbnail"
+                :src="thumbnail"
                 alr="サムネイル"
                 width=200
                 height=200
               ></v-img>
             </v-col>
             <v-col cols=8>
-              <v-file-input accept="image/*" label="画像をアップロードして設定する。"></v-file-input>
+              <v-file-input accept="image/*" label="画像をアップロードして設定する。" @change="onFileUpload"></v-file-input>
             </v-col>
           </v-row>
-          <v-text-field v-model="article.thumbnail" readonly></v-text-field>
+          <v-text-field v-model="thumbnail" readonly></v-text-field>
           <v-card-subtitle>記事内の画像から設定する。</v-card-subtitle>
           <v-row>
             <v-col cols=12>
@@ -73,7 +77,7 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false" :disabled="isDisabled">Close</v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -82,6 +86,8 @@
 
 <script>
 import { storage } from '@/plugins/storage'
+import getFileType from '@/mixin/getFileType'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'thumbnail-setting-dialog',
@@ -97,13 +103,16 @@ export default {
   },
   data() {
     return {
+      thumbnail: this.article.thumbnail,
       loading: true,
       error: false,
       dialog: false,
       images: [],
-      selectedImage: ''
+      selectedImage: '',
+      fileLoading: 0,
     }
   },
+  mixins: [getFileType],
   async created() {
     try {
       const storageRef = await storage.ref(`articles/${this.article.id}`)
@@ -121,19 +130,57 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['flash/setFlash']),
+    onFileUpload(file) {
+      console.log(file)
+    const fileType = this.getFileType(file)
+      if (!fileType) {
+        this['flash/setFlash']({
+          message: 'ファイルタイプが不正です。',
+          type: 'error'
+        })
+      }
+      const storageRef = storage.ref(`articles/${this.article.id}/thumbnail}.${fileType}`)
+      const uploadTask = storageRef.put(file)
+      uploadTask.on('state_changed', 
+          snapshot => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            this.fileLoading = percentage
+          },
+          err => {
+            console.log(err)
+            this['flash/setFlash']({
+              message: 'ファイルのアップロードに失敗しました。',
+              type: 'error'
+            })
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              this.fileLoading = 0
+              this.thumbnail = downloadURL
+            })
+          }
+        )
+    },
     onClick(e) {
       this.selectedImage = +e.target.parentElement.id
-      this.article.thumbnail = this.images[e.target.parentElement.id]
+      this.thumbnail = this.images[e.target.parentElement.id]
     },
   },
   computed: {
      isSelected() {
       return index => this.selectedImage === index
+    },
+    isDisabled() {
+      return this.loading || this.fileLoading > 0
     }
   },
   watch: {
     addedImages(newval) {
       this.images.push(newval[newval.length - 1])
+    },
+    thumbnail(newval) {
+      this.$emit('onThubnailChanged', newval)
     }
   }
 }
