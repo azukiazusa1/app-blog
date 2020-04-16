@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isOpen" scrollable max-width="600px">
+    <v-dialog v-model="dialog" scrollable max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" class="ma-5" v-on="on">
           <v-icon>fas fa-image</v-icon>
@@ -28,21 +28,23 @@
           <v-card-subtitle>記事内の画像から設定する。</v-card-subtitle>
           <v-row>
             <v-col cols=12>
-              <v-card>
+              <v-card v-if="!loading">
                 <v-container fluid>
                   <v-row>
                     <v-col
-                      v-for="n in 9"
-                      :key="n"
+                      v-for="(image, index) in images"
+                      :key="index"
+                      :index="index"
                       class="d-flex child-flex"
                       cols="4"
                     >
                       <v-card flat tile class="d-flex">
                         <v-img
-                          :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                          :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                          :id="index"
+                          :src="image"
                           aspect-ratio="1"
-                          class="selected"
+                          :class="{ selected: isSelected(index) }"
+                          @click="onClick"
                         >
                           <template v-slot:placeholder>
                             <v-row
@@ -72,6 +74,8 @@
 </template>
 
 <script>
+import { storage } from '@/plugins/storage'
+
 export default {
   name: 'thumbnail-setting-dialog',
   props: {
@@ -80,15 +84,41 @@ export default {
       required: true
     }
   },
-  computed: {
-    isOpen: {
-      get() {
-        return this.dialog
-      },
-      set(dialog) {
-        this.$emit('update:dialot', dialog)
-      }
+  data() {
+    return {
+      loading: true,
+      dialog: false,
+      images: [],
+      selectedImage: ''
+    }
+  },
+  async created() {
+    try {
+      const storageRef = await storage.ref(`articles/${this.article.id}`)
+      const res = await storageRef.listAll()
+      res.items.forEach(itemRef => {
+        itemRef.getDownloadURL().then(url => {
+          this.images.push(url)
+        })
+        .catch(e => console.error(e))
+      })
+    } catch(e) {
+      console.log(e)
+    } finally {
+      this.loading = false
+    }
+  },
+  methods: {
+    onClick(e) {
+      this.selectedImage = +e.target.parentElement.id
+      this.article.thumbnail = this.images[e.target.parentElement.id]
     },
+  },
+  computed: {
+     isSelected() {
+      return index => this.selectedImage === index
+      
+    }
   }
 }
 </script>
