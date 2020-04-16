@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isOpen" scrollable max-width="600px" internal-activator>
+    <v-dialog v-model="isOpen" scrollable max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" class="ma-5" v-on="on">
           <v-icon>fas fa-image</v-icon>
@@ -9,27 +9,58 @@
       <v-card>
         <v-card-title>サムネイルの設定</v-card-title>
         <v-divider></v-divider>
-        <v-card-text style="height: 300px;">
-          <v-radio-group column>
-            <v-radio label="Bahamas, The" value="bahamas"></v-radio>
-            <v-radio label="Bahrain" value="bahrain"></v-radio>
-            <v-radio label="Bangladesh" value="bangladesh"></v-radio>
-            <v-radio label="Barbados" value="barbados"></v-radio>
-            <v-radio label="Belarus" value="belarus"></v-radio>
-            <v-radio label="Belgium" value="belgium"></v-radio>
-            <v-radio label="Belize" value="belize"></v-radio>
-            <v-radio label="Benin" value="benin"></v-radio>
-            <v-radio label="Bhutan" value="bhutan"></v-radio>
-            <v-radio label="Bolivia" value="bolivia"></v-radio>
-            <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
-            <v-radio label="Botswana" value="botswana"></v-radio>
-            <v-radio label="Brazil" value="brazil"></v-radio>
-            <v-radio label="Brunei" value="brunei"></v-radio>
-            <v-radio label="Bulgaria" value="bulgaria"></v-radio>
-            <v-radio label="Burkina Faso" value="burkina"></v-radio>
-            <v-radio label="Burma" value="burma"></v-radio>
-            <v-radio label="Burundi" value="burundi"></v-radio>
-          </v-radio-group>
+        <v-card-text style="height: 600px;">
+          <v-card-subtitle>現在のサムネイル</v-card-subtitle>
+          <v-row>
+            <v-col cols=4>
+              <v-img
+                :src="article.thumbnail"
+                alr="サムネイル"
+                width=200
+                height=200
+              ></v-img>
+            </v-col>
+            <v-col cols=8>
+              <v-file-input accept="image/*" label="画像をアップロードして設定する。"></v-file-input>
+            </v-col>
+          </v-row>
+          <v-text-field v-model="article.thumbnail" readonly></v-text-field>
+          <v-card-subtitle>記事内の画像から設定する。</v-card-subtitle>
+          <v-row>
+    <v-col cols=12>
+      <v-card>
+        <v-container fluid>
+          <v-row>
+            <v-col
+              v-for="n in 9"
+              :key="n"
+              class="d-flex child-flex"
+              cols="4"
+            >
+              <v-card flat tile class="d-flex">
+                <v-img
+                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-col>
+          </v-row>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -44,8 +75,8 @@
 export default {
   name: 'thumbnail-setting-dialog',
   props: {
-    dialog: {
-      type: Boolean,
+    article: {
+      type: Object,
       required: true
     }
   },
