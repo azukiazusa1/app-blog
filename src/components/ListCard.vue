@@ -1,27 +1,41 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
+      class="mx-auto"
       :elevation="hover ? 12 : 2"
       :class="{ 'on-hover': hover }"
     >
-      <v-card-title>
-        <router-link :to="showPath" class="text--primary">
-        {{ article.title }}
-        </router-link>
-      </v-card-title>
-      <v-card-text>
-        <v-btn icon><v-icon size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
-        <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
-        <tag-list :tags="article.tags"></tag-list>
-        <div class="text-truncate text--primary">
-          {{ article.body }}
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn text>
-          <router-link :to="showPath">Read More</router-link>
-        </v-btn>
-      </v-card-actions>
+      <v-row>
+        <v-col md=3 sm=12 v-if="article.thumbnail">
+          <v-img
+            :src="article.thumbnail"
+            alt="サムネイル"
+            height="200"
+            width="200"
+          >
+          </v-img>
+        </v-col>
+          <v-col md=8 sm=12>
+            <v-card-title>
+              <router-link :to="showPath" class="text--primary">
+              {{ article.title }}
+              </router-link>
+            </v-card-title>
+            <v-card-text>
+                  <v-btn icon><v-icon size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
+                  <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
+                  <tag-list :tags="article.tags"></tag-list>
+                  <div class="text-truncate text--primary">
+                    {{ article.body }}
+                  </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn text>
+                <router-link :to="showPath">Read More</router-link>
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
     </v-card>
   </v-hover>
 </template>

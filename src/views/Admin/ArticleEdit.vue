@@ -48,6 +48,12 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
+              <thumbnail-setting-dialog 
+                v-if="!loading" 
+                :article="article" 
+                :addedImages="addedImages"
+                @onThubnailChanged="onThubnailChanged"
+              ></thumbnail-setting-dialog>
               <v-switch
                 @click.stop="publish"
                 :value="article.published"
@@ -61,7 +67,9 @@
 </template>
 
 <script>
+import ThumbnailSettingDialog from '@/components/Admin/ThumbnailSettingDialog'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
+import getFileType from '@/mixin/getFileType'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
@@ -77,21 +85,23 @@ export default {
         title: '',
         body: '',
         published: false,
-        tags: []
+        tags: [],
       },
+      loading: true,
       search: '',
       items: [],
       tagLoading: true,
       save: false,
       fileLoading: 0,
+      addedImages: [],
       toolbars: {
         imagelink: true, 
         table: true, 
         preview: true,
-      }
+      },
     }
   },
-  mixins: [fetchBeforeRouting,validationMixin],
+  mixins: [fetchBeforeRouting, validationMixin, getFileType],
   validations: {
     article: {
       title: { required },
@@ -183,6 +193,7 @@ export default {
           () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
               this.fileLoading = 0
+              this.addedImages.push(downloadURL)
               this.$refs.md.$img2Url(pos, downloadURL)
             })
           }
@@ -191,37 +202,35 @@ export default {
     imageFilter($file) {
       return !!this.getFileType($file)
     },
-    getFileType($file) {
-      switch ($file.type) {
-        case 'image/gif':
-          return 'gif'
-        case 'image/jpeg':
-          return 'jpg'
-        case 'image/png':
-          return 'png'
-        default:
-          return false
-      }
-    },
     dbError() {
       this['flash/setFlash']({
         message: 'データの保存に失敗しました。',
         type: 'error'
       })
+    },
+    openDialog() {
+      this.dialog = true
+    },
+    onThubnailChanged(thumbnail) {
+      this.article.thumbnail = thumbnail
+      this.updateArticle(this.article)
     }
   },
   watch: {
     'article.tags': async function(val, oldval) {
-        if (val.length === 0 || oldval.length === 0) return
-        this.search = ''
-        try {
-          await this.createOrUpdateTag(val[val.length - 1])
-          await this.updateArticle(this.article)
-        } catch(e) {
-          this.dbError()
-        }
+      if (val.length === 0 || oldval.length === 0) return
+      this.search = ''
+      try {
+        await this.createOrUpdateTag(val[val.length - 1])
+        await this.updateArticle(this.article)
+      } catch(e) {
+        this.dbError()
       }
     }
+  },
+  components: {
+    ThumbnailSettingDialog
+  }
 }
 </script>
 
