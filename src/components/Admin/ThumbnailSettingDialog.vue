@@ -117,7 +117,6 @@ export default {
   computed: {
      isSelected() {
       return index => this.selectedImage === index
-      
     }
   }
 }

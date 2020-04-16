@@ -20,6 +20,7 @@ export default {
   methods: {
     setData (article) {
       this.article = article
+      this.loading = false
     }
   },
 }

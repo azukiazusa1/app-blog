@@ -48,7 +48,7 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
-              <thumbnail-setting-dialog :article="article"></thumbnail-setting-dialog>
+              <thumbnail-setting-dialog v-if="!loading" :article="article"></thumbnail-setting-dialog>
               <v-switch
                 @click.stop="publish"
                 :value="article.published"
@@ -79,8 +79,9 @@ export default {
         title: '',
         body: '',
         published: false,
-        tags: []
+        tags: [],
       },
+      loading: true,
       search: '',
       items: [],
       tagLoading: true,
