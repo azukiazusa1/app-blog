@@ -30,6 +30,11 @@
           link="/admin/drafts"
         ></nav-list-item>
         <nav-list-item
+          title="設定"
+          icon="fas fa-cog"
+          link="/admin/setting"
+        ></nav-list-item>
+        <nav-list-item
           title="ユーザー情報変更"
           icon="fas fa-user"
           link="/admin/user"
