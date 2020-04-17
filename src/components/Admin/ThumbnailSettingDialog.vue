@@ -10,8 +10,8 @@
         <v-card-title>サムネイルの設定</v-card-title>
         <v-divider></v-divider>
         <v-progress-linear
-              v-model="fileLoading"
-              stream
+          v-model="fileLoading"
+          stream
         ></v-progress-linear>
         <v-card-text style="height: 600px;">
           <v-card-subtitle>現在のサムネイル</v-card-subtitle>
@@ -26,6 +26,7 @@
             </v-col>
             <v-col cols=8>
               <v-file-input accept="image/*" label="画像をアップロードして設定する。" @change="onFileUpload"></v-file-input>
+              <v-btn color="error" @click="deleteThumbnail">サムネイルを削除する</v-btn>
             </v-col>
           </v-row>
           <v-text-field v-model="thumbnail" readonly></v-text-field>
@@ -160,6 +161,9 @@ export default {
             })
           }
         )
+    },
+    deleteThumbnail() {
+      this.thumbnail = ''
     },
     onClick(e) {
       this.selectedImage = +e.target.parentElement.id
