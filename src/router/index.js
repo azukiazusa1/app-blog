@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 import User from './user'
 import Admin from './admin'
 import Login from '@/views/Login'
@@ -39,6 +40,16 @@ const router = new VueRouter({
     return { x: 0, y: 0}
   },
   routes
+})
+
+
+// ブログの基本情報はなければ常に取得します。
+router.beforeEach((to, from, next) => {
+  if (store.getters['blog/getBlogInfo']) {
+    next()
+  } else {
+    store.dispatch('blog/bindBlogInfo').then(() => next())
+  }
 })
 
 export default router
