@@ -25,8 +25,8 @@
                   <v-btn icon><v-icon size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
                   <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
                   <tag-list :tags="article.tags"></tag-list>
-                  <div class="text-truncate text--primary">
-                    {{ article.body }}
+                  <div class="text--primary">
+                    {{ article.overview }}
                   </div>
             </v-card-text>
             <v-card-actions>
