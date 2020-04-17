@@ -21,8 +21,20 @@
           </v-list-item-avatar>
         </template>
         <v-list>
-          <v-list-item @click="() => {}">
+          <v-list-item>
+            <v-list-item-avatar>
+              <v-img :src="getUser.photoURL" :alt="getUser.displayName"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title >{{ getUser.displayName }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="logout">
             <v-list-item-title @click="logout">ログアウト</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/user">
+            <v-list-item-title>プロフィール編集</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
