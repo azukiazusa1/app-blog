@@ -7,7 +7,7 @@
             <v-form @submit.prevent>
             <v-text-field
               v-model="article.title"
-              :counter="255"
+              :counter="50"
               :error-messages="titleErrors"
               label="Title"
               required
@@ -27,6 +27,14 @@
               :search-input.sync="search" 
             >
             </v-combobox>
+            <v-textarea
+              v-model="article.overview"
+              :counter="300"
+              :error-messages="overViewErrors"
+              label="Overview"
+              persistent-hint="記事の概要は、一覧表示において使用されます。"
+              @change="debounceUpdate"
+            ></v-textarea>
             <v-progress-linear
               v-model="fileLoading"
               stream
@@ -72,7 +80,7 @@ import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import getFileType from '@/mixin/getFileType'
 import { debounce } from 'lodash'
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { required, maxLength } from 'vuelidate/lib/validators'
 import { storage } from '@/plugins/storage'
 import md5 from 'js-md5'
 import { mapGetters, mapActions } from 'vuex'
@@ -84,6 +92,7 @@ export default {
       article: {
         title: '',
         body: '',
+        overview: '',
         published: false,
         tags: [],
       },
@@ -104,7 +113,8 @@ export default {
   mixins: [fetchBeforeRouting, validationMixin, getFileType],
   validations: {
     article: {
-      title: { required },
+      title: { required, maxLength: maxLength(50) },
+      overview: { maxLength: maxLength(300) },
       body: { required }
     },
   },
@@ -121,6 +131,13 @@ export default {
       const errors = []
       if (!this.$v.article.title.$dirty) return errors
       !this.$v.article.title.required && errors.push('記事を公開する場合、タイトルは必須です。')
+      !this.$v.article.title.maxLength && errors.push('タイトルは50文字までです。')
+      return errors
+    },
+    overViewErrors() {
+      const errors = []
+      if (!this.$v.article.overview.$dirty) return errors
+      !this.$v.article.overview.maxLength && errors.push('概要は300文字までです。')
       return errors
     },
     bodyErrors () {
