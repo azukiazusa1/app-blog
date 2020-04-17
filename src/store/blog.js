@@ -6,14 +6,14 @@ const blogsRef = db.collection('blogs')
 export const blog = {
   namespaced: true,
   state: {
-    blogInfo: {}
+    blogInfo: null
   },
   mutations: {
     ...vuexfireMutations
   },
   actions: {
     bindBlogInfo: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('blog', blogsRef.doc('info'))
+      return bindFirestoreRef('blogInfo', blogsRef.doc('info'))
     }),
   },
   getters: {
