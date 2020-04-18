@@ -25,17 +25,12 @@
                   <v-toolbar-title>ログイン画面</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
-                  <v-text-field
-                    label="Login"
-                    name="login"
-                    prepend-icon="fa fa-user"
-                    type="text"
-                    v-model="email"
-                    :error-messages="emailErrors"
-                    required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                  />
+                  <email-input-field
+                      label="Login"
+                      :email.sync="email"
+                      icon="fa fa-user"
+                    >
+                  </email-input-field>
 
                   <v-text-field
                     id="password"
@@ -46,8 +41,8 @@
                     v-model="password"
                     :error-messages="passwordErrors"
                     required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
                   />
                 </v-card-text>
                 <v-card-actions>
@@ -67,6 +62,7 @@
 </template>
 
 <script>
+import EmailInputField from '@/components/EmailInputField'
 import FlashMessage from '@/components/FlashMessage'
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
@@ -125,6 +121,7 @@ export default {
     ])
   },
   components: {
+    EmailInputField,
     FlashMessage
   }
 }
