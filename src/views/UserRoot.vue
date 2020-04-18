@@ -3,7 +3,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <router-link class="title-link text--primary" to="/">私のブログ</router-link>
+        <router-link class="title-link text--primary" to="/">{{ getBlogInfo.title }}</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
@@ -21,6 +21,8 @@
 <script>
 import ToggleDarkTheme from '@/components/ToggleDarkTheme'
 import NavDrawer from '@/components/NavDrawer'
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'App',
   data: () => ({
@@ -30,6 +32,9 @@ export default {
     openDrawer() {
       this.drawer = true
     }
+  },
+  computed: {
+    ...mapGetters('blog', ['getBlogInfo'])
   },
   components: {
     ToggleDarkTheme, NavDrawer
