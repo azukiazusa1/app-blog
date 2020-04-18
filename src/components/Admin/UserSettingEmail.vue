@@ -17,19 +17,18 @@
           <email-input-field
             label="新しいメールアドレス"
             :email.sync="email"
+            :touch="touch"
           >
           </email-input-field>
         </v-col>
         <v-col>
-          <v-text-field
+          <password-input-field
             label="現在のパスワード"
-            type="password"
-            v-model="password"
+            :password.sync="password"
             hint="メールアドレスを変更するには、再認証が必要です。"
-            persistent-hint
-            required
+            :touch="touch"
           >
-          </v-text-field>
+          </password-input-field>
         </v-col>
       </v-card-text>
       <v-card-actions>
@@ -43,7 +42,10 @@
 </template>
 
 <script>
-import emailInputField from '@/components/EmailInputField'
+import EmailInputField from '@/components/EmailInputField'
+import PasswordInputField from '@/components/PasswordInputField'
+import { validationMixin } from 'vuelidate'
+import { required, email } from 'vuelidate/lib/validators'
 import { auth, reAuth } from '@/plugins/auth'
 import { mapActions } from 'vuex'
 
@@ -58,7 +60,13 @@ export default {
       loading: false,
       email: '',
       password: '',
+      touch: false
     }
+  },
+  mixins: [validationMixin],
+  validations: {
+    email: { required, email },
+    password: { required },
   },
   async created() {
     this.user = await auth()
@@ -66,6 +74,8 @@ export default {
   methods: {
     ...mapActions(['flash/setFlash']),
     async onSubmit() {
+      this.touch = true
+      if (this.$v.$invalid) return
       try {
         this.loading = true
         const credential = await reAuth(this.user.email, this.password)
@@ -88,7 +98,8 @@ export default {
     }
   },
   components: {
-    emailInputField
+    EmailInputField,
+    PasswordInputField
   }
 }
 </script>

@@ -29,6 +29,10 @@ export default {
       type: String,
       default: ''
     },
+    touch: {
+      type: Boolean,
+      default: false
+    }
   },
   mixins: [validationMixin],
   validations: {
@@ -49,6 +53,11 @@ export default {
       set(email) {
         this.$emit('update:email', email)
       }
+    }
+  },
+  watch: {
+    touch(newval) {
+      if (newval) this.$v.$touch()
     }
   }
 }
