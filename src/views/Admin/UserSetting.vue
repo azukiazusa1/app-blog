@@ -43,7 +43,7 @@
                   <v-text-field
                     v-model="user.displayName"
                     :counter="50"
-                    :error-messages="titleErrors"
+                    :error-messages="nameErrors"
                     label="ユーザー名"
                     required
                     @input="$v.user.displayName.$touch()"
@@ -54,7 +54,7 @@
                   <v-textarea
                     v-model="user.profile"
                     :counter="300"
-                    :error-messages="descriptionErrors"
+                    :error-messages="profileErrors"
                     label="プロフィール"
                     @input="$v.user.profile.$touch()"
                     @blur="$v.user.profile.$touch()"
@@ -71,6 +71,9 @@
                 :prepend-icon="`fab fa-${brand}`"
                 v-model="user.link[brand]"
                 :color="brand"
+                :error-messages="linkErrors(brand)"
+                @input="$v.user.link[brand].$touch()"
+                @blur="$v.user.link[brand].$touch()"
               >
               </v-text-field>
             </v-col>
@@ -86,6 +89,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { required, maxLength, url } from 'vuelidate/lib/validators'
+
 export default {
   name: 'user-setting',
   data() {
@@ -94,15 +100,50 @@ export default {
       fileLoading: 0
     }
   },
+  mixins: [validationMixin],
+  validations: {
+    user: {
+      displayName: { required, maxLength: maxLength(50) },
+      profile: { maxLength: maxLength(300) },
+      link: {
+        github: { url },
+        qiita: { url },
+        twitter: { url },
+        facebook: { url },
+      }
+    },
+  },
   created() {
     this.user = this.getUser
   },
   computed: {
-    ...mapGetters('user', ['getUser'])
+    ...mapGetters('user', ['getUser']),
+    nameErrors () {
+      const errors = []
+      if (!this.$v.user.displayName.$dirty) return errors
+      !this.$v.user.displayName.required && errors.push('ブログのタイトルは必須です。')
+      !this.$v.user.displayName.maxLength && errors.push('タイトルは50文字までです。')
+      return errors
+    },
+    profileErrors() {
+      const errors = []
+      if (!this.$v.user.profile.$dirty) return errors
+      !this.$v.user.profile.maxLength && errors.push('ブログの説明は300文字までです。')
+      return errors
+    },
+    linkErrors() {
+      return brand => {
+        const errors = []
+        if (!this.$v.user.link[brand].$dirty) return errors
+        !this.$v.user.link[brand].url && errors.push('リンクはURLの形式で入力してください。')
+        return errors
+      }
+    },
   },
   methods: {
     onSubmit() {
-
+      this.$v.$touch()
+      if (this.$v.$invalid) return
     },
     onFileUpload() {
 
