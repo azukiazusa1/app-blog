@@ -1,0 +1,3 @@
+<template>
+  <h2>ユーザー情報</h2>
+</template>

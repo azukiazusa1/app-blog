@@ -5,6 +5,7 @@ import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
 import DraftList from '@/views/Admin/DraftList'
 import AdminSetting from '@/views/Admin/AdminSetting'
+import UserSetting from '@/views/Admin/UserSetting'
 
 export default {
   path: '/admin',
@@ -44,6 +45,11 @@ export default {
       path: '/admin/setting',
       name: 'admin-setting',
       component: AdminSetting
-    }
+    },
+    {
+      path: '/admin/user',
+      name: 'user-setting',
+      component: UserSetting
+    },
   ]
 }
