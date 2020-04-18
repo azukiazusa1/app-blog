@@ -1,27 +1,39 @@
 import AdminRoot from '@/views/AdminRoot'
 import { auth } from '@/plugins/auth'
+import store from '@/store'
 import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
 import DraftList from '@/views/Admin/DraftList'
 import AdminSetting from '@/views/Admin/AdminSetting'
+import UserSetting from '@/views/Admin/UserSetting'
 
 export default {
   path: '/admin',
   name: 'admin-root',
   component: AdminRoot,
-  beforeEnter: ((to, from, next) => {
-    auth().then(user => {
-      if (!user) {
-        next({ path: '/admin/login', query: { redirect: to.fullPath }})
-      } else {
+  beforeEnter: (async (to, from, next) => {
+    const user = await auth()
+    if (!user) {
+      next({ path: '/admin/login', query: { redirect: to.fullPath }})
+    } else {
+      if (store.getters['use/getUser']) {
         next()
+      } else {
+        try {
+          await store.dispatch('user/bindUserById', user.uid)
+        } catch {
+          store.commit('user/hasError')
+        } finally {
+          store.commit('user/loaded')
+          next()
+        }
       }
-    })
+    }
   }),
   children: [
     {
-      path: '/',
+      path: '/admin',
       name: 'admin-home',
       component: AdminHome
     },
@@ -44,6 +56,11 @@ export default {
       path: '/admin/setting',
       name: 'admin-setting',
       component: AdminSetting
-    }
+    },
+    {
+      path: '/admin/user',
+      name: 'user-setting',
+      component: UserSetting
+    },
   ]
 }

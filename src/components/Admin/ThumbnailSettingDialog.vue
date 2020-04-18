@@ -132,7 +132,6 @@ export default {
   methods: {
     ...mapActions(['flash/setFlash']),
     onFileUpload(file) {
-      console.log(file)
     const fileType = this.getFileType(file)
       if (!fileType) {
         this['flash/setFlash']({

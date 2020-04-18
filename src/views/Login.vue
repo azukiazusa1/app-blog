@@ -25,30 +25,20 @@
                   <v-toolbar-title>ログイン画面</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
-                  <v-text-field
-                    label="Login"
-                    name="login"
-                    prepend-icon="fa fa-user"
-                    type="text"
-                    v-model="email"
-                    :error-messages="emailErrors"
-                    required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                  />
-
-                  <v-text-field
-                    id="password"
+                  <email-input-field
+                      label="Login"
+                      :email.sync="email"
+                      icon="fa fa-user"
+                      :touch="touch"
+                    >
+                  </email-input-field>
+                  <password-input-field
                     label="Password"
-                    name="password"
-                    prepend-icon="fa fa-lock"
-                    type="password"
-                    v-model="password"
-                    :error-messages="passwordErrors"
-                    required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                  />
+                    icon="fa fa-lock"
+                    :password.sync="password"
+                    :touch="touch"
+                  >
+                  </password-input-field>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
@@ -67,6 +57,8 @@
 </template>
 
 <script>
+import EmailInputField from '@/components/EmailInputField'
+import PasswordInputField from '@/components/PasswordInputField'
 import FlashMessage from '@/components/FlashMessage'
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
@@ -79,7 +71,8 @@ export default {
       email: '',
       password: '',
       redirect: this.$route.query.redirect || '/admin',
-      loading: false
+      loading: false,
+      touch: false
     }
   },
   mixins: [validationMixin],
@@ -87,44 +80,30 @@ export default {
     email: { required, email },
     password: { required },
   },
-  computed: {
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('メールアドレスの形式が正しくありません。')
-      !this.$v.email.required && errors.push('メールアドレスが入力されていません。')
-      return errors
-    },
-    passwordErrors () {
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.required && errors.push('パスワードが入力されていません。')
-      return errors
-    },
-  },
   methods: {
     submit () {
-      this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.loading = true
-        login(this.email, this.password)
-          .then(() => this.$router.push(this.redirect))
-          .catch(() => {
-            this.setFlash({
-              message: 'メールアドレスかパスワードが間違っています。',
-              type: 'error'
-            })
+      this.touch = true
+      if (this.$v.$invalid) return
+      this.loading = true
+      login(this.email, this.password)
+        .then(() => this.$router.push(this.redirect))
+        .catch(() => {
+          this.setFlash({
+            message: 'メールアドレスかパスワードが間違っています。',
+            type: 'error'
           })
-          .finally(() => {
-            this.loading = false
-          })
-      }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     ...mapActions('flash', [
       'setFlash'
     ])
   },
   components: {
+    EmailInputField,
+    PasswordInputField,
     FlashMessage
   }
 }
