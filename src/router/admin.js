@@ -1,5 +1,6 @@
 import AdminRoot from '@/views/AdminRoot'
 import { auth } from '@/plugins/auth'
+import store from '@/store'
 import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
@@ -11,14 +12,24 @@ export default {
   path: '/admin',
   name: 'admin-root',
   component: AdminRoot,
-  beforeEnter: ((to, from, next) => {
-    auth().then(user => {
-      if (!user) {
-        next({ path: '/admin/login', query: { redirect: to.fullPath }})
-      } else {
+  beforeEnter: (async (to, from, next) => {
+    const user = await auth()
+    if (!user) {
+      next({ path: '/admin/login', query: { redirect: to.fullPath }})
+    } else {
+      if (store.getters['use/getUser']) {
         next()
+      } else {
+        try {
+          await store.dispatch('user/bindUserById', user.uid)
+        } catch {
+          store.commit('user/hasError')
+        } finally {
+          store.commit('user/loaded')
+          next()
+        }
       }
-    })
+    }
   }),
   children: [
     {

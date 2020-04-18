@@ -5,7 +5,7 @@ const userRef = db.collection('users')
 export const user = {
   namespaced: true,
   state: {
-    user: {},
+    user: null,
     loading: true,
     error: false
   },
@@ -19,10 +19,8 @@ export const user = {
     }
   },
   actions: {
-    bindUserById: firestoreAction(({ bindFirestoreRef , commit}, id) => {
-      bindFirestoreRef('user', userRef.doc(id))
-        .then(() => commit('loaded'))
-        .catch(() => commit('hasError'))
+    bindUserById: firestoreAction(({ bindFirestoreRef}, id) => {
+      return bindFirestoreRef('user', userRef.doc(id))
     }),
     updateUser: firestoreAction((context, payload) => {
       return userRef
