@@ -52,7 +52,7 @@ export default {
   methods: {
     ...mapActions(['createArticle', 'flash/setFlash']),
     newArticle() {
-      this.createArticle(this.getUser.uid)
+      this.createArticle(this.getUser.id)
         .then(docRef => {
           this.$router.push({name: 'article-edit', params: { id: docRef.id }})
         })

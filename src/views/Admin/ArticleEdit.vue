@@ -32,7 +32,8 @@
               :counter="300"
               :error-messages="overViewErrors"
               label="Overview"
-              persistent-hint="記事の概要は、一覧表示において使用されます。"
+              hint="記事の概要は、一覧表示において使用されます。"
+              persistent-hint
               @change="debounceUpdate"
             ></v-textarea>
             <v-progress-linear
