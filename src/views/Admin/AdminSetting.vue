@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, maxLength } from 'vuelidate/lib/validators'
 
@@ -73,11 +73,19 @@ export default {
     },
   },
   methods: {
+    ...mapActions('blog', ['updateBlogInfo']),
+    ...mapActions(['flash/setFlash']),
     onSubmit() {
       this.$v.$touch()
       if (this.$v.$invalid) return
-      // TODO ブログ情報の更新
-      console.log('update!')
+      this.updateBlogInfo(this.blogInfo)
+        .then(() => this['flash/setFlash']({
+          message: 'ブログ情報の更新に成功しました。'
+        }))
+        .catch(() => this['flash/setFlash']({
+          message: 'ブログ情報の更新に失敗しました。',
+          type: 'error'
+        }))
     }
   }
 }

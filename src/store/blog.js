@@ -15,6 +15,11 @@ export const blog = {
     bindBlogInfo: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef('blogInfo', blogsRef.doc('info'))
     }),
+    updateBlogInfo: firestoreAction((context, payload) => {
+      return blogsRef
+        .doc('info')
+        .update(payload)
+    }),
   },
   getters: {
     getBlogInfo(state) {
