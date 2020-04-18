@@ -16,7 +16,7 @@
         <user-setting-email></user-setting-email>
       </v-tab-item>
       <v-tab-item value="password">
-        password
+       <user-setting-password></user-setting-password>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -25,6 +25,7 @@
 <script>
 import UserSettingProfile from '@/components/Admin/UserSettingProfile'
 import UserSettingEmail from '@/components/Admin/UserSettingEmail'
+import UserSettingPassword from '@/components/Admin/UserSettingPassword'
 
 export default {
   name: 'user-setting',
@@ -34,7 +35,9 @@ export default {
     }
   },
   components: {
-    UserSettingProfile, UserSettingEmail
+    UserSettingProfile,
+    UserSettingEmail,
+    UserSettingPassword,
   }
 }
 </script>
