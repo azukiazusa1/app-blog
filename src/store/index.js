@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import { flash } from './flash'
 import { user } from './user'
 import { tags } from './tags'
+import { blog } from './blog'
 import firebase from '@/plugins/firebase'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
@@ -119,6 +120,7 @@ export default new Vuex.Store({
   modules: {
     flash,
     user,
-    tags
+    tags,
+    blog
   }
 })

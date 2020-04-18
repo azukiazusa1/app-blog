@@ -9,7 +9,7 @@
           <v-card-text>
             <v-row>
               <v-col>
-                <router-link class="title-link text--primary headline" to="/">私のブログ</router-link>
+                <router-link class="title-link text--primary headline" to="/">{{ getBlogInfo.title }}</router-link>
               </v-col>
               <v-spacer></v-spacer>
               <v-col>
@@ -78,7 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters(['getArticlesCount']),
-    ...mapGetters('user', ['getUser', 'getLoading', 'getError'])
+    ...mapGetters('user', ['getUser', 'getLoading', 'getError']),
+    ...mapGetters('blog', ['getBlogInfo']),
   },
   components: {
     UserCard
