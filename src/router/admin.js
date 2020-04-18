@@ -22,7 +22,7 @@ export default {
   }),
   children: [
     {
-      path: '/',
+      path: '/admin',
       name: 'admin-home',
       component: AdminHome
     },
