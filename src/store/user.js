@@ -1,5 +1,6 @@
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
+const userRef = db.collection('users')
 
 export const user = {
   namespaced: true,
@@ -19,9 +20,14 @@ export const user = {
   },
   actions: {
     bindUserById: firestoreAction(({ bindFirestoreRef , commit}, id) => {
-      bindFirestoreRef('user', db.collection('users').doc(id))
+      bindFirestoreRef('user', userRef.doc(id))
         .then(() => commit('loaded'))
         .catch(() => commit('hasError'))
+    }),
+    updateUser: firestoreAction((context, payload) => {
+      return userRef
+        .doc(payload.id)
+        .update(payload)
     }),
   },
   getters: {

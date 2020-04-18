@@ -5,7 +5,7 @@
       <v-card-text>
         <v-container fluid>
           <v-row>
-            <v-col cols=3>
+            <v-col md=3 sm=12>
               <v-row>
                 <v-col cols=12>
                   <v-avatar
@@ -20,20 +20,22 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols=10>
+                <v-col md=10 sm=12>
                   <v-file-input 
                     accept="image/*" 
                     label="Edit" 
                     @change="onFileUpload"
                     dense
+                    :clearable=false
                     >
                   </v-file-input>
                 </v-col>
                 <v-col cols=2>
                   <v-progress-circular
-                    v-model="fileLoading"
+                  :rotate="-90"
+                    :value="fileLoading"
                     color="primary"
-                  ></v-progress-circular>
+                  >{{ fileLoading}}</v-progress-circular>
                 </v-col>
               </v-row>
             </v-col>
@@ -88,9 +90,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, maxLength, url } from 'vuelidate/lib/validators'
+import { storage } from '@/plugins/storage'
+import getFileType from '@/mixin/getFileType'
 
 export default {
   name: 'user-setting',
@@ -100,7 +104,7 @@ export default {
       fileLoading: 0
     }
   },
-  mixins: [validationMixin],
+  mixins: [validationMixin, getFileType],
   validations: {
     user: {
       displayName: { required, maxLength: maxLength(50) },
@@ -141,13 +145,50 @@ export default {
     },
   },
   methods: {
+    ...mapActions('user', ['updateUser']),
+    ...mapActions(['flash/setFlash']),
     onSubmit() {
       this.$v.$touch()
       if (this.$v.$invalid) return
+      this.updateUser(this.user)
+        .then(() => this['flash/setFlash']({
+          message: 'ユーザー情報の更新に成功しました。'
+        }))
+        .catch(() => this['flash/setFlash']({
+          message: 'ユーザー情報の更新に失敗しました。',
+          type: 'error'
+        }))
     },
-    onFileUpload() {
-
-    }
+    onFileUpload(file) {
+      const fileType = this.getFileType(file)
+        if (!fileType) {
+          this['flash/setFlash']({
+            message: 'ファイルタイプが不正です。',
+            type: 'error'
+          })
+        }
+        const storageRef = storage.ref(`user/${this.user.id}/profile.${fileType}`)
+        const uploadTask = storageRef.put(file)
+        uploadTask.on('state_changed', 
+          snapshot => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            this.fileLoading = percentage
+          },
+          err => {
+            console.log(err)
+            this['flash/setFlash']({
+              message: 'ファイルのアップロードに失敗しました。',
+              type: 'error'
+            })
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              this.fileLoading = 0
+              this.user.photoURL = downloadURL
+            })
+          }
+        )
+    },
   }
 }
 </script>
