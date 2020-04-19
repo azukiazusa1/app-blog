@@ -31,8 +31,8 @@ export const tags = {
     bindTags: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef('bindTags', tagsRef)
     }),
-    bindTagById: firestoreAction(({ bindFirestoreRef }, id) => {
-      return bindFirestoreRef('tag', tagsRef.doc(id))
+    bindTagByName: firestoreAction(({ bindFirestoreRef }, name) => {
+      return bindFirestoreRef('tag', tagsRef.doc(name))
     }),
     createOrUpdateTag(context, payload) {
       tagsRef.doc(payload.name).set({
