@@ -6,6 +6,7 @@ import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
 import DraftList from '@/views/Admin/DraftList'
 import AdminTagList from '@/views/Admin/AdminTagList'
+import TagEdit from '@/views/Admin/TagEdit'
 import AdminSetting from '@/views/Admin/AdminSetting'
 import UserSetting from '@/views/Admin/UserSetting'
 
@@ -57,6 +58,11 @@ export default {
       path: '/admin/tags',
       name: 'admin-tag-list',
       component: AdminTagList
+    },
+    {
+      path: '/admin/tags/:name',
+      name: 'tag-edit',
+      component: TagEdit
     },
     {
       path: '/admin/setting',

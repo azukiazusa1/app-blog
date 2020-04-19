@@ -4,7 +4,7 @@
     <v-card-text>
       編集するタグを選択してください。
       <v-divider></v-divider>
-      <tag-list :tags="toArrayTags" link="admin/tags"></tag-list>
+      <tag-list :tags="flatTags" link="admin/tags"></tag-list>
     </v-card-text>
   </v-card>
 </template>
@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     ...mapGetters('tags', ['getBindTags']),
-    toArrayTags() {
+    flatTags() {
       if (!this.getBindTags) return
       return this.getBindTags.map(tag => tag.name)
     }

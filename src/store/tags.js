@@ -8,6 +8,7 @@ export const tags = {
   state: {
     tags: [],
     bindTags: [],
+    tag: null
   },
   mutations: {
     ...vuexfireMutations,
@@ -30,8 +31,15 @@ export const tags = {
     bindTags: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef('bindTags', tagsRef)
     }),
+    bindTagById: firestoreAction(({ bindFirestoreRef }, id) => {
+      return bindFirestoreRef('tag', tagsRef.doc(id))
+    }),
     createOrUpdateTag(context, payload) {
-      tagsRef.doc(payload).set({name: payload})
+      tagsRef.doc(payload.name).set({
+        name: payload.name,
+        image: payload.image,
+        description: payload.description
+    })
     }
   },
   getters: {
@@ -40,6 +48,9 @@ export const tags = {
     },
     getBindTags(state) {
       return state.bindTags
+    },
+    getTag(state) {
+      return state.tag
     }
   }
 }
