@@ -6,6 +6,7 @@ export const user = {
   namespaced: true,
   state: {
     user: null,
+    users: [],
     loading: true,
     error: false
   },
@@ -19,6 +20,9 @@ export const user = {
     }
   },
   actions: {
+    bindUsers: firestoreAction(({ bindFirestoreRef}) => {
+      return bindFirestoreRef('users', userRef)
+    }),
     bindUserById: firestoreAction(({ bindFirestoreRef}, id) => {
       return bindFirestoreRef('user', userRef.doc(id))
     }),
@@ -31,6 +35,9 @@ export const user = {
   getters: {
     getUser(state) {
       return state.user
+    },
+    getUsers(state) {
+      return state.users
     },
     getLoading(state) {
       return state.loading
