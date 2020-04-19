@@ -30,6 +30,11 @@
           link="/admin/drafts"
         ></nav-list-item>
         <nav-list-item
+          title="タグ一覧"
+          icon="fas fa-tags"
+          link="/admin/tags"
+        ></nav-list-item>
+        <nav-list-item
           title="設定"
           icon="fas fa-cog"
           link="/admin/setting"

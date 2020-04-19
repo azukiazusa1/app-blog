@@ -5,6 +5,7 @@ import AdminHome from '@/views/Admin/AdminHome'
 import ArticleEdit from '@/views/Admin/ArticleEdit'
 import ArticleList from '@/views/Admin/ArticleList'
 import DraftList from '@/views/Admin/DraftList'
+import AdminTagList from '@/views/Admin/AdminTagList'
 import AdminSetting from '@/views/Admin/AdminSetting'
 import UserSetting from '@/views/Admin/UserSetting'
 
@@ -51,6 +52,11 @@ export default {
       path: '/admin/drafts',
       name: 'draft-list',
       component: DraftList
+    },
+    {
+      path: '/admin/tags',
+      name: 'admin-tag-list',
+      component: AdminTagList
     },
     {
       path: '/admin/setting',
