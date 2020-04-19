@@ -239,9 +239,14 @@ export default {
       if (val.length === 0 || oldval.length === 0) return
       this.search = ''
       try {
-        await this.createOrUpdateTag(val[val.length - 1])
+        await this.createOrUpdateTag({
+          name: val[val.length - 1],
+          image: '',
+          description: ''
+        })
         await this.updateArticle(this.article)
       } catch(e) {
+        console.log(e)
         this.dbError()
       }
     }

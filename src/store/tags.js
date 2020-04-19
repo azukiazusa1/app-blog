@@ -1,13 +1,17 @@
 // import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
+import { vuexfireMutations, firestoreAction } from 'vuexfire'
 const tagsRef = db.collection('tags')
 
 export const tags = {
   namespaced: true,
   state: {
-    tags: []
+    tags: [],
+    bindTags: [],
+    tag: null
   },
   mutations: {
+    ...vuexfireMutations,
     add(state, payload) {
       state.tags.push(payload)
     }
@@ -24,13 +28,29 @@ export const tags = {
           }
         })
     },
+    bindTags: firestoreAction(({ bindFirestoreRef }) => {
+      return bindFirestoreRef('bindTags', tagsRef)
+    }),
+    bindTagByName: firestoreAction(({ bindFirestoreRef }, name) => {
+      return bindFirestoreRef('tag', tagsRef.doc(name))
+    }),
     createOrUpdateTag(context, payload) {
-      tagsRef.doc(payload).set({name: payload})
+      tagsRef.doc(payload.name).set({
+        name: payload.name,
+        image: payload.image,
+        description: payload.description
+    })
     }
   },
   getters: {
     getTags(state) {
       return state.tags
+    },
+    getBindTags(state) {
+      return state.bindTags
+    },
+    getTag(state) {
+      return state.tag
     }
   }
 }
