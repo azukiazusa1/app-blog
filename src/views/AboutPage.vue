@@ -19,7 +19,7 @@
     <v-row>
       <v-col>
         <user-card 
-          :user=null 
+          :user={} 
           :loading="loading" 
           :error="error"
           v-if="loading"

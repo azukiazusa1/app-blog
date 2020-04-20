@@ -17,14 +17,11 @@
           </v-list-item-avatar>
           <v-list-item-title>{{ user.displayName }}</v-list-item-title>
         </v-list-item>
+      </v-list>
         <v-card-text>
           {{ user.profile }}
+          <brand-icon-list :links="filteredLink"></brand-icon-list>
         </v-card-text>
-      </v-list>
-      <v-list dense>
-        <brand-icon-list v-for="(link, index) in filteredLink" :key="index"
-        :value="link" :brand="index"></brand-icon-list>
-      </v-list>
     </template>
   </v-card>
 </template>
