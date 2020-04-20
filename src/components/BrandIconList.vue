@@ -1,26 +1,41 @@
 <template>
-  <v-list-item :href="value" target="_blank">
-    <v-list-item-icon>
-      <v-icon :color="brand" v-if="brand === 'qiita'">fas fa-circle</v-icon>
-      <v-icon :color="brand" v-else>{{ `fab fa-${brand}` }}</v-icon>
-    </v-list-item-icon>
-    <v-list-item-content>
-      <v-list-item-title class="text-capitalize">{{ brand }}</v-list-item-title>
-    </v-list-item-content>
-  </v-list-item>
+  <v-container fluid>
+    <v-row>
+      <v-col 
+        cols=12 md=3
+        v-for="(link, brand) in links"
+        :key="brand"
+      >
+        <v-btn 
+          text
+          :href="link"
+          target="_blan"
+        >
+          <v-icon left :color="brand">{{ brandIcon(brand) }}</v-icon>
+          <span class="text-capitalize">{{ brand }}</span>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
   name: 'brand-icon-list',
   props: {
-    value: {
-      type: String,
+    links: {
+      type: Object,
       required: true
     },
-    brand: {
-      type: String,
-      required: true
+  },
+  computed: {
+    brandIcon() {
+      return brand => {
+        if (brand === 'qiita') {
+          return 'fas fa-circle'
+        }
+        return `fab fa-${brand}`
+      }
     }
   }
 }
