@@ -17,6 +17,11 @@
         icon="fas fa-info-circle"
         link="/about"
       ></nav-list-item>
+      <nav-list-item
+        title="Tags"
+        icon="fas fa-tags"
+        link="/tags"
+      ></nav-list-item>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>

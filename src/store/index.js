@@ -41,9 +41,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchArticles: (({ commit }, {lastDate = new Date('2999-12-31'), limit = 10, published = true}) => { 
-      articleRef
-        .where('published', '==', published)
+    fetchArticles: (({ commit }, {lastDate = new Date('2999-12-31'), limit = 10, published = true, tag = false}) => { 
+      let query
+      if (tag) {
+        query = articleRef
+          .where('published', '==', published)
+          .where('tags', 'array-contains', tag)
+      } else {
+        query = articleRef
+          .where('published', '==', published)
+      }
+      query
         .orderBy('created', 'desc')
         .startAfter(lastDate)
         .limit(limit)
@@ -52,6 +60,7 @@ export default new Vuex.Store({
           if (querySnapshot.empty) {
             commit('finish')
           } else {
+            if (querySnapshot.size < limit) commit('finish')
             commit('last', new Date(querySnapshot.docs[querySnapshot.docs.length-1].data().created.seconds * 1000))
             querySnapshot.forEach(doc => {
               commit('add', {id: doc.id, ...doc.data()})
