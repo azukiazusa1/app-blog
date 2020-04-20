@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app hide-on-scroll>
       <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link class="title-link text--primary" to="/">{{ getBlogInfo.title }}</router-link>
