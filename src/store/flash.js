@@ -1,3 +1,5 @@
+const FLASH_TYPE = new Set(['success', 'error', 'warning', 'info'])
+
 export const flash = {
   namespaced: true,
   state: {
@@ -21,6 +23,7 @@ export const flash = {
       state.message = payload
     },
     setType(state, payload) {
+      if (!FLASH_TYPE.has(payload)) throw new Error('存在しないタイプです。')
       state.type = payload
     },
     showFlash(state) {
@@ -43,7 +46,6 @@ export const flash = {
     },
     destroyFlash({ commit }) {
       commit('setMessage', '')
-      commit('setType', '')
       commit('hideFlash')
     }
   }

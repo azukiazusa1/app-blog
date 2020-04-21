@@ -80,7 +80,7 @@ export default {
       if (this.$v.$invalid) return
       this.updateBlogInfo(this.blogInfo)
         .then(() => this['flash/setFlash']({
-          message: 'ブログ情報の更新に成功しました。'
+          message: 'ブログ情報の更新に成功しました。',
         }))
         .catch(() => this['flash/setFlash']({
           message: 'ブログ情報の更新に失敗しました。',
