@@ -41,14 +41,23 @@ export const flash = {
     }
   },
   actions: {
-    setFlash({ commit, dispatch}, { message = '', type = 'success', timeout = 3000, escape = true}) {
+    setFlash({ commit, dispatch}, {
+       message = '', 
+       type = 'success', 
+       timeout = 3000, 
+       escape = true,
+       mounted = () => {},
+       destroyed = () => {}
+    }) {
       commit('setMessage', message)
       commit('setType', type)
       commit('setEscape', escape)
       commit('showFlash')
+      mounted()
       if (timeout) {
         setTimeout(() => {
           dispatch('destroyFlash')
+          destroyed()
         }, timeout)
       }
     },
