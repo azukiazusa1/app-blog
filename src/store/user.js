@@ -5,7 +5,7 @@ const userRef = db.collection('users')
 export const user = {
   namespaced: true,
   state: {
-    user: null,
+    user: {},
     users: [],
     loading: true,
     error: false

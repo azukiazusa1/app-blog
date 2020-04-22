@@ -9,6 +9,7 @@ import AdminTagList from '@/views/Admin/AdminTagList'
 import TagEdit from '@/views/Admin/TagEdit'
 import AdminSetting from '@/views/Admin/AdminSetting'
 import UserSetting from '@/views/Admin/UserSetting'
+import { isEmpty } from 'lodash'
 
 export default {
   path: '/admin',
@@ -19,7 +20,7 @@ export default {
     if (!user) {
       next({ path: '/admin/login', query: { redirect: to.fullPath }})
     } else {
-      if (store.getters['use/getUser']) {
+      if (!isEmpty(store.getters['user/getUser'])) {
         next()
       } else {
         try {
