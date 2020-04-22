@@ -60,6 +60,10 @@ export default {
   },
   mixins: [fetchBeforeRouting],
   created() {
+    this.setMetaInfo({
+      title: this.getArticle.title,
+      description: this.getArticle.overview
+    })
     this.bindUserById(this.getArticle.author)
       .then(() => this.loading = false)
       .catch(() => this.error = true)
