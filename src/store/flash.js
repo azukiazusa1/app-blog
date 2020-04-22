@@ -1,9 +1,12 @@
+const FLASH_TYPE = new Set(['success', 'error', 'warning', 'info'])
+
 export const flash = {
   namespaced: true,
   state: {
     message: '',
     type: '',
-    appear: false
+    appear: false,
+    escape: false
   },
   getters: {
     getMessage(state) {
@@ -14,6 +17,9 @@ export const flash = {
     },
     isAppear(state) {
       return state.appear
+    },
+    escape(state) {
+      return state.escape
     }
   },
   mutations: {
@@ -21,6 +27,7 @@ export const flash = {
       state.message = payload
     },
     setType(state, payload) {
+      if (!FLASH_TYPE.has(payload)) throw new Error('存在しないタイプです。')
       state.type = payload
     },
     showFlash(state) {
@@ -28,22 +35,34 @@ export const flash = {
     },
     hideFlash(state) {
       state.appear = false
+    },
+    setEscape(state, payload) {
+      state.escape = payload
     }
   },
   actions: {
-    setFlash({ commit, dispatch}, { message = '', type = 'success', timeout = 3000}) {
+    setFlash({ commit, dispatch }, {
+       message = '', 
+       type = 'success', 
+       timeout = 3000, 
+       escape = true,
+       mounted = () => {},
+       destroyed = () => {}
+    }) {
       commit('setMessage', message)
       commit('setType', type)
+      commit('setEscape', escape)
       commit('showFlash')
+      mounted()
       if (timeout) {
         setTimeout(() => {
           dispatch('destroyFlash')
+          destroyed()
         }, timeout)
       }
     },
     destroyFlash({ commit }) {
       commit('setMessage', '')
-      commit('setType', '')
       commit('hideFlash')
     }
   }
