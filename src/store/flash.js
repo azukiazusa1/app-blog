@@ -5,7 +5,8 @@ export const flash = {
   state: {
     message: '',
     type: '',
-    appear: false
+    appear: false,
+    escape: false
   },
   getters: {
     getMessage(state) {
@@ -16,6 +17,9 @@ export const flash = {
     },
     isAppear(state) {
       return state.appear
+    },
+    escape(state) {
+      return state.escape
     }
   },
   mutations: {
@@ -31,12 +35,16 @@ export const flash = {
     },
     hideFlash(state) {
       state.appear = false
+    },
+    setEscape(state, payload) {
+      state.escape = payload
     }
   },
   actions: {
-    setFlash({ commit, dispatch}, { message = '', type = 'success', timeout = 3000}) {
+    setFlash({ commit, dispatch}, { message = '', type = 'success', timeout = 3000, escape = true}) {
       commit('setMessage', message)
       commit('setType', type)
+      commit('setEscape', escape)
       commit('showFlash')
       if (timeout) {
         setTimeout(() => {
