@@ -41,7 +41,7 @@ export const flash = {
     }
   },
   actions: {
-    setFlash({ commit, dispatch}, {
+    setFlash({ commit, dispatch }, {
        message = '', 
        type = 'success', 
        timeout = 3000, 
