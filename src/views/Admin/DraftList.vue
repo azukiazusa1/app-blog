@@ -48,6 +48,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: '下書き一覧'
+    })
     this.bindDrafts()
       .then(() => this.loading = false)
   },

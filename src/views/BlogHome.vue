@@ -29,6 +29,7 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo()
     this.clearArticles()
   },
   methods: {

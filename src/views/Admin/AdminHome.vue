@@ -58,6 +58,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: 'ダッシュボード'
+    })
     this.bindAllArticles()
       .then(() => this.loading = false)
   },

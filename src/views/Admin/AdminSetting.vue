@@ -49,7 +49,12 @@ export default {
     }
   },
   mixins: [validationMixin],
-  created() { this.blogInfo = this.getBlogInfo},
+  created() {
+    this.setMetaInfo({
+      title: '設定'
+    })
+    this.blogInfo = this.getBlogInfo
+  },
   validations: {
     blogInfo: {
       title: { required, maxLength: maxLength(50) },

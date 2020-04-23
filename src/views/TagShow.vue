@@ -76,6 +76,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: this.$route.params.name
+    })
     this.clearArticles()
     this.bindTagByName(this.$route.params.name).then(() => {
       this.tagLoading = false

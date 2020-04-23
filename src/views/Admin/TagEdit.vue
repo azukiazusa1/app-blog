@@ -88,6 +88,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: `タグ編集 - ${this.$route.params.name}`
+    })
     this.bindTagByName(this.$route.params.name).then(() => {
       this.tag = this.getTag
       this.loading = false

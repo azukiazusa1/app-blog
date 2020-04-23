@@ -80,6 +80,11 @@ export default {
     email: { required, email },
     password: { required },
   },
+  created() {
+    this.setMetaInfo({
+      title: 'ログイン'
+    })
+  },
   methods: {
     submit () {
       this.touch = true

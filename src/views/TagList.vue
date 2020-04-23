@@ -14,7 +14,10 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'admin-tag-list',
-  created() { 
+  created() {
+    this.setMetaInfo({
+      title: 'タグ一覧'
+    })
     this.bindTags() 
   },
   methods: {

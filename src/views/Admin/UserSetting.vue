@@ -34,6 +34,11 @@ export default {
       tab: null
     }
   },
+  created() {
+    this.setMetaInfo({
+      title: 'ユーザー情報設定'
+    })
+  },
   components: {
     UserSettingProfile,
     UserSettingEmail,
