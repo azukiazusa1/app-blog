@@ -48,6 +48,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: '記事の管理'
+    })
     this.bindAllArticles()
       .then(() => this.loading = false)
   },
