@@ -50,6 +50,9 @@ export default {
     }
   },
   created() {
+    this.setMetaInfo({
+      title: `${this.getBlogInfo.title}とは`
+    })
     this.bindUsers().then(() => {
       this.loading = false
     })
