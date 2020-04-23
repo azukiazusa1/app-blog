@@ -120,6 +120,9 @@ export default {
     },
   },
   created() {
+    this.setMetaInfo({
+      title: '記事を書く' 
+    })
     this.fetchTags()
      .then(() => {
       this.tagLoading = false
