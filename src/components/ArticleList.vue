@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="isEmpty">
+      <v-col>
+        記事が見つかりませんでした。
+      </v-col>
+    </v-row>
     <v-row v-if="getArticles">
       <v-col cols=12 v-for="article in getArticles" :key="article.id">
         <list-card :article="article"></list-card>
@@ -23,9 +28,19 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'article-list',
+  props: {
+    tag: {
+      type: String,
+      default: ''
+    },
+    date: {
+      type: Date,
+      default: null
+    }
+  },
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   created() {
@@ -37,12 +52,19 @@ export default {
     onIntersect(entries, observer, isIntersecting) {
       if (this.loading || !isIntersecting || this.isFinish) return
       this.loading = true
-      this.fetchArticles({lastDate: this.getLastDate})
+      this.fetchArticles({
+        lastDate: this.getLastDate,
+        tag: this.tag,
+        month: this.date
+      })
         .then(() => this.loading = false)
     }
   },
   computed: {
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish'])
+    ...mapGetters(['getArticles', 'getLastDate', 'isFinish']),
+    isEmpty() {
+      return this.isFinish && this.getArticles.length === 0
+    }
   },
   components: {
     ListCard

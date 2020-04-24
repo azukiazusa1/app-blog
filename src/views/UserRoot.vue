@@ -6,9 +6,7 @@
         <router-link class="title-link text--primary" to="/">{{ getBlogInfo.title }}</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>fas fa-search</v-icon>
-      </v-btn>
+      <search-date></search-date>
       <toggle-dark-theme></toggle-dark-theme>
     </v-app-bar>
     <nav-drawer :drawer.sync="drawer"></nav-drawer>
@@ -19,6 +17,7 @@
 </template>
 
 <script>
+import SearchDate from '@/components/SearchDate'
 import ToggleDarkTheme from '@/components/ToggleDarkTheme'
 import NavDrawer from '@/components/NavDrawer'
 import { mapGetters } from 'vuex';
@@ -37,7 +36,9 @@ export default {
     ...mapGetters('blog', ['getBlogInfo'])
   },
   components: {
-    ToggleDarkTheme, NavDrawer
+    SearchDate,
+    ToggleDarkTheme,
+    NavDrawer
   }
 };
 </script>
