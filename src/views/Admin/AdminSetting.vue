@@ -86,8 +86,6 @@ export default {
       this.updateBlogInfo(this.blogInfo)
         .then(() => this['flash/setFlash']({
           message: 'ブログ情報の更新に成功しました。',
-          mounted: () => console.log('created hook'),
-          destroyed: () => console.log('destroyed hook')
         }))
         .catch(() => this['flash/setFlash']({
           message: 'ブログ情報の更新に失敗しました。',

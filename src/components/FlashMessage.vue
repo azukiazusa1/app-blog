@@ -1,8 +1,13 @@
 <template>
     <v-alert 
-      :type="getType" 
       v-if="isAppear"
+      :type="getType" 
+      :color="getColor"
+      :icon="getIcon"
       transition="scale-transition"
+      :dismissible=dismissible
+      :tile="tile"
+      :border="border"
       :class="position"
     >
       <span v-if="!escape" v-html="getMessage"></span>
@@ -21,11 +26,26 @@ export default {
       type: String,
       default: 'left-bottom'
     },
+    dismissible: {
+      type: Boolean,
+      default: false
+    },
+    tile: {
+      type: Boolean,
+      default: false
+    },
+    border: {
+      type: String,
+      default: undefined
+    }
   },
   computed: {
     ...mapGetters([
-      'getMessage', 'getType', 'isAppear', 'escape'
+      'getMessage', 'getType', 'isAppear', 'getColor', 'getIcon', 'escape'
     ])
+  },
+  beforeRouteUpdate() {
+    console.log(1)
   }
 }
 </script>

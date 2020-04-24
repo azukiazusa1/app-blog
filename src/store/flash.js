@@ -5,6 +5,8 @@ export const flash = {
   state: {
     message: '',
     type: '',
+    color: '',
+    icon: '',
     appear: false,
     escape: false
   },
@@ -14,6 +16,12 @@ export const flash = {
     },
     getType(state) {
       return state.type
+    },
+    getColor(state) {
+      return state.color
+    },
+    getIcon(state) {
+      return state.icon
     },
     isAppear(state) {
       return state.appear
@@ -30,6 +38,12 @@ export const flash = {
       if (!FLASH_TYPE.has(payload)) throw new Error('存在しないタイプです。')
       state.type = payload
     },
+    setColor(state, payload) {
+      state.color = payload
+    },
+    setIcon(state, payload) {
+      state.icon = payload
+    },
     showFlash(state) {
       state.appear = true
     },
@@ -43,7 +57,9 @@ export const flash = {
   actions: {
     setFlash({ commit, dispatch }, {
        message = '', 
-       type = 'success', 
+       type = 'success',
+       color = '',
+       icon = null,
        timeout = 3000, 
        escape = true,
        mounted = () => {},
@@ -51,6 +67,8 @@ export const flash = {
     }) {
       commit('setMessage', message)
       commit('setType', type)
+      commit('setColor', color)
+      commit('setIcon', icon)
       commit('setEscape', escape)
       commit('showFlash')
       mounted()
