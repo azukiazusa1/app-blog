@@ -11,6 +11,7 @@
             v-model="picker"
             type="month"
             locale="zh-ja"
+            @change="onChange"
           ></v-date-picker>
         </v-list-item>
       </v-list>
@@ -23,6 +24,11 @@ export default {
   data() {
     return {
       picker: ''
+    }
+  },
+  methods: {
+    onChange() {
+        this.$router.push(`/archive/${this.picker}`).catch(() => {})
     }
   }
 }

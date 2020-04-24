@@ -41,12 +41,24 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchArticles: (({ commit }, {lastDate = new Date('2999-12-31'), limit = 10, published = true, tag = false}) => { 
+    fetchArticles: (({ commit }, { 
+      lastDate = new Date('2999-12-31'),
+      limit = 10, 
+      published = true, 
+      tag = false,
+      month = false
+    }) => { 
       let query
       if (tag) {
         query = articleRef
           .where('published', '==', published)
           .where('tags', 'array-contains', tag)
+      } else if (month) {
+        const endOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0)
+        query = articleRef
+          .where('published', '==', published)
+          .where('created', '>=', month)
+          .where('created', '<=', endOfMonth)
       } else {
         query = articleRef
           .where('published', '==', published)

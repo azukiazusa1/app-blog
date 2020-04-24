@@ -110,6 +110,9 @@ export default {
       this.bindTagByName(this.$route.params.name).then(() => {
         this.tagLoading = false
       })
+      this.setMetaInfo({
+        title: this.$route.params.name
+      })
     }
   },
   components: {

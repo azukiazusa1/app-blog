@@ -4,6 +4,7 @@ import ArticleShow from '@/views/ArticleShow'
 import AboutPage from '@/views/AboutPage'
 import TagList from '@/views/TagList'
 import TagShow from '@/views/TagShow'
+import ArchiveList from '@/views/ArchiveList'
 
 export default {
   path: '/',
@@ -35,5 +36,10 @@ export default {
       path: '/tags/:name',
       component: TagShow
     },
+    {
+      name: 'archive-list',
+      path: '/archive/:date',
+      component: ArchiveList
+    }
   ]
 }
