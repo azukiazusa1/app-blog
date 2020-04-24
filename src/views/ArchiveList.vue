@@ -1,5 +1,12 @@
 <template>
-  <article-list :date="new Date($route.params.date)"></article-list>
+  <v-container>
+    <v-row>
+      <v-col class="headline">
+        {{ formatedDate }}の記事
+      </v-col>
+    </v-row>
+    <article-list :date="new Date($route.params.date)"></article-list>
+  </v-container>
 </template>
 
 <script>
