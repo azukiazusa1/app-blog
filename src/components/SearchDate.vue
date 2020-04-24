@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     onChange() {
-        this.$router.push(`/archive/${this.picker}`).catch(() => {})
+      // 同じページへ遷移するためにエラーを握りつぶします。
+      this.$router.push(`/archive/${this.picker}`).catch(() => {})
     }
   }
 }
