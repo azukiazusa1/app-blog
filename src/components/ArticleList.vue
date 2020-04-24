@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="isEmpty">
+      <v-col>
+        記事が見つかりませんでした。
+      </v-col>
+    </v-row>
     <v-row v-if="getArticles">
       <v-col cols=12 v-for="article in getArticles" :key="article.id">
         <list-card :article="article"></list-card>
@@ -56,7 +61,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish'])
+    ...mapGetters(['getArticles', 'getLastDate', 'isFinish']),
+    isEmpty() {
+      return this.isFinish && this.getArticles.length === 0
+    }
   },
   components: {
     ListCard
