@@ -1,34 +1,14 @@
 <template>
-  <v-container>
-    <v-row v-if="getArticles">
-      <v-col cols=12 v-for="article in getArticles" :key="article.id">
-        <list-card :article="article"></list-card>
-      </v-col>
-    </v-row>
-    <v-row v-if="!isFinish" justify="center">
-      <v-col cols=1>
-        <v-progress-circular
-          indeterminate
-          color="red"
-          v-intersect="onIntersect"
-        ></v-progress-circular>
-      </v-col>
-    </v-row>
-  </v-container>
+  <article-list :date="new Date($route.params.date)"></article-list>
 </template>
 
 <script>
-import ListCard from '@/components/ListCard'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import ArticleList from '@/components/ArticleList'
+import { mapMutations } from 'vuex'
 import moment from 'moment'
 
 export default {
   name: 'archive-list',
-  data() {
-    return {
-      loading: false
-    }
-  },
   created() {
     this.setMetaInfo({
       title: `アーカイブ - ${this.formatedDate}`
@@ -36,20 +16,9 @@ export default {
     this.clearArticles()
   },
   methods: {
-    ...mapActions(['fetchArticles']),
     ...mapMutations(['clearArticles']),
-    onIntersect(entries, observer, isIntersecting) {
-      if (this.loading || !isIntersecting || this.isFinish) return
-      this.loading = true
-      this.fetchArticles({
-        lastDate: this.getLastDate,
-        month: new Date(this.$route.params.date)
-      })
-        .then(() => this.loading = false)
-    }
   },
   computed: {
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish']),
     formatedDate() {
       return moment(this.$route.params.date).format('YYYY年MM月')
     }
@@ -64,7 +33,7 @@ export default {
     }
   },
   components: {
-    ListCard
+    ArticleList
   }
 }
 </script>

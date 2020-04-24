@@ -23,9 +23,19 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'article-list',
+  props: {
+    tag: {
+      type: String,
+      default: ''
+    },
+    date: {
+      type: Date,
+      default: null
+    }
+  },
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   created() {
@@ -37,7 +47,11 @@ export default {
     onIntersect(entries, observer, isIntersecting) {
       if (this.loading || !isIntersecting || this.isFinish) return
       this.loading = true
-      this.fetchArticles({lastDate: this.getLastDate})
+      this.fetchArticles({
+        lastDate: this.getLastDate,
+        tag: this.tag,
+        month: this.date
+      })
         .then(() => this.loading = false)
     }
   },

@@ -44,25 +44,12 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="getArticles">
-    <v-col cols=12 v-for="article in getArticles" :key="article.id">
-      <list-card :article="article"></list-card>
-    </v-col>
-  </v-row>
-  <v-row v-if="!isFinish" justify="center">
-    <v-col cols=1>
-      <v-progress-circular
-        indeterminate
-        color="red"
-        v-intersect="onIntersect"
-      ></v-progress-circular>
-    </v-col>
-    </v-row>
+    <article-list :tag="$route.params.name"></article-list>
   </v-container>
 </template>
 
 <script>
-import ListCard from '@/components/ListCard'
+import ArticleList from '@/components/ArticleList'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import config from '@/config'
 
@@ -71,7 +58,6 @@ export default {
   data() {
     return {
       tagLoading: true,
-      loading: false,
       noImage: config.NOIMAGE
     }
   },
@@ -86,22 +72,10 @@ export default {
   },
   computed: {
     ...mapGetters('tags', ['getTag']),
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish'])
   },
   methods: {
     ...mapActions('tags', ['bindTagByName']),
-    ...mapActions(['fetchArticles']),
     ...mapMutations(['clearArticles']),
-    onIntersect(entries, observer, isIntersecting) {
-      if (this.loading || !isIntersecting || this.isFinish) return
-      this.loading = true
-      this.fetchArticles({
-        lastDate: this.getLastDate,
-        tag: this.$route.params.name
-      })
-        .then(() => this.loading = false)
-        .catch(e => console.log(e))
-    }
   },
   watch: {
     $route() {
@@ -116,7 +90,7 @@ export default {
     }
   },
   components: {
-    ListCard
+    ArticleList
   }
 }
 </script>
