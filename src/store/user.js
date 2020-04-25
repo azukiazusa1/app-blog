@@ -23,8 +23,8 @@ export const user = {
     bindUsers: firestoreAction(({ bindFirestoreRef}) => {
       return bindFirestoreRef('users', userRef)
     }),
-    bindUserById: firestoreAction(({ bindFirestoreRef}, id) => {
-      return bindFirestoreRef('user', userRef.doc(id))
+    bindUserById: firestoreAction(({ bindFirestoreRef }, id) => {
+      return bindFirestoreRef('user', userRef.doc(id), {reset: false})
     }),
     updateUser: firestoreAction((context, payload) => {
       return userRef

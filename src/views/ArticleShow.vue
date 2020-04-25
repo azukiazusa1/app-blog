@@ -1,16 +1,32 @@
 <template>
   <v-container>
     <template v-if="getArticle.published">
-      <v-row>
-        <v-col cols=12>
-          <div class="display-2 text-center py-10">{{ getArticle.title }}</div>
-          <p class="text-right">
-            <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
-          </p>
-          <v-divider></v-divider>
-          <preview-markdown :value="getArticle.body"></preview-markdown>
-        </v-col>
-      </v-row>
+      <v-card>
+        <v-row>
+          <v-col cols=12>
+            <v-card-title class="display-2 text-center py-10">{{ getArticle.title }}</v-card-title>
+            <p class="text-right ma-2">
+              <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
+            </p>
+            <v-divider></v-divider>
+            <preview-markdown :value="getArticle.body"></preview-markdown>
+          </v-col>
+          <v-col>
+            <v-card-actions>
+              <v-btn class="ma-2" small color="twitter">
+                <v-icon left color="white">fab fa-twitter</v-icon>
+                <a 
+                  :href="`https://twitter.com/share?url=${fullPath}&text=${getArticle.title}`"
+                  class="white--text"
+                  target="_blank"
+                >
+                  Tweet
+                </a>
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
+      </v-card>
       <v-row>
         <v-col cols=12>
           <user-card 
@@ -55,7 +71,7 @@ export default {
   data() {
     return {
       loading: true,
-      error: false
+      error: false,
     }
   },
   mixins: [fetchBeforeRouting],
@@ -65,7 +81,10 @@ export default {
       description: this.getArticle.overview
     })
     this.bindUserById(this.getArticle.author)
-      .then(() => this.loading = false)
+      .then(() => {
+        console.log(this.getUser)
+        this.loading = false
+      })
       .catch(() => this.error = true)
   },
   methods: {
@@ -77,6 +96,9 @@ export default {
     createdTime: function () {
      return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
    },
+   fullPath() {
+     return `${location.origin}${this.$route.fullPath}`
+   }
   },
   components: {
     UserCard, TagList, PreviewMarkdown

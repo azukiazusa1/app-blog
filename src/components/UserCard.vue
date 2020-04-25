@@ -6,7 +6,7 @@
       class="mx-auto"
       v-if="loading"
     ></v-skeleton-loader>
-    <v-card-text color="error" v-else-if="error">
+    <v-card-text color="error" v-if="error">
       ユーザー情報の取得に失敗しました。
     </v-card-text>
     <template v-else>
