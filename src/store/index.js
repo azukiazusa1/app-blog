@@ -86,8 +86,18 @@ export default new Vuex.Store({
     bindAllArticles: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef('allArticles', articleRef.where('published', '==', true).orderBy('created', 'desc'))
     }),
-    bindDrafts: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('drafts', articleRef.where('published', '==', false).orderBy('created', 'desc'))
+    bindArticlesByAuthor: firestoreAction(({ bindFirestoreRef }, uid) => {
+      return bindFirestoreRef('allArticles', articleRef
+        .where('published', '==', true)
+        .where('author', '==', uid)
+        .orderBy('created', 'desc'))
+    }),
+    bindDrafts: firestoreAction(({ bindFirestoreRef }, uid) => {
+      return bindFirestoreRef('drafts', articleRef
+        .where('published', '==', false)
+        .where('author', '==', uid)
+        .orderBy('created', 'desc')
+      )
     }),
     createArticle(context, uid) {
       return articleRef.add({

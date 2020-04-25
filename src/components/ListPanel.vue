@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     createdTime: function () {
-    return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
    },
   },
   methods: {

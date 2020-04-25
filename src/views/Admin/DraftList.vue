@@ -38,6 +38,7 @@
 
 <script>
 import ListPanel from '@/components/ListPanel'
+import { auth } from '@/plugins/auth'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -47,11 +48,12 @@ export default {
       loading: true
     }
   },
-  created() {
+  async created() {
     this.setMetaInfo({
       title: '下書き一覧'
     })
-    this.bindDrafts()
+    const user = await auth()
+    this.bindDrafts(user.uid)
       .then(() => this.loading = false)
   },
   methods: {
