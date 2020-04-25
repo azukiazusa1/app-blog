@@ -16,6 +16,12 @@ export default new Vuetify({
         facebook: '#3B5998',
         twitter: '#1DA1F2',
         qiita: '#4cb10d'
+      },
+      dark: {
+        github: '#FFF',
+        facebook: '#3B5998',
+        twitter: '#1DA1F2',
+        qiita: '#4cb10d'
       }
     }
   }
