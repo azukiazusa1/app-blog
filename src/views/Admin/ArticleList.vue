@@ -57,7 +57,7 @@ export default {
       .then(() => this.loading = false)
   },
   methods: {
-    ...mapActions(['bindAllArticles']),
+    ...mapActions(['bindArticlesByAuthor']),
   },
   computed: {
     ...mapGetters(['getAllArticles', 'getArticlesCount'])
