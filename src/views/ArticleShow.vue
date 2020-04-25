@@ -82,7 +82,6 @@ export default {
     })
     this.bindUserById(this.getArticle.author)
       .then(() => {
-        console.log(this.getUser)
         this.loading = false
       })
       .catch(() => this.error = true)
