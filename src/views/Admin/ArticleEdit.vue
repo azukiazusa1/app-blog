@@ -155,7 +155,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('tags', ['fetchTags', 'createOrUpdateTag']),
+    ...mapActions('tags', ['fetchTags', 'createTag']),
     ...mapActions(['updateArticle', 'flash/setFlash']),
     publish() {
       this.$v.$touch()
@@ -242,7 +242,7 @@ export default {
       if (val.length === 0 || oldval.length === 0) return
       this.search = ''
       try {
-        await this.createOrUpdateTag({
+        await this.createTag({
           name: val[val.length - 1],
           image: '',
           description: ''
