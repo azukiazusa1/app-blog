@@ -49,7 +49,7 @@ export default {
   },
   watch: {
     $route() {
-      this.loading = false
+      this.loading = true
       this.clearArticles()
       this.setMetaInfo({
         title: `アーカイブ - ${this.formatedDate}`
