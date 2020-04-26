@@ -35,9 +35,17 @@ export const tags = {
       return bindFirestoreRef('tag', tagsRef.doc(name))
     }),
     createTag(context, payload) {
-      tagsRef.doc(payload.name).set({
-        name: payload.name,
-      }, { merge: true })
+      tagsRef.doc(payload.name)
+        .get()
+        .then(querySnapshot => {
+          if (querySnapshot.exists) return
+          tagsRef.doc(payload.name).set({
+            name: payload.name,
+            image: '',
+            description: '',
+            articleCount: 0
+          }, { merge: true })
+        })
     },
     updateTag(context, payload) {
       tagsRef.doc(payload.name).set({

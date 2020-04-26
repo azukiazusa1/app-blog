@@ -244,8 +244,6 @@ export default {
       try {
         await this.createTag({
           name: val[val.length - 1],
-          image: '',
-          description: ''
         })
         await this.updateArticle(this.article)
       } catch(e) {
