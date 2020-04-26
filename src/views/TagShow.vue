@@ -39,6 +39,11 @@
                     <p>{{ getTag.description }}</p>
                   </v-col>
                 </v-row>
+                <v-row>
+                  <v-col class="text--primary">
+                    記事数：{{ getTag.articleCount}}
+                  </v-col>
+                </v-row>
               </v-container>
             </v-card-text>
         </v-card>
