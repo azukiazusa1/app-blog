@@ -103,6 +103,7 @@ export default new Vuex.Store({
       return articleRef.add({
         title: '',
         body: '',
+        overview: '',
         published: false,
         author: uid,
         tags: [],
