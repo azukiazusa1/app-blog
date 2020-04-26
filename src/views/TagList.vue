@@ -1,15 +1,13 @@
 <template>
-  <v-card>
-    <v-card-title class="headline">タグ一覧</v-card-title>
-    <v-card-text>
-      <v-divider></v-divider>
-      <tag-list :tags="flatTags"></tag-list>
-    </v-card-text>
-  </v-card>
+  <v-container>
+    <h1 class="headline py-5">タグ一覧</h1>
+    <v-divider></v-divider>
+    <tag-info-list :tags="getBindTags"></tag-info-list>
+  </v-container>
 </template>
 
 <script>
-import TagList from '@/components/TagList'
+import TagInfoList from '@/components/TagInfoList'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -25,13 +23,9 @@ export default {
   },
   computed: {
     ...mapGetters('tags', ['getBindTags']),
-    flatTags() {
-      if (!this.getBindTags) return
-      return this.getBindTags.map(tag => tag.name)
-    }
   },
   components: {
-    TagList
+    TagInfoList
   }
 }
 </script>

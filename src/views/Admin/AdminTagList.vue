@@ -4,13 +4,13 @@
     <v-card-text>
       編集するタグを選択してください。
       <v-divider></v-divider>
-      <tag-list :tags="flatTags" link="admin/tags"></tag-list>
+      <tag-info-list :tags="getBindTags" link="admin/tags"></tag-info-list>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import TagList from '@/components/TagList'
+import TagInfoList from '@/components/TagInfoList'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -26,13 +26,9 @@ export default {
   },
   computed: {
     ...mapGetters('tags', ['getBindTags']),
-    flatTags() {
-      if (!this.getBindTags) return
-      return this.getBindTags.map(tag => tag.name)
-    }
   },
   components: {
-    TagList
+    TagInfoList
   }
 }
 </script>

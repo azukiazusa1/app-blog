@@ -29,7 +29,10 @@ export const tags = {
         })
     },
     bindTags: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef('bindTags', tagsRef)
+      return bindFirestoreRef('bindTags', tagsRef
+        .where('articleCount', '>', 0)
+        .orderBy('articleCount', 'desc')
+      )
     }),
     bindTagByName: firestoreAction(({ bindFirestoreRef }, name) => {
       return bindFirestoreRef('tag', tagsRef.doc(name))
