@@ -113,11 +113,11 @@ export default new Vuex.Store({
       })
     },
     updateArticle: firestoreAction(({ getters }, payload) => {
-      const newData = {created: firebase.firestore.FieldValue.serverTimestamp(), ...payload}
+      const newData = {...payload}
       return articleRef
         .doc(getters.getArticle.id)
         .update(newData)
-    }),
+    }, {merge: true}),
     deleteArticle(context, id) {
       return articleRef.doc(id).delete()
     }
