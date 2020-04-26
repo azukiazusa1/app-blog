@@ -1,4 +1,3 @@
-// import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/db'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 const tagsRef = db.collection('tags')
