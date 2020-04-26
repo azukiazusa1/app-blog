@@ -106,7 +106,8 @@ export default new Vuex.Store({
         published: false,
         author: uid,
         tags: [],
-        created: firebase.firestore.FieldValue.serverTimestamp()
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        thumbnail: ''
       })
     },
     updateArticle: firestoreAction(({ getters }, payload) => {
