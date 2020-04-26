@@ -106,12 +106,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions('tags', ['createOrUpdateTag', 'bindTagByName']),
+    ...mapActions('tags', ['updateTag', 'bindTagByName']),
     ...mapActions(['flash/setFlash']),
     onSubmit() {
       this.$v.$touch()
       if (this.$v.$invalid) return
-      this.createOrUpdateTag(this.tag)
+      this.updateTag(this.tag)
         .then(() => this['flash/setFlash']({
           message: 'タグ情報の更新に成功しました。'
         }))

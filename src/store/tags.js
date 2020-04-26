@@ -34,12 +34,16 @@ export const tags = {
     bindTagByName: firestoreAction(({ bindFirestoreRef }, name) => {
       return bindFirestoreRef('tag', tagsRef.doc(name))
     }),
-    createOrUpdateTag(context, payload) {
+    createTag(context, payload) {
       tagsRef.doc(payload.name).set({
         name: payload.name,
+      }, { merge: true })
+    },
+    updateTag(context, payload) {
+      tagsRef.doc(payload.name).set({
         image: payload.image,
         description: payload.description
-    })
+      }, { merge: true })
     }
   },
   getters: {
