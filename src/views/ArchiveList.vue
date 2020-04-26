@@ -34,7 +34,6 @@ export default {
     this.bindArchiveByMonth(this.$route.params.date)
       .then(() => {
         this.loading = false
-        console.log(this.getArchive)
       })
   },
   methods: {
