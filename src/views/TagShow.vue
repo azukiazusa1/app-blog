@@ -12,30 +12,26 @@
             <v-card-text v-else>
               <v-container fluid>
                 <v-row>
-                  <v-col md=3 sm=12>
-                    <v-row>
-                      <v-col cols=12>
-                        <v-avatar
-                          class="profile"
-                          size="164"
-                          tile
-                        >
-                          <v-img
-                            v-if="getTag.image"
-                            :src="getTag.image"
-                            :alt="getTag.name"
-                          ></v-img>
-                          <v-img
-                            v-else
-                            :src="noImage"
-                            alt="no-image"
-                          >
-                          </v-img>
-                        </v-avatar>
-                      </v-col>
-                    </v-row>
+                  <v-col cols=12 md=3>
+                    <v-avatar
+                      class="profile"
+                      size="164"
+                      tile
+                    >
+                      <v-img
+                        v-if="getTag.image"
+                        :src="getTag.image"
+                        :alt="getTag.name"
+                      ></v-img>
+                      <v-img
+                        v-else
+                        :src="noImage"
+                        alt="no-image"
+                      >
+                      </v-img>
+                    </v-avatar>
                   </v-col>
-                  <v-col md=9 sm=12>
+                  <v-col cols=12 md=9>
                     <p>{{ getTag.description }}</p>
                   </v-col>
                 </v-row>
