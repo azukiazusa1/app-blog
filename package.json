@@ -17,6 +17,7 @@
     "mavon-editor": "^2.8.3",
     "moment": "^2.24.0",
     "vue": "^2.6.11",
+    "vue-gtag": "^1.6.2",
     "vue-router": "^3.1.6",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.2.11",

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueGtag from 'vue-gtag'
 import store from '@/store'
 import User from './user'
 import Admin from './admin'
@@ -51,5 +52,10 @@ router.beforeEach((to, from, next) => {
     store.dispatch('blog/bindBlogInfo').then(() => next())
   }
 })
+
+// トラッキング
+Vue.use(VueGtag, {
+  config: {id: process.env.VUE_APP_MEASUREMENTID}
+}, router);
 
 export default router
