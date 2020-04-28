@@ -25,20 +25,20 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'search-date',
-  data() {
+  data () {
     return {
-      picker: '',
+      picker: ''
     }
   },
-  created() {
+  created () {
     this.fetchArchives()
   },
   methods: {
     ...mapActions('archives', ['fetchArchives']),
-    allowedMonths(val) {
+    allowedMonths (val) {
       return this.getAllowedMonths.includes(val)
     },
-    onChange() {
+    onChange () {
       // 同じページへ遷移するためにエラーを握りつぶします。
       this.$router.push(`/archive/${this.picker}`).catch(() => {})
     }

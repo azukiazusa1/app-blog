@@ -67,9 +67,9 @@ export default {
   mixins: [validationMixin],
   validations: {
     _password: { required, minLength: minLength(6) },
-    _confirmPassword: { 
-      required, 
-      samaAs: sameAs(function() {
+    _confirmPassword: {
+      required,
+      samaAs: sameAs(function () {
         return this._password
       })
     }
@@ -82,7 +82,7 @@ export default {
       !this.$v._password.minLength && errors.push('パスワードは6文字以上入力してください。')
       return errors
     },
-    confirmPasswordErrors() {
+    confirmPasswordErrors () {
       const errors = []
       if (!this.$v._confirmPassword.$dirty) return errors
       !this.$v._confirmPassword.required && errors.push('確認用のパスワードが入力されていません。')
@@ -90,24 +90,24 @@ export default {
       return errors
     },
     _password: {
-      get() {
+      get () {
         return this.password
       },
-      set(password) {
+      set (password) {
         this.$emit('update:password', password)
       }
     },
     _confirmPassword: {
-      get() {
+      get () {
         return this.confirmPassword
       },
-      set(confirmPassword) {
+      set (confirmPassword) {
         this.$emit('update:confirmPassword', confirmPassword)
       }
     }
   },
   watch: {
-    touch(newval) {
+    touch (newval) {
       if (newval) this.$v.$touch()
     }
   }

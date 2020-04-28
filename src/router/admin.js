@@ -15,10 +15,10 @@ export default {
   path: '/admin',
   name: 'admin-root',
   component: AdminRoot,
-  beforeEnter: (async (to, from, next) => {
+  beforeEnter: async (to, from, next) => {
     const user = await auth()
     if (!user) {
-      next({ path: '/admin/login', query: { redirect: to.fullPath }})
+      next({ path: '/admin/login', query: { redirect: to.fullPath } })
     } else {
       if (!isEmpty(store.getters['user/getUser'])) {
         next()
@@ -33,7 +33,7 @@ export default {
         }
       }
     }
-  }),
+  },
   children: [
     {
       path: '/admin',
@@ -74,6 +74,6 @@ export default {
       path: '/admin/user',
       name: 'user-setting',
       component: UserSetting
-    },
+    }
   ]
 }

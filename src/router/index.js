@@ -10,39 +10,38 @@ import { auth } from '@/plugins/auth'
 
 Vue.use(VueRouter)
 
-const routes = [User, Admin, 
+const routes = [User, Admin,
   {
     name: 'login',
     path: '/admin/login',
     component: Login,
-    beforeEnter: ((to, from, next) => {
+    beforeEnter: (to, from, next) => {
       auth().then(user => {
         // すでにログイン済
         if (user) {
-          next({ path: '/admin'})
+          next({ path: '/admin' })
         } else {
           next()
         }
       })
-    }),
+    }
   },
   {
     name: 'not-found',
     path: '*',
     component: NotFound,
     meta: { title: 'お探しのページは見つかりませんでした' }
-  },
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  scrollBehavior() {
-    return { x: 0, y: 0}
+  scrollBehavior () {
+    return { x: 0, y: 0 }
   },
   routes
 })
-
 
 // ブログの基本情報はなければ常に取得します。
 router.beforeEach((to, from, next) => {
@@ -56,7 +55,7 @@ router.beforeEach((to, from, next) => {
 if (process.env.NODE_ENV === 'production') {
   // トラッキング
   Vue.use(VueGtag, {
-    config: {id: process.env.VUE_APP_MEASUREMENTID}
+    config: { id: process.env.VUE_APP_MEASUREMENTID }
   }, router)
 }
 

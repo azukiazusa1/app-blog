@@ -44,9 +44,6 @@ export default {
       'getMessage', 'getType', 'isAppear', 'getColor', 'getIcon', 'escape'
     ])
   },
-  beforeRouteUpdate() {
-    console.log(1)
-  }
 }
 </script>
 

@@ -11,59 +11,59 @@ export const flash = {
     escape: false
   },
   getters: {
-    getMessage(state) {
+    getMessage (state) {
       return state.message
     },
-    getType(state) {
+    getType (state) {
       return state.type
     },
-    getColor(state) {
+    getColor (state) {
       return state.color
     },
-    getIcon(state) {
+    getIcon (state) {
       return state.icon
     },
-    isAppear(state) {
+    isAppear (state) {
       return state.appear
     },
-    escape(state) {
+    escape (state) {
       return state.escape
     }
   },
   mutations: {
-    setMessage(state, payload) {
+    setMessage (state, payload) {
       state.message = payload
     },
-    setType(state, payload) {
+    setType (state, payload) {
       if (!FLASH_TYPE.has(payload)) throw new Error('存在しないタイプです。')
       state.type = payload
     },
-    setColor(state, payload) {
+    setColor (state, payload) {
       state.color = payload
     },
-    setIcon(state, payload) {
+    setIcon (state, payload) {
       state.icon = payload
     },
-    showFlash(state) {
+    showFlash (state) {
       state.appear = true
     },
-    hideFlash(state) {
+    hideFlash (state) {
       state.appear = false
     },
-    setEscape(state, payload) {
+    setEscape (state, payload) {
       state.escape = payload
     }
   },
   actions: {
-    setFlash({ commit, dispatch }, {
-       message = '', 
-       type = 'success',
-       color = '',
-       icon = null,
-       timeout = 3000, 
-       escape = true,
-       mounted = () => {},
-       destroyed = () => {}
+    setFlash ({ commit, dispatch }, {
+      message = '',
+      type = 'success',
+      color = '',
+      icon = null,
+      timeout = 3000,
+      escape = true,
+      mounted = () => {},
+      destroyed = () => {}
     }) {
       commit('setMessage', message)
       commit('setType', type)
@@ -79,7 +79,7 @@ export const flash = {
         }, timeout)
       }
     },
-    destroyFlash({ commit }) {
+    destroyFlash ({ commit }) {
       commit('setMessage', '')
       commit('hideFlash')
     }

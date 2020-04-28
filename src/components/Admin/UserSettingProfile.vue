@@ -21,9 +21,9 @@
               </v-row>
               <v-row>
                 <v-col md=10 sm=12>
-                  <v-file-input 
-                    accept="image/*" 
-                    label="Edit" 
+                  <v-file-input
+                    accept="image/*"
+                    label="Edit"
                     @change="onFileUpload"
                     dense
                     :clearable=false
@@ -98,7 +98,7 @@ import getFileType from '@/mixin/getFileType'
 
 export default {
   name: 'user-setting-profile',
-  data() {
+  data () {
     return {
       user: null,
       fileLoading: 0
@@ -113,11 +113,11 @@ export default {
         github: { url },
         qiita: { url },
         twitter: { url },
-        facebook: { url },
+        facebook: { url }
       }
-    },
+    }
   },
-  created() {
+  created () {
     this.user = this.getUser
   },
   computed: {
@@ -129,25 +129,25 @@ export default {
       !this.$v.user.displayName.maxLength && errors.push('タイトルは50文字までです。')
       return errors
     },
-    profileErrors() {
+    profileErrors () {
       const errors = []
       if (!this.$v.user.profile.$dirty) return errors
       !this.$v.user.profile.maxLength && errors.push('ブログの説明は300文字までです。')
       return errors
     },
-    linkErrors() {
+    linkErrors () {
       return brand => {
         const errors = []
         if (!this.$v.user.link[brand].$dirty) return errors
         !this.$v.user.link[brand].url && errors.push('リンクはURLの形式で入力してください。')
         return errors
       }
-    },
+    }
   },
   methods: {
     ...mapActions('user', ['updateUser']),
     ...mapActions(['flash/setFlash']),
-    onSubmit() {
+    onSubmit () {
       this.$v.$touch()
       if (this.$v.$invalid) return
       this.updateUser(this.user)
@@ -159,36 +159,36 @@ export default {
           type: 'error'
         }))
     },
-    onFileUpload(file) {
+    onFileUpload (file) {
       const fileType = this.getFileType(file)
-        if (!fileType) {
+      if (!fileType) {
+        this['flash/setFlash']({
+          message: 'ファイルタイプが不正です。',
+          type: 'error'
+        })
+      }
+      const storageRef = storage.ref(`user/${this.user.id}/profile.${fileType}`)
+      const uploadTask = storageRef.put(file)
+      uploadTask.on('state_changed',
+        snapshot => {
+          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          this.fileLoading = percentage
+        },
+        err => {
+          console.log(err)
           this['flash/setFlash']({
-            message: 'ファイルタイプが不正です。',
+            message: 'ファイルのアップロードに失敗しました。',
             type: 'error'
           })
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.fileLoading = 0
+            this.user.photoURL = downloadURL
+          })
         }
-        const storageRef = storage.ref(`user/${this.user.id}/profile.${fileType}`)
-        const uploadTask = storageRef.put(file)
-        uploadTask.on('state_changed', 
-          snapshot => {
-            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            this.fileLoading = percentage
-          },
-          err => {
-            console.log(err)
-            this['flash/setFlash']({
-              message: 'ファイルのアップロードに失敗しました。',
-              type: 'error'
-            })
-          },
-          () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-              this.fileLoading = 0
-              this.user.photoURL = downloadURL
-            })
-          }
-        )
-    },
+      )
+    }
   }
 }
 </script>

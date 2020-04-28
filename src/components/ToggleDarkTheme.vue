@@ -9,34 +9,34 @@
 <script>
 export default {
   name: 'ToggleDarkTheme',
-  data() {
+  data () {
     return {
       strageKey: 'theme-mode'
     }
   },
   methods: {
-    toggleDark() {
+    toggleDark () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       if (this.$vuetify.theme.dark) {
-        localStorage.setItem(this.strageKey,'dark')
+        localStorage.setItem(this.strageKey, 'dark')
       } else {
-        localStorage.setItem(this.strageKey,'light')
+        localStorage.setItem(this.strageKey, 'light')
       }
     }
   },
-  created() {
+  created () {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     const localTheme = localStorage.getItem(this.strageKey)
-    if  (localTheme === 'light') {
+    if (localTheme === 'light') {
       this.$vuetify.theme.dark = false
-    } else if (localTheme === 'dark'){
+    } else if (localTheme === 'dark') {
       this.$vuetify.theme.dark = true
     } else {
       this.$vuetify.theme.dark = isDark
     }
   },
   computed: {
-    getColor() {
+    getColor () {
       return this.$vuetify.theme.dark ? 'yellow' : ''
     }
   }

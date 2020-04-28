@@ -22,5 +22,5 @@ export default {
       this.article = article
       this.loading = false
     }
-  },
+  }
 }

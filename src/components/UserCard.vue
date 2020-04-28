@@ -47,7 +47,7 @@ export default {
     }
   },
   computed: {
-    filteredLink() {
+    filteredLink () {
       return pickBy(this.user.link, value => {
         return !!value
       })

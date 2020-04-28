@@ -56,13 +56,13 @@ import config from '@/config'
 
 export default {
   name: 'tag-show',
-  data() {
+  data () {
     return {
       tagLoading: true,
       noImage: config.NOIMAGE
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: this.$route.params.name
     })
@@ -72,14 +72,14 @@ export default {
     })
   },
   computed: {
-    ...mapGetters('tags', ['getTag']),
+    ...mapGetters('tags', ['getTag'])
   },
   methods: {
     ...mapActions('tags', ['bindTagByName']),
-    ...mapMutations(['clearArticles']),
+    ...mapMutations(['clearArticles'])
   },
   watch: {
-    $route() {
+    $route () {
       this.tagLoading = true
       this.clearArticles()
       this.bindTagByName(this.$route.params.name).then(() => {

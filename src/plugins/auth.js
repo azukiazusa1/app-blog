@@ -1,14 +1,14 @@
 import firebase from '@/plugins/firebase'
 
 export function login (email, password) {
-   return firebase.auth().signInWithEmailAndPassword(email, password)
+  return firebase.auth().signInWithEmailAndPassword(email, password)
 }
 
-export function logout() {
+export function logout () {
   return firebase.auth().signOut()
 }
 
-export function reAuth(email, password) {
+export function reAuth (email, password) {
   return firebase.auth.EmailAuthProvider.credential(email, password)
 }
 

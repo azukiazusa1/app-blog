@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col 
+      <v-col
         cols=12 md=3
         v-for="(link, brand) in links"
         :key="brand"
       >
-        <v-btn 
+        <v-btn
           text
           :href="link"
           target="_blan"
@@ -26,10 +26,10 @@ export default {
     links: {
       type: Object,
       required: true
-    },
+    }
   },
   computed: {
-    brandIcon() {
+    brandIcon () {
       return brand => {
         if (brand === 'qiita') {
           return 'fas fa-circle'

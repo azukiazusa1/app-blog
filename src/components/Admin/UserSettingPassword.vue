@@ -42,7 +42,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'user-setting-password',
-  data() {
+  data () {
     return {
       user: {
         email: '',
@@ -58,20 +58,20 @@ export default {
   mixins: [validationMixin],
   validations: {
     password: { required },
-    newPassword: { required, minLength: minLength(6)},
-    confirmPassword: { 
+    newPassword: { required, minLength: minLength(6) },
+    confirmPassword: {
       required,
-      samaAs: sameAs(function() {
+      samaAs: sameAs(function () {
         return this.newPassword
       })
     }
   },
-  async created() {
+  async created () {
     this.user = await auth()
   },
   methods: {
     ...mapActions(['flash/setFlash']),
-    async onSubmit() {
+    async onSubmit () {
       this.touch = true
       if (this.$v.$invalid) return
       try {
@@ -82,7 +82,7 @@ export default {
         this['flash/setFlash']({
           message: 'パスワードの変更に成功しました。'
         })
-      } catch(e) {
+      } catch (e) {
         this['flash/setFlash']({
           message: `
             パスワードの変更に失敗しました。

@@ -21,12 +21,12 @@ import moment from 'moment'
 
 export default {
   name: 'archive-list',
-  data() {
+  data () {
     return {
       loading: true
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: `アーカイブ - ${this.formatedDate}`
     })
@@ -42,19 +42,19 @@ export default {
   },
   computed: {
     ...mapGetters('archives', ['getArchive']),
-    formatedDate() {
+    formatedDate () {
       return moment(this.$route.params.date).format('YYYY年MM月')
     }
   },
   watch: {
-    $route() {
+    $route () {
       this.loading = true
       this.clearArticles()
       this.setMetaInfo({
         title: `アーカイブ - ${this.formatedDate}`
       })
       this.bindArchiveByMonth(this.$route.params.date)
-      .then(() => this.loading = false)
+        .then(() => this.loading = false)
     }
   },
   components: {

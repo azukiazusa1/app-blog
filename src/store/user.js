@@ -12,38 +12,38 @@ export const user = {
   },
   mutations: {
     ...vuexfireMutations,
-    loaded(state) {
+    loaded (state) {
       state.loading = false
     },
-    hasError(state) {
+    hasError (state) {
       state.error = true
     }
   },
   actions: {
-    bindUsers: firestoreAction(({ bindFirestoreRef}) => {
+    bindUsers: firestoreAction(({ bindFirestoreRef }) => {
       return bindFirestoreRef('users', userRef)
     }),
     bindUserById: firestoreAction(({ bindFirestoreRef }, id) => {
-      return bindFirestoreRef('user', userRef.doc(id), {reset: false})
+      return bindFirestoreRef('user', userRef.doc(id), { reset: false })
     }),
     updateUser: firestoreAction((context, payload) => {
       return userRef
         .doc(payload.id)
         .update(payload)
-    }),
+    })
   },
   getters: {
-    getUser(state) {
+    getUser (state) {
       return state.user
     },
-    getUsers(state) {
+    getUsers (state) {
       return state.users
     },
-    getLoading(state) {
+    getLoading (state) {
       return state.loading
     },
-    getError(state) {
+    getError (state) {
       return state.error
     }
-  },
+  }
 }

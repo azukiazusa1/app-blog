@@ -11,12 +11,12 @@ export const tags = {
   },
   mutations: {
     ...vuexfireMutations,
-    add(state, payload) {
+    add (state, payload) {
       state.tags.push(payload)
     }
   },
   actions: {
-    fetchTags({ commit }) {
+    fetchTags ({ commit }) {
       tagsRef
         .get()
         .then(querySnapshot => {
@@ -36,7 +36,7 @@ export const tags = {
     bindTagByName: firestoreAction(({ bindFirestoreRef }, name) => {
       return bindFirestoreRef('tag', tagsRef.doc(name))
     }),
-    createTag(context, payload) {
+    createTag (context, payload) {
       tagsRef.doc(payload.name)
         .get()
         .then(querySnapshot => {
@@ -49,7 +49,7 @@ export const tags = {
           }, { merge: true })
         })
     },
-    updateTag(context, payload) {
+    updateTag (context, payload) {
       tagsRef.doc(payload.name).set({
         image: payload.image,
         description: payload.description
@@ -57,13 +57,13 @@ export const tags = {
     }
   },
   getters: {
-    getTags(state) {
+    getTags (state) {
       return state.tags
     },
-    getBindTags(state) {
+    getBindTags (state) {
       return state.bindTags
     },
-    getTag(state) {
+    getTag (state) {
       return state.tag
     }
   }

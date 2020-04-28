@@ -8,12 +8,12 @@ import { mapMutations } from 'vuex'
 
 export default {
   name: 'blog-home',
-  created() {
+  created () {
     this.setMetaInfo()
     this.clearArticles()
   },
   methods: {
-    ...mapMutations(['clearArticles']),
+    ...mapMutations(['clearArticles'])
   },
   components: {
     ArticleList

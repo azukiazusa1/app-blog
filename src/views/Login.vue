@@ -66,7 +66,7 @@ import { login } from '@/plugins/auth'
 import { mapActions } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       email: '',
       password: '',
@@ -78,9 +78,9 @@ export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
-    password: { required },
+    password: { required }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: 'ログイン'
     })

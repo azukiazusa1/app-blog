@@ -29,12 +29,12 @@ import UserSettingPassword from '@/components/Admin/UserSettingPassword'
 
 export default {
   name: 'user-setting',
-  data() {
+  data () {
     return {
       tab: null
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: 'ユーザー情報設定'
     })
@@ -42,7 +42,7 @@ export default {
   components: {
     UserSettingProfile,
     UserSettingEmail,
-    UserSettingPassword,
+    UserSettingPassword
   }
 }
 </script>

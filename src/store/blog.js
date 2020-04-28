@@ -19,10 +19,10 @@ export const blog = {
       return blogsRef
         .doc('info')
         .update(payload)
-    }),
+    })
   },
   getters: {
-    getBlogInfo(state) {
+    getBlogInfo (state) {
       return state.blogInfo
     }
   }

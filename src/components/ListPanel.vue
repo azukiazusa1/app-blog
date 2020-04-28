@@ -16,7 +16,7 @@
             <tag-list :tags="article.tags"></tag-list>
           </v-col>
           <v-col align-self="end" cols=1>
-            <v-btn class="ma-2" depressed color="primary" 
+            <v-btn class="ma-2" depressed color="primary"
               :to="{ name: 'article-edit', params: {id: article.id} }"><v-icon left>fas fa-edit</v-icon>編集
             </v-btn>
           </v-col>
@@ -50,11 +50,11 @@ export default {
   computed: {
     createdTime: function () {
       return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
-   },
+    }
   },
   methods: {
     ...mapActions(['deleteArticle', 'flash/setFlash']),
-    onDelete() {
+    onDelete () {
       if (confirm(`記事ID: ${this.article.id}を削除します。よろしいですか？(この操作は取り消しません)`)) {
         this.deleteArticle(this.article.id)
           .catch(() => this['flash/setFlash']({
@@ -62,7 +62,7 @@ export default {
             type: 'error'
           }))
       } else {
-        return
+
       }
     }
   },

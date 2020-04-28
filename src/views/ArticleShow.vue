@@ -15,7 +15,7 @@
             <v-card-actions>
               <v-btn class="ma-2" small color="twitter">
                 <v-icon left color="white">fab fa-twitter</v-icon>
-                <a 
+                <a
                   :href="`https://twitter.com/share?url=${fullPath}&text=${getArticle.title}`"
                   class="white--text"
                   target="_blank"
@@ -29,9 +29,9 @@
       </v-card>
       <v-row>
         <v-col cols=12>
-          <user-card 
-            :user="getUser" 
-            :loading="loading" 
+          <user-card
+            :user="getUser"
+            :loading="loading"
             :error="error"
           ></user-card>
         </v-col>
@@ -68,14 +68,14 @@ import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       loading: true,
-      error: false,
+      error: false
     }
   },
   mixins: [fetchBeforeRouting],
-  created() {
+  created () {
     this.setMetaInfo({
       title: this.getArticle.title,
       description: this.getArticle.overview
@@ -87,17 +87,17 @@ export default {
       .catch(() => this.error = true)
   },
   methods: {
-    ...mapActions('user', ['bindUserById']),
+    ...mapActions('user', ['bindUserById'])
   },
   computed: {
     ...mapGetters(['getArticle']),
     ...mapGetters('user', ['getUser']),
     createdTime: function () {
-     return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
-   },
-   fullPath() {
-     return `${location.origin}${this.$route.fullPath}`
-   }
+      return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+    },
+    fullPath () {
+      return `${location.origin}${this.$route.fullPath}`
+    }
   },
   components: {
     UserCard, TagList, PreviewMarkdown

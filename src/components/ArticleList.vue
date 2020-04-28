@@ -38,18 +38,18 @@ export default {
       default: null
     }
   },
-  data() {
+  data () {
     return {
-      loading: false,
+      loading: false
     }
   },
-  created() {
+  created () {
     this.clearArticles()
   },
   methods: {
     ...mapActions(['fetchArticles']),
     ...mapMutations(['clearArticles']),
-    onIntersect(entries, observer, isIntersecting) {
+    onIntersect (entries, observer, isIntersecting) {
       if (this.loading || !isIntersecting || this.isFinish) return
       this.loading = true
       this.fetchArticles({
@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getArticles', 'getLastDate', 'isFinish']),
-    isEmpty() {
+    isEmpty () {
       return this.isFinish && this.getArticles.length === 0
     }
   },

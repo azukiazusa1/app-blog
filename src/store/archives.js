@@ -6,37 +6,37 @@ export const archives = {
   namespaced: true,
   state: {
     allowedMonths: [],
-    archive: null,
+    archive: null
   },
   getters: {
-    getAllowedMonths(state) {
+    getAllowedMonths (state) {
       return state.allowedMonths
     },
-    getArchive(state) {
+    getArchive (state) {
       return state.archive
     }
   },
   mutations: {
     ...vuexfireMutations,
-    add(state, payload) {
+    add (state, payload) {
       state.allowedMonths.push(payload.id)
     }
   },
   actions: {
-    fetchArchives({ commit }) {
+    fetchArchives ({ commit }) {
       archivesRef.get()
-      .then(querySnapshot => {
-        if (querySnapshot.empty) {
-          return
-        } else {
-          querySnapshot.forEach(doc => {
-            commit('add', { id: doc.id })
-          })
-        }
-      })
+        .then(querySnapshot => {
+          if (querySnapshot.empty) {
+
+          } else {
+            querySnapshot.forEach(doc => {
+              commit('add', { id: doc.id })
+            })
+          }
+        })
     },
     bindArchiveByMonth: firestoreAction(({ bindFirestoreRef }, month) => {
       return bindFirestoreRef('archive', archivesRef.doc(month))
-    }),
+    })
   }
 }
