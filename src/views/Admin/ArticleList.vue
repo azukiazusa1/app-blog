@@ -43,12 +43,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'article-list',
-  data() {
+  data () {
     return {
       loading: true
     }
   },
-  async created() {
+  async created () {
     this.setMetaInfo({
       title: '記事の管理'
     })
@@ -57,7 +57,7 @@ export default {
       .then(() => this.loading = false)
   },
   methods: {
-    ...mapActions(['bindArticlesByAuthor']),
+    ...mapActions(['bindArticlesByAuthor'])
   },
   computed: {
     ...mapGetters(['getAllArticles', 'getArticlesCount'])

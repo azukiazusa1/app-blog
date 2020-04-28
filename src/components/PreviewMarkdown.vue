@@ -1,5 +1,5 @@
 <template>
-  <mavon-editor 
+  <mavon-editor
     :value="value"
     :toolbarsFlag="false"
     :subfield="false"

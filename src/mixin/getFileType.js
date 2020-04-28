@@ -1,6 +1,6 @@
 export default {
   methods: {
-    getFileType($file) {
+    getFileType ($file) {
       switch ($file.type) {
         case 'image/gif':
           return 'gif'

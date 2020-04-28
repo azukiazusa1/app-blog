@@ -44,22 +44,22 @@
 import TagList from '@/components/TagList.vue'
 import moment from 'moment'
 export default {
- props: {
-   article: {
-     type: Object,
-     required: true
-   }
- },
- computed: {
-   createdTime: function () {
-     return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
-   },
-   showPath() {
-     return `/article/${this.article.id}`
-   }
- },
- components: {
-   TagList
- }
+  props: {
+    article: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    createdTime: function () {
+      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
+    },
+    showPath () {
+      return `/article/${this.article.id}`
+    }
+  },
+  components: {
+    TagList
+  }
 }
 </script>

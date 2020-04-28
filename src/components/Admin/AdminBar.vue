@@ -47,9 +47,9 @@ import { logout } from '@/plugins/auth'
 import { mapGetters } from 'vuex'
 export default {
   methods: {
-    logout() {
+    logout () {
       logout()
-        .then(() => {this.$router.push({name: 'login'})})
+        .then(() => { this.$router.push({ name: 'login' }) })
         .catch(e => console.error(e))
     }
   },

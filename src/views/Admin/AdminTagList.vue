@@ -15,17 +15,17 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'admin-tag-list',
-  created() {
+  created () {
     this.setMetaInfo({
       title: 'タグ一覧'
     })
-    this.bindTags() 
+    this.bindTags()
   },
   methods: {
-    ...mapActions('tags', ['bindTags']),
+    ...mapActions('tags', ['bindTags'])
   },
   computed: {
-    ...mapGetters('tags', ['getBindTags']),
+    ...mapGetters('tags', ['getBindTags'])
   },
   components: {
     TagInfoList

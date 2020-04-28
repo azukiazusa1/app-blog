@@ -52,12 +52,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'admin-home',
-  data() {
+  data () {
     return {
-      loading: true,
+      loading: true
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: 'ダッシュボード'
     })
@@ -66,10 +66,10 @@ export default {
   },
   methods: {
     ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
-    newArticle() {
+    newArticle () {
       this.createArticle(this.getUser.id)
         .then(docRef => {
-          this.$router.push({name: 'article-edit', params: { id: docRef.id }})
+          this.$router.push({ name: 'article-edit', params: { id: docRef.id } })
         })
         .catch(() => {
           this['flash/setFlash']({
@@ -82,7 +82,7 @@ export default {
   computed: {
     ...mapGetters(['getArticlesCount']),
     ...mapGetters('user', ['getUser', 'getLoading', 'getError']),
-    ...mapGetters('blog', ['getBlogInfo']),
+    ...mapGetters('blog', ['getBlogInfo'])
   },
   components: {
     UserCard

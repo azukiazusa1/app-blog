@@ -27,9 +27,9 @@
               </v-row>
               <v-row>
                 <v-col md=10 sm=12>
-                  <v-file-input 
-                    accept="image/*" 
-                    label="Edit" 
+                  <v-file-input
+                    accept="image/*"
+                    label="Edit"
                     @change="onFileUpload"
                     dense
                     :clearable=false
@@ -74,7 +74,7 @@ import getFileType from '@/mixin/getFileType'
 
 export default {
   name: 'tag-edit',
-  data() {
+  data () {
     return {
       tag: null,
       loading: true,
@@ -84,10 +84,10 @@ export default {
   mixins: [validationMixin, getFileType],
   validations: {
     tag: {
-      description: { maxLength: maxLength(300) },
+      description: { maxLength: maxLength(300) }
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: `タグ編集 - ${this.$route.params.name}`
     })
@@ -108,7 +108,7 @@ export default {
   methods: {
     ...mapActions('tags', ['updateTag', 'bindTagByName']),
     ...mapActions(['flash/setFlash']),
-    onSubmit() {
+    onSubmit () {
       this.$v.$touch()
       if (this.$v.$invalid) return
       this.updateTag(this.tag)
@@ -120,36 +120,36 @@ export default {
           type: 'error'
         }))
     },
-    onFileUpload(file) {
+    onFileUpload (file) {
       const fileType = this.getFileType(file)
-        if (!fileType) {
+      if (!fileType) {
+        this['flash/setFlash']({
+          message: 'ファイルタイプが不正です。',
+          type: 'error'
+        })
+      }
+      const storageRef = storage.ref(`tags/${this.tag.name}.${fileType}`)
+      const uploadTask = storageRef.put(file)
+      uploadTask.on('state_changed',
+        snapshot => {
+          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          this.fileLoading = percentage
+        },
+        err => {
+          console.log(err)
           this['flash/setFlash']({
-            message: 'ファイルタイプが不正です。',
+            message: 'ファイルのアップロードに失敗しました。',
             type: 'error'
           })
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.fileLoading = 0
+            this.tag.image = downloadURL
+          })
         }
-        const storageRef = storage.ref(`tags/${this.tag.name}.${fileType}`)
-        const uploadTask = storageRef.put(file)
-        uploadTask.on('state_changed', 
-          snapshot => {
-            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            this.fileLoading = percentage
-          },
-          err => {
-            console.log(err)
-            this['flash/setFlash']({
-              message: 'ファイルのアップロードに失敗しました。',
-              type: 'error'
-            })
-          },
-          () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-              this.fileLoading = 0
-              this.tag.image = downloadURL
-            })
-          }
-        )
-    },
+      )
+    }
   }
 }
 </script>

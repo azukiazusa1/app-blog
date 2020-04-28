@@ -36,7 +36,7 @@ export default {
   },
   mixins: [validationMixin],
   validations: {
-    _email: { required, email },
+    _email: { required, email }
   },
   computed: {
     emailErrors () {
@@ -47,16 +47,16 @@ export default {
       return errors
     },
     _email: {
-      get() {
+      get () {
         return this.email
       },
-      set(email) {
+      set (email) {
         this.$emit('update:email', email)
       }
     }
   },
   watch: {
-    touch(newval) {
+    touch (newval) {
       if (newval) this.$v.$touch()
     }
   }

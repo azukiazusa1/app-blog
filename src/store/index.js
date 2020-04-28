@@ -23,32 +23,32 @@ export default new Vuex.Store({
   },
   mutations: {
     ...vuexfireMutations,
-    add(state, payload) {
+    add (state, payload) {
       state.articles.push(payload)
     },
-    set(state, payload) {
+    set (state, payload) {
       state.article = payload
     },
-    last(state, payload) {
+    last (state, payload) {
       state.lastDate = payload
     },
-    finish(state) {
+    finish (state) {
       state.finish = true
     },
-    clearArticles(state) {
+    clearArticles (state) {
       state.articles = []
       state.lastDate = ''
       state.finish = false
     }
   },
   actions: {
-    fetchArticles: (({ commit }, { 
+    fetchArticles: ({ commit }, {
       lastDate = new Date('2999-12-31'),
-      limit = 10, 
-      published = true, 
+      limit = 10,
+      published = true,
       tag = false,
       month = false
-    }) => { 
+    }) => {
       let query
       if (tag) {
         query = articleRef
@@ -74,13 +74,13 @@ export default new Vuex.Store({
             commit('finish')
           } else {
             if (querySnapshot.size < limit) commit('finish')
-            commit('last', new Date(querySnapshot.docs[querySnapshot.docs.length-1].data().created.seconds * 1000))
+            commit('last', new Date(querySnapshot.docs[querySnapshot.docs.length - 1].data().created.seconds * 1000))
             querySnapshot.forEach(doc => {
-              commit('add', {id: doc.id, ...doc.data()})
+              commit('add', { id: doc.id, ...doc.data() })
             })
           }
         })
-    }),
+    },
     bindArticleById: firestoreAction(({ bindFirestoreRef }, id) => {
       return bindFirestoreRef('article', articleRef.doc(id))
     }),
@@ -100,7 +100,7 @@ export default new Vuex.Store({
         .orderBy('created', 'desc')
       )
     }),
-    createArticle(context, uid) {
+    createArticle (context, uid) {
       return articleRef.add({
         title: '',
         body: '',
@@ -113,43 +113,43 @@ export default new Vuex.Store({
       })
     },
     updateArticle: firestoreAction(({ getters }, payload) => {
-      const newData = {...payload}
+      const newData = { ...payload }
       return articleRef
         .doc(getters.getArticle.id)
         .update(newData)
-    }, {merge: true}),
-    deleteArticle(context, id) {
+    }, { merge: true }),
+    deleteArticle (context, id) {
       return articleRef.doc(id).delete()
     }
   },
   getters: {
-    getArticles(state) {
+    getArticles (state) {
       return state.articles
     },
-    getLastDate(state) {
+    getLastDate (state) {
       return state.lastDate
     },
-    isFinish(state) {
+    isFinish (state) {
       return state.finish
     },
-    getArticle(state) {
+    getArticle (state) {
       return state.article
     },
-    getArticleById:(state) => (id) => {
+    getArticleById: (state) => (id) => {
       return state.articles.find(article => article.id === id)
     },
-    getAllArticles(state) {
+    getAllArticles (state) {
       return state.allArticles
     },
-    getArticlesCount(state) {
+    getArticlesCount (state) {
       return state.allArticles.length
     },
-    getDrafts(state) {
+    getDrafts (state) {
       return state.drafts
     },
-    getDraftsCount(state) {
+    getDraftsCount (state) {
       return state.drafts.length
-    },
+    }
   },
   modules: {
     flash,

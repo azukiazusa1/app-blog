@@ -101,7 +101,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       thumbnail: this.article.thumbnail,
       loading: true,
@@ -109,11 +109,11 @@ export default {
       dialog: false,
       images: [],
       selectedImage: '',
-      fileLoading: 0,
+      fileLoading: 0
     }
   },
   mixins: [getFileType],
-  async created() {
+  async created () {
     try {
       const storageRef = await storage.ref(`articles/${this.article.id}`)
       const res = await storageRef.listAll()
@@ -122,7 +122,7 @@ export default {
           this.images.push(url)
         })
       })
-    } catch(e) {
+    } catch (e) {
       this.error = true
       console.log(e)
     } finally {
@@ -131,8 +131,8 @@ export default {
   },
   methods: {
     ...mapActions(['flash/setFlash']),
-    onFileUpload(file) {
-    const fileType = this.getFileType(file)
+    onFileUpload (file) {
+      const fileType = this.getFileType(file)
       if (!fileType) {
         this['flash/setFlash']({
           message: 'ファイルタイプが不正です。',
@@ -141,44 +141,44 @@ export default {
       }
       const storageRef = storage.ref(`articles/${this.article.id}/thumbnail}.${fileType}`)
       const uploadTask = storageRef.put(file)
-      uploadTask.on('state_changed', 
-          snapshot => {
-            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            this.fileLoading = percentage
-          },
-          err => {
-            console.log(err)
-            this['flash/setFlash']({
-              message: 'ファイルのアップロードに失敗しました。',
-              type: 'error'
-            })
-          },
-          () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-              this.fileLoading = 0
-              this.thumbnail = downloadURL
-            })
-          }
-        )
+      uploadTask.on('state_changed',
+        snapshot => {
+          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          this.fileLoading = percentage
+        },
+        err => {
+          console.log(err)
+          this['flash/setFlash']({
+            message: 'ファイルのアップロードに失敗しました。',
+            type: 'error'
+          })
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.fileLoading = 0
+            this.thumbnail = downloadURL
+          })
+        }
+      )
     },
-    deleteThumbnail() {
+    deleteThumbnail () {
       this.thumbnail = ''
     },
-    onClick(e) {
+    onClick (e) {
       this.selectedImage = +e.target.parentElement.id
       this.thumbnail = this.images[e.target.parentElement.id]
-    },
+    }
   },
   computed: {
-     isSelected() {
+    isSelected () {
       return index => this.selectedImage === index
-    },
+    }
   },
   watch: {
-    addedImages(newval) {
+    addedImages (newval) {
       this.images.push(newval[newval.length - 1])
     },
-    thumbnail(newval) {
+    thumbnail (newval) {
       this.$emit('onThubnailChanged', newval)
     }
   }

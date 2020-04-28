@@ -41,14 +41,14 @@ export default {
       name: 'archive-list',
       path: '/archive/:date',
       component: ArchiveList,
-      beforeEnter: ((to, from, next) => {
+      beforeEnter: (to, from, next) => {
         const d = new Date(to.params.date)
         if (d.toString() === 'Invalid Date') {
-          next({name: 'not-found'})
+          next({ name: 'not-found' })
         } else {
           next()
         }
-      })
+      }
     },
     {
       name: 'privacy-policy',

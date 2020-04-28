@@ -18,16 +18,16 @@
     </v-row>
     <v-row>
       <v-col>
-        <user-card 
-          :user={} 
-          :loading="loading" 
+        <user-card
+          :user={}
+          :loading="loading"
           :error="error"
           v-if="loading"
         ></user-card>
         <span v-for="user in getUsers" :key="user.id">
-          <user-card 
-            :user="user" 
-            :loading="loading" 
+          <user-card
+            :user="user"
+            :loading="loading"
             :error="error"
           ></user-card>
         </span>
@@ -36,20 +36,19 @@
   </v-container>
 </template>
 
-
 <script>
 import UserCard from '@/components/UserCard'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'about-page',
-  data() {
+  data () {
     return {
       loading: true,
       error: false
     }
   },
-  created() {
+  created () {
     this.setMetaInfo({
       title: `${this.getBlogInfo.title}とは`,
       description: this.getBlogInfo.description

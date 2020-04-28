@@ -42,13 +42,13 @@ export default {
   },
   computed: {
     isOpen: {
-      get() {
+      get () {
         return this.drawer
       },
-      set(drawer) {
+      set (drawer) {
         this.$emit('update:drawer', drawer)
       }
-    },
+    }
   },
   components: {
     NavListItem

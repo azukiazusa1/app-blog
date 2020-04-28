@@ -3,7 +3,7 @@
     <h1 class="display-1 py-10">プライバシーポリシー</h1>
     <div>
       <h2 class="subtitle-1 font-weight-bold">アクセス解析ツールについて</h2>
-      <p>当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を利用しています。</p> 
+      <p>当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を利用しています。</p>
       <p>このGoogleアナリティクスはトラフィックデータの収集のためにCookieを使用しています。このトラフィックデータは匿名で収集されており、個人を特定するものではありません。この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。この規約に関して、詳しくは<a href="https://marketingplatform.google.com/about/analytics/terms/jp/">ここをクリック</a>してください。</p>
     </div>
     <div>

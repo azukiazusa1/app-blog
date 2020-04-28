@@ -51,7 +51,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'user-setting-email',
-  data() {
+  data () {
     return {
       user: {
         email: '',
@@ -66,14 +66,14 @@ export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
-    password: { required },
+    password: { required }
   },
-  async created() {
+  async created () {
     this.user = await auth()
   },
   methods: {
     ...mapActions(['flash/setFlash']),
-    async onSubmit() {
+    async onSubmit () {
       this.touch = true
       if (this.$v.$invalid) return
       try {
@@ -84,7 +84,7 @@ export default {
         this['flash/setFlash']({
           message: 'メールアドレスの変更に成功しました。'
         })
-      } catch(e) {
+      } catch (e) {
         this['flash/setFlash']({
           message: `
             メールアドレスの変更に失敗しました。

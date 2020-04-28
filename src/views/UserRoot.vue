@@ -20,15 +20,15 @@
 import SearchDate from '@/components/SearchDate'
 import ToggleDarkTheme from '@/components/ToggleDarkTheme'
 import NavDrawer from '@/components/NavDrawer'
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   data: () => ({
-    drawer: false,
+    drawer: false
   }),
   methods: {
-    openDrawer() {
+    openDrawer () {
       this.drawer = true
     }
   },
@@ -40,7 +40,7 @@ export default {
     ToggleDarkTheme,
     NavDrawer
   }
-};
+}
 </script>
 
 <style>

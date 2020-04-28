@@ -43,13 +43,13 @@ import { required, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'admin-setting',
-  data() {
+  data () {
     return {
       blogInfo: null
     }
   },
   mixins: [validationMixin],
-  created() {
+  created () {
     this.setMetaInfo({
       title: '設定'
     })
@@ -58,8 +58,8 @@ export default {
   validations: {
     blogInfo: {
       title: { required, maxLength: maxLength(50) },
-      description: { maxLength: maxLength(300) },
-    },
+      description: { maxLength: maxLength(300) }
+    }
   },
   computed: {
     ...mapGetters('blog', ['getBlogInfo']),
@@ -70,22 +70,22 @@ export default {
       !this.$v.blogInfo.title.maxLength && errors.push('タイトルは50文字までです。')
       return errors
     },
-    descriptionErrors() {
+    descriptionErrors () {
       const errors = []
       if (!this.$v.blogInfo.description.$dirty) return errors
       !this.$v.blogInfo.description.maxLength && errors.push('ブログの説明は300文字までです。')
       return errors
-    },
+    }
   },
   methods: {
     ...mapActions('blog', ['updateBlogInfo']),
     ...mapActions(['flash/setFlash']),
-    onSubmit() {
+    onSubmit () {
       this.$v.$touch()
       if (this.$v.$invalid) return
       this.updateBlogInfo(this.blogInfo)
         .then(() => this['flash/setFlash']({
-          message: 'ブログ情報の更新に成功しました。',
+          message: 'ブログ情報の更新に成功しました。'
         }))
         .catch(() => this['flash/setFlash']({
           message: 'ブログ情報の更新に失敗しました。',
