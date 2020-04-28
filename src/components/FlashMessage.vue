@@ -1,7 +1,7 @@
 <template>
-    <v-alert 
+    <v-alert
       v-if="isAppear"
-      :type="getType" 
+      :type="getType"
       :color="getColor"
       :icon="getIcon"
       transition="scale-transition"
@@ -43,7 +43,7 @@ export default {
     ...mapGetters([
       'getMessage', 'getType', 'isAppear', 'getColor', 'getIcon', 'escape'
     ])
-  },
+  }
 }
 </script>
 

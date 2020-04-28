@@ -62,7 +62,9 @@ export default {
       title: 'ダッシュボード'
     })
     this.bindAllArticles()
-      .then(() => this.loading = false)
+      .then(() => {
+        this.loading = false
+      })
   },
   methods: {
     ...mapActions(['bindAllArticles', 'createArticle', 'flash/setFlash']),
