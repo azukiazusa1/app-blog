@@ -108,6 +108,9 @@ export default {
         imagelink: true,
         table: true,
         preview: true
+      },
+      xssOptions: {
+        stripIgnoreTag: false
       }
     }
   },

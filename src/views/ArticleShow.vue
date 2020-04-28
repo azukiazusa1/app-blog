@@ -84,7 +84,9 @@ export default {
       .then(() => {
         this.loading = false
       })
-      .catch(() => this.error = true)
+      .catch(() => {
+        this.error = true
+      })
   },
   methods: {
     ...mapActions('user', ['bindUserById'])

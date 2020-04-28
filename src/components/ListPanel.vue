@@ -61,8 +61,6 @@ export default {
             message: '記事の削除に失敗しました。',
             type: 'error'
           }))
-      } else {
-
       }
     }
   },

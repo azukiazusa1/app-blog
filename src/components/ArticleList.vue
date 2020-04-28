@@ -57,7 +57,9 @@ export default {
         tag: this.tag,
         month: this.date
       })
-        .then(() => this.loading = false)
+        .then(() => {
+          this.loading = false
+        })
     }
   },
   computed: {

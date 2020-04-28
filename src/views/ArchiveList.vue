@@ -54,7 +54,9 @@ export default {
         title: `アーカイブ - ${this.formatedDate}`
       })
       this.bindArchiveByMonth(this.$route.params.date)
-        .then(() => this.loading = false)
+        .then(() => {
+          this.loading = false
+        })
     }
   },
   components: {

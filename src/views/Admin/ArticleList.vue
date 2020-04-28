@@ -54,7 +54,9 @@ export default {
     })
     const user = await auth()
     this.bindArticlesByAuthor(user.uid)
-      .then(() => this.loading = false)
+      .then(() => {
+        this.loading = false
+      })
   },
   methods: {
     ...mapActions(['bindArticlesByAuthor'])

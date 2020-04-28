@@ -40,6 +40,7 @@ export const tags = {
       tagsRef.doc(payload.name)
         .get()
         .then(querySnapshot => {
+          // すでにタグが存在していたら何もしない
           if (querySnapshot.exists) return
           tagsRef.doc(payload.name).set({
             name: payload.name,

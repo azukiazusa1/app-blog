@@ -26,13 +26,10 @@ export const archives = {
     fetchArchives ({ commit }) {
       archivesRef.get()
         .then(querySnapshot => {
-          if (querySnapshot.empty) {
-
-          } else {
-            querySnapshot.forEach(doc => {
-              commit('add', { id: doc.id })
-            })
-          }
+          if (querySnapshot.empty) return
+          querySnapshot.forEach(doc => {
+            commit('add', { id: doc.id })
+          })
         })
     },
     bindArchiveByMonth: firestoreAction(({ bindFirestoreRef }, month) => {
