@@ -5,6 +5,7 @@ import AboutPage from '@/views/AboutPage'
 import TagList from '@/views/TagList'
 import TagShow from '@/views/TagShow'
 import ArchiveList from '@/views/ArchiveList'
+import PrivacyPolicy from '@/views/PrivacyPolicy'
 
 export default {
   path: '/',
@@ -48,6 +49,11 @@ export default {
           next()
         }
       })
+    },
+    {
+      name: 'privacy-policy',
+      path: '/privacy-policy',
+      component: PrivacyPolicy
     }
   ]
 }

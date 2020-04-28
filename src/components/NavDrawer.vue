@@ -22,6 +22,11 @@
         icon="fas fa-tags"
         link="/tags"
       ></nav-list-item>
+      <nav-list-item
+        title="Privacy Policy"
+        icon="fas fa-lock"
+        link="/privacy-policy"
+      ></nav-list-item>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>

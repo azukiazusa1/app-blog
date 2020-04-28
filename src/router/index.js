@@ -53,9 +53,11 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-// トラッキング
-Vue.use(VueGtag, {
-  config: {id: process.env.VUE_APP_MEASUREMENTID}
-}, router);
+if (process.env.NODE_ENV === 'production') {
+  // トラッキング
+  Vue.use(VueGtag, {
+    config: {id: process.env.VUE_APP_MEASUREMENTID}
+  }, router)
+}
 
 export default router
