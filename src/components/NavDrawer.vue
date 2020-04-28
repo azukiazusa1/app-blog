@@ -1,9 +1,9 @@
 <template>
   <v-navigation-drawer
     v-model="isOpen"
-    absolute
-    temporary
+    app
     dark
+    temporary
   >
     <v-list nav dense>
       <v-list-item-group>
