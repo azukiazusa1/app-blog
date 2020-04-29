@@ -8,10 +8,10 @@
 import moment from 'moment'
 
 export default {
-  name: 'formatedDate',
+  name: 'formated-date',
   props: {
     date: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     format: {

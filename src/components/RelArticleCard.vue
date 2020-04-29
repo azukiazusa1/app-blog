@@ -12,7 +12,6 @@
     </v-card-title>
     <v-card-text>
       <formated-date :date="article.created.seconds * 1000"></formated-date>
-      <p>{{ article.overview }}</p>
     </v-card-text>
   </v-card>
 </template>
