@@ -14,7 +14,7 @@
     "firebase": "^7.13.2",
     "js-md5": "^0.7.3",
     "lodash": "^4.17.15",
-    "mavon-editor": "^2.8.3",
+    "mavon-editor": "^2.9.0",
     "moment": "^2.24.0",
     "vue": "^2.6.11",
     "vue-gtag": "^1.6.2",
