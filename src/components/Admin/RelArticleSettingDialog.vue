@@ -27,6 +27,29 @@
       <v-container>
         <v-row>
           <v-col cols=6>
+            <v-text-field
+              v-model="keyword"
+              label="タイトルで検索"
+              append-icon="fas fa-search"
+            ></v-text-field>
+          </v-col>
+          <v-col cols=3>
+            <v-checkbox
+              v-model="isTag"
+              label="同じタグを使用している記事"
+            >
+            </v-checkbox>
+          </v-col>
+          <v-col cols=3>
+            <v-checkbox
+              v-model="isTerm"
+              label="近い時期に作成された記事"
+            >
+            </v-checkbox>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols=6>
             <v-card-subtitle>記事一覧</v-card-subtitle>
             <v-list
               max-height="600px"
@@ -74,6 +97,8 @@
 import Draggable from 'vuedraggable'
 import SmallListCard from '@/components/SmallListCard'
 import { mapActions, mapGetters } from 'vuex'
+import _ from 'lodash'
+import moment from 'moment'
 
 export default {
   name: 'rel-article-setting-dialog',
@@ -87,7 +112,10 @@ export default {
     return {
       dialog: false,
       loading: true,
-      relArticles: []
+      relArticles: [],
+      keyword: '',
+      isTag: false,
+      isTerm: false
     }
   },
   async created () {
@@ -100,16 +128,12 @@ export default {
     ...mapActions(['bindAllArticles']),
     ...mapActions('relArticles', ['bindRelArticles', 'addRelArticle', 'removeRelArticle']),
     add (e) {
-      console.log('add event')
-      console.log(e)
       this.addRelArticle({
         articleId: this.article.id,
         relArticle: e.added.element
       })
     },
     remove (e) {
-      console.log('remove event')
-      console.log(e)
       this.removeRelArticle({
         articleId: this.article.id,
         relArticle: e.removed.element
@@ -120,10 +144,31 @@ export default {
     ...mapGetters(['getAllArticles']),
     ...mapGetters('relArticles', ['getRelArticles']),
     filteredArticles () {
-      return this.getAllArticles.filter(article => {
-        return article.id !== this.article.id &&
-          !this.getRelArticles.some(relArticle => relArticle.id === article.id)
-      })
+      let result
+      result = _.chain(this.getAllArticles)
+        .reject({ id: this.article.id })
+        .differenceBy(this.relArticles, 'id')
+        .value()
+
+      if (this.keyword) {
+        result = result.filter(v => v.title.includes(this.keyword))
+      }
+
+      if (this.isTag) {
+        result = result.filter(v => _.intersection(v.tags, this.article.tags).length !== 0)
+      }
+
+      if (this.isTerm) {
+        const date = moment(this.article.created.seconds * 1000)
+        const start = date.subtract(1, 'months').format()
+        const end = date.add(2, 'months').format()
+        result = result.filter(v => {
+          console.log(moment(v.created.seconds * 1000))
+          return moment(v.created.seconds * 1000).isBetween(start, end)
+        })
+      }
+
+      return result
     }
   },
   components: {
