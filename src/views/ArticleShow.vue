@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <template v-if="getArticle.published">
       <v-card>
         <v-row>
@@ -46,6 +49,20 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols=12>
+          <v-card>
+            <v-card-title><v-btn icon><v-icon>fas fa-link</v-icon></v-btn>関連記事</v-card-title>
+            <v-container>
+              <v-row>
+                <v-col cols=12 md=3 v-for="relArticle in getRelArticles" :key="relArticle.id">
+                  <rel-article-card :article="relArticle"></rel-article-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
     </template>
     <template v-else>
       <v-row>
@@ -62,38 +79,48 @@
 <script>
 import UserCard from '@/components/UserCard'
 import TagList from '@/components/TagList.vue'
+import RelArticleCard from '@/components/RelArticleCard'
 import PreviewMarkdown from '@/components/PreviewMarkdown'
 import moment from 'moment'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { mapGetters, mapActions } from 'vuex'
+import store from '@/store'
 
 export default {
   data () {
     return {
-      loading: true,
-      error: false
+      userLoading: true,
+      error: false,
+      loading: false
     }
   },
   mixins: [fetchBeforeRouting],
   created () {
-    this.setMetaInfo({
-      title: this.getArticle.title,
-      description: this.getArticle.overview
-    })
-    this.bindUserById(this.getArticle.author)
-      .then(() => {
-        this.loading = false
-      })
-      .catch(() => {
-        this.error = true
-      })
+    this.initialize()
   },
   methods: {
-    ...mapActions('user', ['bindUserById'])
+    ...mapActions('user', ['bindUserById']),
+    ...mapActions('relArticles', ['bindRelArticles']),
+    initialize () {
+      this.setMetaInfo({
+        title: this.getArticle.title,
+        description: this.getArticle.overview
+      })
+      this.bindUserById(this.getArticle.author)
+        .then(() => {
+          this.Userloading = false
+        })
+        .catch(() => {
+          this.error = true
+        })
+
+      this.bindRelArticles(this.getArticle.id)
+    }
   },
   computed: {
     ...mapGetters(['getArticle']),
     ...mapGetters('user', ['getUser']),
+    ...mapGetters('relArticles', ['getRelArticles']),
     createdTime: function () {
       return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
     },
@@ -101,8 +128,28 @@ export default {
       return `${location.origin}${this.$route.fullPath}`
     }
   },
+  async beforeRouteUpdate (to, from, next) {
+    this.loading = true
+    this.error = false
+    if (store.getters.getArticleById(to.params.id)) {
+      const article = store.getters.getArticleById(to.params.id)
+      await store.commit('set', article)
+    } else {
+      await store.dispatch('bindArticleById', to.params.id)
+      const article = store.getters.getArticle
+      if (!article) {
+        next('*')
+      }
+    }
+    this.loading = false
+    this.initialize()
+    next()
+  },
   components: {
-    UserCard, TagList, PreviewMarkdown
+    UserCard,
+    TagList,
+    PreviewMarkdown,
+    RelArticleCard
   }
 }
 </script>
