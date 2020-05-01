@@ -57,6 +57,10 @@
             <v-card-actions>
               <v-btn text color="success" v-if="save">保存しました。</v-btn>
               <v-spacer />
+              <rel-article-setting-dialog
+                v-if="!loading"
+                :article="article"
+              ></rel-article-setting-dialog>
               <thumbnail-setting-dialog
                 v-if="!loading"
                 :article="article"
@@ -77,6 +81,7 @@
 
 <script>
 import ThumbnailSettingDialog from '@/components/Admin/ThumbnailSettingDialog'
+import RelArticleSettingDialog from '@/components/Admin/RelArticleSettingDialog'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import getFileType from '@/mixin/getFileType'
 import { debounce } from 'lodash'
@@ -108,9 +113,6 @@ export default {
         imagelink: true,
         table: true,
         preview: true
-      },
-      xssOptions: {
-        stripIgnoreTag: false
       }
     }
   },
@@ -256,7 +258,8 @@ export default {
     }
   },
   components: {
-    ThumbnailSettingDialog
+    ThumbnailSettingDialog,
+    RelArticleSettingDialog
   }
 }
 </script>
