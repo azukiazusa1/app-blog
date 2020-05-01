@@ -1,12 +1,14 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
+      outlined
       class="mx-auto"
       :elevation="hover ? 12 : 2"
       :class="{ 'on-hover': hover }"
     >
       <router-link :to="{ name: 'article-show', params: { id: article.id } }">
         <v-img
+          v-if="article.thumbnail"
           :src="article.thumbnail"
           alt="サムネイル"
           height="200"
