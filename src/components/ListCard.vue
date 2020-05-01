@@ -7,13 +7,15 @@
     >
       <v-row>
         <v-col md=3 sm=12 v-if="article.thumbnail">
-          <v-img
-            :src="article.thumbnail"
-            alt="サムネイル"
-            height="200"
-            width="200"
-          >
-          </v-img>
+          <router-link :to="showPath">
+            <v-img
+              :src="article.thumbnail"
+              alt="サムネイル"
+              height="200"
+              width="200"
+            >
+            </v-img>
+          </router-link>
         </v-col>
           <v-col md=8 sm=12>
             <v-card-title>
