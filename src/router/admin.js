@@ -1,4 +1,3 @@
-import AdminRoot from '@/views/AdminRoot'
 import { auth } from '@/plugins/auth'
 import store from '@/store'
 import AdminHome from '@/views/Admin/AdminHome'
@@ -10,6 +9,8 @@ import TagEdit from '@/views/Admin/TagEdit'
 import AdminSetting from '@/views/Admin/AdminSetting'
 import UserSetting from '@/views/Admin/UserSetting'
 import { isEmpty } from 'lodash'
+
+const AdminRoot = () => import('@/views/AdminRoot.vue')
 
 export default {
   path: '/admin',
