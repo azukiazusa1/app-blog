@@ -6,6 +6,7 @@ import TagList from '@/views/TagList'
 import TagShow from '@/views/TagShow'
 import ArchiveList from '@/views/ArchiveList'
 import PrivacyPolicy from '@/views/PrivacyPolicy'
+import NotFound from '@/views/NotFound'
 
 export default {
   path: '/',
@@ -54,6 +55,11 @@ export default {
       name: 'privacy-policy',
       path: '/privacy-policy',
       component: PrivacyPolicy
+    },
+    {
+      name: 'not-found',
+      path: '*',
+      component: NotFound
     }
   ]
 }
