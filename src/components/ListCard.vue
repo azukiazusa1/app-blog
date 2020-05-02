@@ -24,12 +24,12 @@
               </router-link>
             </v-card-title>
             <v-card-text>
-                  <v-btn icon><v-icon size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
-                  <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
-                  <tag-list :tags="article.tags"></tag-list>
-                  <div class="text--primary">
-                    {{ article.overview }}
-                  </div>
+              <formated-date :date="article.created.toMillis()"></formated-date>
+              <v-btn icon><v-icon size="small">fas fa-tags</v-icon></v-btn>
+              <tag-list :tags="article.tags"></tag-list>
+              <div class="text--primary">
+                {{ article.overview }}
+              </div>
             </v-card-text>
             <v-card-actions>
               <v-btn text>
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import TagList from '@/components/TagList.vue'
-import moment from 'moment'
+import TagList from '@/components/TagList'
+import FormatedDate from '@/components/FormatedDate'
+
 export default {
   props: {
     article: {
@@ -53,15 +54,13 @@ export default {
     }
   },
   computed: {
-    createdTime: function () {
-      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
-    },
     showPath () {
       return `/article/${this.article.id}`
     }
   },
   components: {
-    TagList
+    TagList,
+    FormatedDate
   }
 }
 </script>

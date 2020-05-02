@@ -82,7 +82,6 @@ import UserCard from '@/components/UserCard'
 import TagList from '@/components/TagList.vue'
 import RelArticleCard from '@/components/RelArticleCard'
 import PreviewMarkdown from '@/components/PreviewMarkdown'
-import moment from 'moment'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { mapGetters, mapActions } from 'vuex'
 import store from '@/store'
@@ -122,9 +121,6 @@ export default {
     ...mapGetters(['getArticle']),
     ...mapGetters('user', ['getUser']),
     ...mapGetters('relArticles', ['getRelArticles']),
-    createdTime: function () {
-      return moment(this.getArticle.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
-    },
     fullPath () {
       return `${location.origin}${this.$route.fullPath}`
     }
