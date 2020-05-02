@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-btn icon><v-icon size="small">{{ icon }}</v-icon></v-btn>{{ createdTime }}
+    <v-btn icon v-if="icon"><v-icon size="small">{{ icon }}</v-icon></v-btn>{{ createdTime }}
   </span>
 </template>
 
@@ -19,7 +19,7 @@ export default {
       default: 'Y-MM-DD hh:mm:ss'
     },
     icon: {
-      type: String,
+      type: [String, Boolean],
       default: 'fas fa-calendar'
     }
   },

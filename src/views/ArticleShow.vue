@@ -9,7 +9,7 @@
           <v-col cols=12>
             <v-card-title class="display-2 text-center py-10">{{ getArticle.title }}</v-card-title>
             <p class="text-right ma-2">
-              <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
+              <formated-date :date="getArticle.created.toMillis()"></formated-date>
             </p>
             <v-divider></v-divider>
             <preview-markdown :value="getArticle.body"></preview-markdown>
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import FormatedDate from '@/components/FormatedDate'
 import UserCard from '@/components/UserCard'
 import TagList from '@/components/TagList.vue'
 import RelArticleCard from '@/components/RelArticleCard'
@@ -146,6 +147,7 @@ export default {
     next()
   },
   components: {
+    FormatedDate,
     UserCard,
     TagList,
     PreviewMarkdown,
