@@ -5,7 +5,7 @@
       <span v-else class="grey--text lighten-2--text">タイトル未設定</span>
       <span class="grey--text lighten-2--text">(ID：{{ article.id }})</span>
       <span class="text-right">
-          <v-btn icon><v-icon class="text-right" size="small">fas fa-calendar</v-icon></v-btn>{{ createdTime }}
+        <formated-date :date="article.created.toMillis()"></formated-date>
       </span>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
@@ -37,7 +37,7 @@
 <script>
 import PreviewMarkdown from '@/components/PreviewMarkdown'
 import TagList from '@/components/TagList'
-import moment from 'moment'
+import FormatedDate from '@/components/FormatedDate'
 import { mapActions } from 'vuex'
 
 export default {
@@ -45,11 +45,6 @@ export default {
     article: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    createdTime: function () {
-      return moment(this.article.created.seconds * 1000).format('Y-MM-DD hh:mm:ss')
     }
   },
   methods: {
@@ -65,7 +60,9 @@ export default {
     }
   },
   components: {
-    PreviewMarkdown, TagList
+    PreviewMarkdown,
+    TagList,
+    FormatedDate
   }
 }
 </script>
