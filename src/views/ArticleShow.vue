@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-overlay :value="loading">
+    <v-overlay v-if="loading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
-    <template v-if="getArticle.published">
+    <template v-else-if="getArticle.published">
       <v-card>
         <v-row>
           <v-col cols=12>
@@ -85,6 +85,7 @@ import moment from 'moment'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import { mapGetters, mapActions } from 'vuex'
 import store from '@/store'
+import config from '@/config'
 
 export default {
   data () {
@@ -135,10 +136,12 @@ export default {
       const article = store.getters.getArticleById(to.params.id)
       await store.commit('set', article)
     } else {
-      await store.dispatch('bindArticleById', to.params.id)
-      const article = store.getters.getArticle
-      if (!article) {
-        next('*')
+      try {
+        await store.dispatch('bindArticleById', to.params.id)
+      } catch (e) {
+        if (e.code === config.CODE.PERMISSION_DENIED) {
+          next(config.NOTFOUND_PATH)
+        }
       }
     }
     this.loading = false
