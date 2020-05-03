@@ -5,6 +5,7 @@ import store from '@/store'
 import User from './user'
 import Admin from './admin'
 import Login from '@/views/Login'
+import NotFound from '@/views/NotFound'
 import { auth } from '@/plugins/auth'
 
 Vue.use(VueRouter)
@@ -24,6 +25,11 @@ const routes = [User, Admin,
         }
       })
     }
+  },
+  {
+    name: 'not-found',
+    path: '/*',
+    component: NotFound
   }
 ]
 

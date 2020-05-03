@@ -1,4 +1,5 @@
 import firebase from '@/plugins/firebase'
+import 'firebase/auth'
 
 export function login (email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password)

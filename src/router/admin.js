@@ -14,7 +14,6 @@ const AdminRoot = () => import('@/views/AdminRoot.vue')
 
 export default {
   path: '/admin',
-  name: 'admin-root',
   component: AdminRoot,
   beforeEnter: async (to, from, next) => {
     const user = await auth()
