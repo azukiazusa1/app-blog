@@ -82,6 +82,8 @@
 <script>
 import ThumbnailSettingDialog from '@/components/Admin/ThumbnailSettingDialog'
 import RelArticleSettingDialog from '@/components/Admin/RelArticleSettingDialog'
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import fetchBeforeRouting from '@/mixin/fetchBeforeRouting'
 import getFileType from '@/mixin/getFileType'
 import { debounce } from 'lodash'
@@ -259,7 +261,8 @@ export default {
   },
   components: {
     ThumbnailSettingDialog,
-    RelArticleSettingDialog
+    RelArticleSettingDialog,
+    mavonEditor
   }
 }
 </script>
