@@ -245,13 +245,14 @@ export default {
     }
   },
   watch: {
-    'article.tags': async function (val, oldval) {
-      if (val.length === 0 || oldval.length === 0) return
+    'article.tags': async function (val, oldVal) {
       this.search = ''
       try {
-        await this.createTag({
-          name: val[val.length - 1]
-        })
+        if (val.length > oldVal.length) {
+          await this.createTag({
+            name: val[val.length - 1]
+          })
+        }
         await this.updateArticle(this.article)
       } catch (e) {
         console.log(e)
