@@ -53,7 +53,6 @@ export default {
       if (this.loading || !isIntersecting || this.isFinish) return
       this.loading = true
       this.fetchArticles({
-        lastDate: this.getLastDate,
         tag: this.tag,
         month: this.date
       })
@@ -63,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getArticles', 'getLastDate', 'isFinish']),
+    ...mapGetters(['getArticles', 'isFinish']),
     isEmpty () {
       return this.isFinish && this.getArticles.length === 0
     }
