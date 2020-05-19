@@ -16,7 +16,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     article: '',
-    lastDate: '',
+    last: '',
     finish: false,
     articles: [],
     allArticles: [],
@@ -31,20 +31,19 @@ export default new Vuex.Store({
       state.article = payload
     },
     last (state, payload) {
-      state.lastDate = payload
+      state.last = payload
     },
     finish (state) {
       state.finish = true
     },
     clearArticles (state) {
       state.articles = []
-      state.lastDate = ''
+      state.last = ''
       state.finish = false
     }
   },
   actions: {
-    fetchArticles: ({ commit }, {
-      lastDate = new Date('2999-12-31'),
+    fetchArticles: ({ commit, getters }, {
       limit = 10,
       published = true,
       tag = false,
@@ -67,7 +66,7 @@ export default new Vuex.Store({
       }
       query
         .orderBy('created', 'desc')
-        .startAfter(lastDate)
+        .startAfter(getters.getLast)
         .limit(limit)
         .get()
         .then(querySnapshot => {
@@ -75,7 +74,7 @@ export default new Vuex.Store({
             commit('finish')
           } else {
             if (querySnapshot.size < limit) commit('finish')
-            commit('last', new Date(querySnapshot.docs[querySnapshot.docs.length - 1].data().created.seconds * 1000))
+            commit('last', querySnapshot.docs[querySnapshot.docs.length - 1])
             querySnapshot.forEach(doc => {
               commit('add', { id: doc.id, ...doc.data() })
             })
@@ -127,8 +126,8 @@ export default new Vuex.Store({
     getArticles (state) {
       return state.articles
     },
-    getLastDate (state) {
-      return state.lastDate
+    getLast (state) {
+      return state.last
     },
     isFinish (state) {
       return state.finish
