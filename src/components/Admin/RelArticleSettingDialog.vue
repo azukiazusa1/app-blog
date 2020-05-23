@@ -49,6 +49,14 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col>
+            <v-switch
+              v-model="isEach"
+              label="互いに関連記事に設定する"
+            ></v-switch>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols=6>
             <v-card-subtitle>記事一覧</v-card-subtitle>
             <v-list
@@ -118,7 +126,8 @@ export default {
       relArticles: [],
       keyword: '',
       isTag: false,
-      isTerm: false
+      isTerm: false,
+      isEach: true
     }
   },
   async created () {
@@ -135,12 +144,24 @@ export default {
         articleId: this.article.id,
         relArticle: e.added.element
       })
+      if (this.isEach) {
+        this.addRelArticle({
+          articleId: e.added.element.id,
+          relArticle: this.article
+        })
+      }
     },
     remove (e) {
       this.removeRelArticle({
         articleId: this.article.id,
         relArticle: e.removed.element
       })
+      if (this.isEach) {
+        this.removeRelArticle({
+          articleId: e.removed.element.id,
+          relArticle: this.article
+        })
+      }
     }
   },
   computed: {
