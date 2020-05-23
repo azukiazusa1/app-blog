@@ -187,7 +187,6 @@ export default {
         const start = date.subtract(1, 'months').format()
         const end = date.add(2, 'months').format()
         result = result.filter(v => {
-          console.log(moment(v.created.seconds * 1000))
           return moment(v.created.seconds * 1000).isBetween(start, end)
         })
       }
