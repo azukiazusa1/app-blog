@@ -64,7 +64,7 @@ export default new Vuex.Store({
         query = articleRef
           .where('published', '==', published)
       }
-      query
+      return query
         .orderBy('created', 'desc')
         .startAfter(getters.getLast)
         .limit(limit)
