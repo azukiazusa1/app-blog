@@ -40,17 +40,24 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: true
     }
   },
-  created () {
+  async created () {
     this.clearArticles()
+    await this.fetchArticles({
+      tag: this.tag,
+      month: this.date
+    })
+    this.loading = false
   },
   methods: {
     ...mapActions(['fetchArticles']),
     ...mapMutations(['clearArticles']),
     onIntersect (entries, observer, isIntersecting) {
+      console.log(this.loading)
       if (this.loading || !isIntersecting || this.isFinish) return
+      console.log(1)
       this.loading = true
       this.fetchArticles({
         tag: this.tag,

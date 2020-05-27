@@ -47,7 +47,12 @@ router.beforeEach((to, from, next) => {
   if (store.getters['blog/getBlogInfo']) {
     next()
   } else {
-    store.dispatch('blog/bindBlogInfo').then(() => next())
+    store.dispatch('blog/bindBlogInfo')
+      .then(() => {
+        const loading = document.getElementById('loading-content')
+        loading.style = 'display:none;'
+        next()
+      })
   }
 })
 
