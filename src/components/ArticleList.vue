@@ -55,9 +55,7 @@ export default {
     ...mapActions(['fetchArticles']),
     ...mapMutations(['clearArticles']),
     onIntersect (entries, observer, isIntersecting) {
-      console.log(this.loading)
       if (this.loading || !isIntersecting || this.isFinish) return
-      console.log(1)
       this.loading = true
       this.fetchArticles({
         tag: this.tag,
