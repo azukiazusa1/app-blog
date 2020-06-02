@@ -11,8 +11,6 @@
             <v-img
               :src="article.thumbnail"
               alt="サムネイル"
-              height="200"
-              width="200"
             >
             </v-img>
           </router-link>
