@@ -6,7 +6,9 @@ const blogsRef = db.collection('blogs')
 export const blog = {
   namespaced: true,
   state: {
-    blogInfo: null
+    blogInfo: {
+      title: 'わたしのテックブログ'
+    }
   },
   mutations: {
     ...vuexfireMutations

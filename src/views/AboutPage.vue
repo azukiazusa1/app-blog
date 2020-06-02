@@ -10,7 +10,11 @@
             </h1>
           </v-card-title>
           <v-divider></v-divider>
-          <v-card-text class="text--primary">
+          <v-skeleton-loader
+            v-if="loading"
+            type="list-item-two-line"
+          ></v-skeleton-loader>
+          <v-card-text class="text--primary" v-else>
             {{ getBlogInfo.description }}
           </v-card-text>
         </v-card>
@@ -48,20 +52,21 @@ export default {
       error: false
     }
   },
-  created () {
+  async created () {
+    await this.bindBlogInfo()
+    await this.bindUsers()
     this.setMetaInfo({
       title: `${this.getBlogInfo.title}とは`,
       description: this.getBlogInfo.description
     })
-    this.bindUsers().then(() => {
-      this.loading = false
-    })
+    this.loading = false
   },
   computed: {
     ...mapGetters('blog', ['getBlogInfo']),
     ...mapGetters('user', ['getUsers'])
   },
   methods: {
+    ...mapActions('blog', ['bindBlogInfo']),
     ...mapActions('user', ['bindUsers'])
   },
   components: {
