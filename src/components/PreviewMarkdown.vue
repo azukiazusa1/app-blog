@@ -3,7 +3,7 @@
     :value="value"
     :toolbarsFlag="false"
     :subfield="false"
-    codeStyle="atom-one-dark"
+    codeStyle="vs2015"
     defaultOpen="preview"
   />
 </template>
