@@ -5,74 +5,63 @@
         <v-card>
           <v-card-text>
             <v-form @submit.prevent>
-            <v-text-field
-              v-model="article.title"
-              :counter="50"
-              :error-messages="titleErrors"
-              label="Title"
-              required
-            ></v-text-field>
-            <v-combobox
-              :loading="tagLoading"
-              multiple
-              v-model="article.tags"
-              label="Tags"
-              append-icon
-              chips
-              deletable-chips
-              hide-selected
-              class="tag-input"
-              :hide-no-data="!search"
-              :items="items"
-              :search-input.sync="search"
-            >
-            </v-combobox>
-            <v-textarea
-              v-model="article.overview"
-              :counter="300"
-              :error-messages="overViewErrors"
-              label="Overview"
-              hint="記事の概要は、一覧表示において使用されます。"
-              persistent-hint
-              @change="debounceUpdate"
-            ></v-textarea>
-            <v-progress-linear
-              v-model="fileLoading"
-              stream
-            ></v-progress-linear>
-            <mavon-editor
-              v-model="article.body"
-              language="ja"
-              ref=md
-              codeStyle="atom-one-dark"
-              :toolbars="toolbars"
-              :imageFilter="imageFilter"
-              @imgAdd="imgAdd"
-              @change="debounceUpdate"
-            ></mavon-editor>
-            <span>{{ bodyCount}} 文字</span>
-            <v-messages class="error--text" :value="bodyErrors"></v-messages>
+              <v-text-field
+                v-model="article.title"
+                :counter="100"
+                :error-messages="titleErrors"
+                label="Title"
+                required
+              ></v-text-field>
+              <v-combobox
+                :loading="tagLoading"
+                multiple
+                v-model="article.tags"
+                label="Tags"
+                append-icon
+                chips
+                deletable-chips
+                hide-selected
+                class="tag-input"
+                :hide-no-data="!search"
+                :items="items"
+                :search-input.sync="search"
+              ></v-combobox>
+              <v-textarea
+                v-model="article.overview"
+                :counter="300"
+                :error-messages="overViewErrors"
+                label="Overview"
+                hint="記事の概要は、一覧表示において使用されます。"
+                persistent-hint
+                @change="debounceUpdate"
+              ></v-textarea>
+              <v-progress-linear v-model="fileLoading" stream></v-progress-linear>
+              <mavon-editor
+                v-model="article.body"
+                language="ja"
+                ref="md"
+                codeStyle="vs2015"
+                :toolbars="toolbars"
+                :imageFilter="imageFilter"
+                @imgAdd="imgAdd"
+                @change="debounceUpdate"
+              ></mavon-editor>
+              <span>{{ bodyCount}} 文字</span>
+              <v-messages class="error--text" :value="bodyErrors"></v-messages>
             </v-form>
           </v-card-text>
-            <v-card-actions>
-              <v-btn text color="success" v-if="save">保存しました。</v-btn>
-              <v-spacer />
-              <rel-article-setting-dialog
-                v-if="!loading"
-                :article="article"
-              ></rel-article-setting-dialog>
-              <thumbnail-setting-dialog
-                v-if="!loading"
-                :article="article"
-                :addedImages="addedImages"
-                @onThubnailChanged="onThubnailChanged"
-              ></thumbnail-setting-dialog>
-              <v-switch
-                @click.stop="publish"
-                :value="article.published"
-                label="記事を公開する"
-              ></v-switch>
-            </v-card-actions>
+          <v-card-actions>
+            <v-btn text color="success" v-if="save">保存しました。</v-btn>
+            <v-spacer />
+            <rel-article-setting-dialog v-if="!loading" :article="article"></rel-article-setting-dialog>
+            <thumbnail-setting-dialog
+              v-if="!loading"
+              :article="article"
+              :addedImages="addedImages"
+              @onThubnailChanged="onThubnailChanged"
+            ></thumbnail-setting-dialog>
+            <v-switch @click.stop="publish" :value="article.published" label="記事を公開する"></v-switch>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -121,7 +110,7 @@ export default {
   mixins: [fetchBeforeRouting, validationMixin, getFileType],
   validations: {
     article: {
-      title: { required, maxLength: maxLength(50) },
+      title: { required, maxLength: maxLength(100) },
       overview: { maxLength: maxLength(300) },
       body: { required }
     }
@@ -130,31 +119,34 @@ export default {
     this.setMetaInfo({
       title: '記事を書く'
     })
-    this.fetchTags()
-      .then(() => {
-        this.tagLoading = false
-        this.items = this.getTags
-      })
+    this.fetchTags().then(() => {
+      this.tagLoading = false
+      this.items = this.getTags
+    })
   },
   computed: {
     ...mapGetters('tags', ['getTags']),
     titleErrors () {
       const errors = []
       if (!this.$v.article.title.$dirty) return errors
-      !this.$v.article.title.required && errors.push('記事を公開する場合、タイトルは必須です。')
-      !this.$v.article.title.maxLength && errors.push('タイトルは50文字までです。')
+      !this.$v.article.title.required &&
+        errors.push('記事を公開する場合、タイトルは必須です。')
+      !this.$v.article.title.maxLength &&
+        errors.push('タイトルは50文字までです。')
       return errors
     },
     overViewErrors () {
       const errors = []
       if (!this.$v.article.overview.$dirty) return errors
-      !this.$v.article.overview.maxLength && errors.push('概要は300文字までです。')
+      !this.$v.article.overview.maxLength &&
+        errors.push('概要は300文字までです。')
       return errors
     },
     bodyErrors () {
       const errors = []
       if (!this.$v.article.body.$dirty) return errors
-      !this.$v.article.body.required && errors.push('記事を公開する場合、本文は必須です。')
+      !this.$v.article.body.required &&
+        errors.push('記事を公開する場合、本文は必須です。')
       return errors
     },
     bodyCount () {
@@ -204,11 +196,15 @@ export default {
           type: 'error'
         })
       }
-      const storageRef = storage.ref(`articles/${this.$route.params.id}/${md5($file.name)}.${fileType}`)
+      const storageRef = storage.ref(
+        `articles/${this.$route.params.id}/${md5($file.name)}.${fileType}`
+      )
       const uploadTask = storageRef.put($file)
-      uploadTask.on('state_changed',
+      uploadTask.on(
+        'state_changed',
         snapshot => {
-          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          const percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           this.fileLoading = percentage
         },
         err => {
@@ -270,7 +266,7 @@ export default {
 
 <style scoped>
 .markdown-body {
-    max-height: 500px;
-    height: 500px;
+  max-height: 500px;
+  height: 500px;
 }
 </style>
